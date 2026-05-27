@@ -67,7 +67,7 @@ export default function WellnessJournalPage() {
 
       </section>
 
-      {/* Sakhi Ki Sikh */}
+      {/* Say It with Sakhi */}
       <section className="pb-24 overflow-hidden">
 
         <div className="max-w-[1500px] mx-auto px-6 lg:px-16">
@@ -78,7 +78,7 @@ export default function WellnessJournalPage() {
 
             <span className="text-[#b08b66] tracking-[4px] uppercase text-sm">
 
-              Sakhi Ki Sikh
+              Say It With Sakhi
 
             </span>
 

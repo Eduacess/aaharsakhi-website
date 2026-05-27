@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 interface ProgramModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -15,98 +17,376 @@ export default function ProgramModal({
   image,
   description,
 }: ProgramModalProps) {
+  const [showExperienceModal, setShowExperienceModal] = useState(false);
+
+  const [showLeadForm, setShowLeadForm] = useState(false);
+
+  const [journeyType, setJourneyType] = useState('');
+
+  const [pregnancyStage, setPregnancyStage] = useState('');
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] bg-black/40 backdrop-blur-md overflow-y-auto">
-      <div className="min-h-screen flex justify-center px-6 py-12">
-        {/* Overlay */}
-        <div
-          className="absolute inset-0 bg-black/40 backdrop-blur-md"
-          onClick={onClose}
-        ></div>
-
-        {/* Modal */}
-        <div className="relative w-full max-w-[1100px] bg-[#fffaf5] rounded-[42px] overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.18)] z-10">
-          {/* Close */}
-          <button
+    <>
+      {/* Main Program Modal */}
+      <div className="fixed inset-0 z-[999] bg-black/40 backdrop-blur-md overflow-y-auto">
+        <div className="min-h-screen flex justify-center px-6 py-12">
+          {/* Overlay */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-md"
             onClick={onClose}
-            className="absolute top-7 right-7 z-20 w-12 h-12 rounded-full bg-white/90 text-[#2f372f] text-xl shadow-lg hover:scale-105 transition"
-          >
-            ✕
-          </button>
+          ></div>
 
-          <div className="grid lg:grid-cols-2">
-            {/* Image */}
-            <div className="relative h-[420px] lg:h-full">
-              <img
-                src={image}
-                alt={title}
-                className="w-full h-full object-cover"
-              />
+          {/* Modal */}
+          <div className="relative w-full max-w-[1100px] bg-[#fffaf5] rounded-[42px] overflow-hidden shadow-[0_40px_120px_rgba(0,0,0,0.18)] z-10">
+            {/* Close */}
+            <button
+              onClick={onClose}
+              className="absolute top-7 right-7 z-20 w-12 h-12 rounded-full bg-white/90 text-[#2f372f] text-xl shadow-lg hover:scale-105 transition"
+            >
+              ✕
+            </button>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
+            <div className="grid lg:grid-cols-2">
+              {/* Image */}
+              <div className="relative h-[420px] lg:h-full">
+                <img
+                  src={image}
+                  alt={title}
+                  className="w-full h-full object-cover"
+                />
 
-              <div className="absolute bottom-0 left-0 p-10">
-                <h2 className="text-white text-[42px] leading-[1.05] tracking-[-2px] font-semibold">
-                  {title}
-                </h2>
-              </div>
-            </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
 
-            {/* Content */}
-            <div className="p-10 lg:p-14 flex flex-col justify-between">
-              <div>
-                <p className="text-[#6f5d4b] text-[18px] leading-[2]">
-                  {description}
-                </p>
-
-                {/* Features */}
-                <div className="mt-10 space-y-5">
-                  <div className="flex items-start gap-4">
-                    <span className="text-[#c29a73] text-xl">✦</span>
-
-                    <p className="text-[#5c4f42] leading-[1.9]">
-                      Daily nourishment guidance and mindful wellness support.
-                    </p>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <span className="text-[#c29a73] text-xl">✦</span>
-
-                    <p className="text-[#5c4f42] leading-[1.9]">
-                      Guided dashboard experience with hydration tracking,
-                      wellness routines, recipes, and emotional support.
-                    </p>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <span className="text-[#c29a73] text-xl">✦</span>
-
-                    <p className="text-[#5c4f42] leading-[1.9]">
-                      Personalized Sakhi support thoughtfully designed for every
-                      stage of the wellness journey.
-                    </p>
-                  </div>
+                <div className="absolute bottom-0 left-0 p-10">
+                  <h2 className="text-white text-[42px] leading-[1.05] tracking-[-2px] font-semibold">
+                    {title}
+                  </h2>
                 </div>
               </div>
 
-              {/* CTA */}
-              <div className="mt-12 flex flex-col sm:flex-row gap-4">
-                {/* Speak */}
-                <button className="px-8 py-4 rounded-full bg-[#2f372f] text-white text-sm tracking-[2px] uppercase hover:opacity-90 transition">
-                  Speak To Your Sakhi
-                </button>
+              {/* Content */}
+              <div className="p-10 lg:p-14 flex flex-col justify-between">
+                <div>
+                  <p className="text-[#6f5d4b] text-[18px] leading-[2]">
+                    {description}
+                  </p>
 
-                {/* Trial */}
-                <button className="px-8 py-4 rounded-full border border-[#dbc9b5] text-[#5c4f42] text-sm tracking-[2px] uppercase hover:bg-[#f5eee6] transition">
-                  Try For One Day — $1
-                </button>
+                  {/* Features */}
+                  <div className="mt-10 space-y-5">
+                    <div className="flex items-start gap-4">
+                      <span className="text-[#c29a73] text-xl">✦</span>
+
+                      <p className="text-[#5c4f42] leading-[1.9]">
+                        Daily nourishment guidance and mindful wellness support.
+                      </p>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <span className="text-[#c29a73] text-xl">✦</span>
+
+                      <p className="text-[#5c4f42] leading-[1.9]">
+                        Guided dashboard experience with hydration tracking,
+                        wellness routines, recipes, and emotional support.
+                      </p>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <span className="text-[#c29a73] text-xl">✦</span>
+
+                      <p className="text-[#5c4f42] leading-[1.9]">
+                        Personalized Sakhi support thoughtfully designed for
+                        every stage of the wellness journey.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="mt-12 flex flex-col sm:flex-row gap-4">
+                  {/* Speak */}
+                  <button className="px-8 py-4 rounded-full bg-[#2f372f] text-white text-sm tracking-[2px] uppercase hover:opacity-90 transition">
+                    Speak To Your Sakhi
+                  </button>
+
+                  {/* Experience */}
+                  <button
+                    onClick={() => setShowExperienceModal(true)}
+                    className="px-8 py-4 rounded-full border border-[#dbc9b5] text-[#5c4f42] text-sm tracking-[2px] uppercase hover:bg-[#f5eee6] transition"
+                  >
+                    Experience AaharSakhi
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Experience Modal */}
+      {showExperienceModal && (
+        <div className="fixed inset-0 z-[1000] bg-black/50 backdrop-blur-md flex items-center justify-center px-6">
+          <div className="relative w-full max-w-[760px] bg-[#fffaf5] rounded-[38px] p-8 lg:p-12 shadow-[0_40px_120px_rgba(0,0,0,0.18)] overflow-y-auto max-h-[90vh]">
+            {/* Close */}
+            <button
+              onClick={() => setShowExperienceModal(false)}
+              className="absolute top-6 right-6 w-11 h-11 rounded-full bg-[#f5eee6] text-[#2f372f] text-lg"
+            >
+              ✕
+            </button>
+
+            {/* Heading */}
+            <h2 className="text-[34px] lg:text-[48px] leading-[1.1] tracking-[-2px] font-semibold text-[#2f372f]">
+              Experience AaharSakhi
+            </h2>
+
+            {/* Description */}
+            <p className="mt-6 text-[#6f5d4b] text-[17px] leading-[2]">
+              A gentle introduction to mindful nourishment, emotional wellness,
+              guided routines, and supportive healing experiences through
+              AaharSakhi.
+            </p>
+
+            {/* Included */}
+            <div className="mt-10">
+              <h3 className="text-[#2f372f] text-[18px] font-medium">
+                Included In Your Experience
+              </h3>
+
+              <div className="mt-6 space-y-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-[#c29a73]">✦</span>
+
+                  <p className="text-[#5c4f42]">
+                    One-day dashboard experience access.
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span className="text-[#c29a73]">✦</span>
+
+                  <p className="text-[#5c4f42]">
+                    Hydration and wellness tracking.
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span className="text-[#c29a73]">✦</span>
+
+                  <p className="text-[#5c4f42]">
+                    Mindful nourishment and wellness guidance.
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <span className="text-[#c29a73]">✦</span>
+
+                  <p className="text-[#5c4f42]">
+                    Introductory recipes and Sakhi wellness support.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Important Note */}
+            <div className="mt-10 rounded-[28px] bg-[#f7efe5] border border-[#ead9c5] p-6">
+              <p className="text-[#6f5d4b] leading-[1.9] text-[15px]">
+                This introductory experience does not include personalized
+                nutrition consultations, individualized care plans, or one-on-one
+                guided wellness support.
+              </p>
+            </div>
+
+            {/* Price */}
+            <div className="mt-10">
+              <p className="text-[#8a6c4f] tracking-[3px] uppercase text-sm">
+                24-Hour Wellness Experience
+              </p>
+
+              <h3 className="mt-3 text-[42px] font-semibold text-[#2f372f]">
+                ₹249
+              </h3>
+            </div>
+
+            {/* Continue */}
+            <button
+              onClick={() => {
+                setShowExperienceModal(false);
+                setShowLeadForm(true);
+              }}
+              className="mt-10 w-full py-5 rounded-full bg-[#2f372f] text-white tracking-[2px] uppercase hover:opacity-90 transition"
+            >
+              Continue To Experience
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Lead Form Modal */}
+      {showLeadForm && (
+        <div className="fixed inset-0 z-[1100] bg-black/50 backdrop-blur-md flex items-center justify-center px-6">
+          <div className="relative w-full max-w-[760px] bg-[#fffaf5] rounded-[38px] p-8 lg:p-12 shadow-[0_40px_120px_rgba(0,0,0,0.18)] overflow-y-auto max-h-[90vh]">
+            {/* Close */}
+            <button
+              onClick={() => setShowLeadForm(false)}
+              className="absolute top-6 right-6 w-11 h-11 rounded-full bg-[#f5eee6] text-[#2f372f] text-lg"
+            >
+              ✕
+            </button>
+
+            <h2 className="text-[34px] lg:text-[48px] leading-[1.1] tracking-[-2px] font-semibold text-[#2f372f]">
+              Begin Your Experience
+            </h2>
+
+            <p className="mt-5 text-[#6f5d4b] leading-[2]">
+              Share a few details to continue your AaharSakhi experience.
+            </p>
+
+            {/* FORM */}
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(e.currentTarget);
+
+                const object = Object.fromEntries(formData);
+
+                const json = JSON.stringify(object);
+
+                const response = await fetch(
+                  'https://api.web3forms.com/submit',
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Accept: 'application/json',
+                    },
+                    body: json,
+                  }
+                );
+
+                const result = await response.json();
+
+                if (result.success) {
+                  window.location.href = 'https://rzp.io/rzp/8QOT79a';
+                }
+              }}
+              className="mt-10 space-y-6"
+            >
+              {/* Hidden */}
+              <input
+                type="hidden"
+                name="access_key"
+                value="13568875-ec62-4962-bc82-b62d1ee2b7b2"
+              />
+
+              <input
+                type="hidden"
+                name="subject"
+                value="AaharSakhi Experience Lead"
+              />
+
+              {/* Name */}
+              <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                required
+                className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+              />
+
+              {/* Email */}
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                required
+                className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+              />
+
+              {/* Phone */}
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                required
+                className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+              />
+
+              {/* Journey */}
+              <select
+                name="journey"
+                required
+                value={journeyType}
+                onChange={(e) => setJourneyType(e.target.value)}
+                className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+              >
+                <option value="">Select Journey</option>
+
+                <option value="Cancer Poshanam">
+                  Cancer Poshanam
+                </option>
+
+                <option value="Vatsalya Poshanam">
+                  Vatsalya Poshanam
+                </option>
+
+                <option value="Diabetes Poshanam">
+                  Diabetes Poshanam
+                </option>
+              </select>
+
+              {/* Pregnancy Logic */}
+              {journeyType === 'Vatsalya Poshanam' && (
+                <>
+                  <select
+                    name="pregnancy_stage"
+                    required
+                    value={pregnancyStage}
+                    onChange={(e) => setPregnancyStage(e.target.value)}
+                    className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+                  >
+                    <option value="">Select Stage</option>
+
+                    <option value="Expecting">
+                      Expecting
+                    </option>
+
+                    <option value="Delivered">
+                      Delivered
+                    </option>
+                  </select>
+
+                  {pregnancyStage === 'Expecting' && (
+                    <input
+                      type="date"
+                      name="due_date"
+                      className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+                    />
+                  )}
+
+                  {pregnancyStage === 'Delivered' && (
+                    <input
+                      type="date"
+                      name="baby_birth_date"
+                      className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+                    />
+                  )}
+                </>
+              )}
+
+              {/* Submit */}
+              <button
+                type="submit"
+                className="w-full py-5 rounded-full bg-[#2f372f] text-white tracking-[2px] uppercase hover:opacity-90 transition"
+              >
+                Continue To Payment
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

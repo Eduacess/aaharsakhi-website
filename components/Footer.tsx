@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import LegalModal from './LegalModal';
+import Link from 'next/link';
 
 export default function Footer() {
+
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
   const privacyPolicy = `
@@ -94,91 +96,192 @@ All disputes, claims, and proceedings shall remain subject exclusively to the ju
 
   return (
     <>
-      <footer className="relative bg-[#f5eee6] pt-20 pb-10 overflow-hidden">
+      <footer className="relative bg-[#f5eee6] pt-24 pb-10 overflow-hidden">
+
         {/* Glow */}
-        <div className="absolute top-[-200px] right-[-150px] w-[450px] h-[450px] bg-[#ead8c2] rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute top-[-220px] right-[-180px] w-[520px] h-[520px] bg-[#ead8c2] rounded-full blur-3xl opacity-40"></div>
 
         <div className="max-w-[1700px] mx-auto px-6 lg:px-16 relative z-10">
-          {/* Main Footer */}
-          <div className="grid lg:grid-cols-3 gap-10 pb-14">
-            {/* Left */}
+
+          {/* Main Grid */}
+          <div className="grid lg:grid-cols-4 gap-14 pb-16">
+
+            {/* Brand */}
             <div>
-              <h2 className="text-[42px] font-semibold tracking-[-2px] text-[#2f372f]">
-                AaharSakhi
-              </h2>
 
-              <p className="mt-8 text-[#6f5d4b] text-[17px] leading-[2] max-w-[360px]">
-                Mindful nourishment journeys supporting healing, motherhood,
-                emotional wellness, and compassionate care.
+              {/* Logo + Name */}
+              <div className="flex items-center gap-4">
+
+                <img
+                  src="/logo.png"
+                  alt="AaharSakhi"
+                  className="w-14 h-14 object-contain"
+                />
+
+                <div>
+
+                  <h2 className="text-[34px] font-semibold tracking-[-1.5px] text-[#2f372f]">
+
+                    AaharSakhi
+
+                  </h2>
+
+                </div>
+
+              </div>
+
+              {/* Description */}
+              <p className="mt-8 text-[#6f5d4b] text-[16px] leading-[2] max-w-[340px]">
+
+                Mindful nourishment journeys supporting healing,
+                motherhood, emotional wellness, and compassionate care.
+
               </p>
+
             </div>
 
-            {/* Center */}
-            <div className="flex flex-col gap-5 text-[#7d6a57] lg:items-center">
-              <a href="#" className="hover:text-[#2f372f] transition">
-                Home
-              </a>
+            {/* Navigation */}
+            <div>
 
-              <a href="#" className="hover:text-[#2f372f] transition">
-                About Us
-              </a>
+              <h3 className="text-[#2f372f] text-[18px] font-medium mb-6">
 
-              <a href="#" className="hover:text-[#2f372f] transition">
-                Wellness Journal
-              </a>
+                Navigation
 
-              <a href="#" className="hover:text-[#2f372f] transition">
-                Connect Us
-              </a>
+              </h3>
 
-              <a href="#" className="hover:text-[#2f372f] transition">
-                Login
-              </a>
+              <div className="flex flex-col gap-4 text-[#7d6a57]">
+
+                <Link href="/" className="hover:text-[#2f372f] transition">
+                  Home
+                </Link>
+
+                <Link href="/about-us" className="hover:text-[#2f372f] transition">
+                  About Us
+                </Link>
+
+                <Link href="/wellness-journal" className="hover:text-[#2f372f] transition">
+                  Wellness Journal
+                </Link>
+
+                <Link href="/connect-us" className="hover:text-[#2f372f] transition">
+                  Connect Us
+                </Link>
+
+                <Link href="/login" className="hover:text-[#2f372f] transition">
+                  Login
+                </Link>
+
+              </div>
+
             </div>
 
-            {/* Right */}
-            <div className="flex flex-col gap-5 lg:items-end text-[#7d6a57]">
-              <button
-                onClick={() => setActiveModal('privacy')}
-                className="hover:text-[#2f372f] transition text-left"
-              >
-                Privacy Policy
-              </button>
+            {/* Legal */}
+            <div>
 
-              <button
-                onClick={() => setActiveModal('refund')}
-                className="hover:text-[#2f372f] transition text-left"
-              >
-                Refund Policy
-              </button>
+              <h3 className="text-[#2f372f] text-[18px] font-medium mb-6">
 
-              <button
-                onClick={() => setActiveModal('terms')}
-                className="hover:text-[#2f372f] transition text-left"
-              >
-                Terms & Conditions
-              </button>
+                Legal
+
+              </h3>
+
+              <div className="flex flex-col gap-4 text-[#7d6a57]">
+
+                <button
+                  onClick={() => setActiveModal('privacy')}
+                  className="hover:text-[#2f372f] transition text-left"
+                >
+                  Privacy Policy
+                </button>
+
+                <button
+                  onClick={() => setActiveModal('refund')}
+                  className="hover:text-[#2f372f] transition text-left"
+                >
+                  Refund Policy
+                </button>
+
+                <button
+                  onClick={() => setActiveModal('terms')}
+                  className="hover:text-[#2f372f] transition text-left"
+                >
+                  Terms & Conditions
+                </button>
+
+              </div>
+
             </div>
+
+            {/* Follow Us */}
+            <div>
+
+              <h3 className="text-[#2f372f] text-[18px] font-medium mb-6">
+
+                Follow Us
+
+              </h3>
+
+              <div className="flex flex-col gap-4 text-[#7d6a57]">
+
+                <a
+                  href="https://www.instagram.com/aaharsakhi"
+                  target="_blank"
+                  className="hover:text-[#2f372f] transition"
+                >
+                  Instagram
+                </a>
+
+                <a
+                  href="https://www.linkedin.com/company/aahar-sakhi"
+                  target="_blank"
+                  className="hover:text-[#2f372f] transition"
+                >
+                  LinkedIn
+                </a>
+
+                <a
+                  href="https://x.com/AaharSakhi"
+                  target="_blank"
+                  className="hover:text-[#2f372f] transition"
+                >
+                  Twitter / X
+                </a>
+
+                <a
+                  href="mailto:aaharsakhi@outlook.com"
+                  className="hover:text-[#2f372f] transition"
+                >
+                  Email
+                </a>
+
+              </div>
+
+            </div>
+
           </div>
 
-          {/* Luxury Divider */}
-          <div className="pt-10">
-            <div className="flex items-center justify-center gap-4">
-              <div className="h-[1px] w-24 bg-[#dbc9b5]"></div>
+          {/* Divider */}
+          <div className="pt-10 border-t border-[#e4d5c5]">
 
-              <span className="text-[#b89a78] text-sm">✦</span>
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
 
-              <div className="h-[1px] w-24 bg-[#dbc9b5]"></div>
-            </div>
-
-            {/* Bottom */}
-            <div className="mt-8 flex items-center justify-center">
               <p className="text-[#8c7a68] text-sm tracking-wide text-center">
+
                 © 2026 AaharSakhi. Nourishing Every Journey.
+
               </p>
+
+              <p className="text-[#a18d78] text-sm text-center">
+
+                Built with mindful care for healing journeys.
+
+              </p>
+
             </div>
+
           </div>
+
         </div>
+
       </footer>
 
       {/* Privacy */}

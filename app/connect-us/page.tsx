@@ -76,11 +76,11 @@ export default function ConnectUsPage() {
                 </h2>
 
                 {/* Subtext */}
-                <p className="mt-6 text-[#7a6653] leading-[2] max-w-[640px] mx-auto">
+                <p className="mt-6 text-[#7a6653] leading-[2] max-w-[700px] mx-auto">
 
-                  Share your journey and a Sakhi will thoughtfully
-                  connect with you to understand your needs,
-                  support, and wellness goals.
+                  Schedule a thoughtful conversation with a Sakhi
+                  at your preferred time to explore your nourishment,
+                  wellness, and healing journey.
 
                 </p>
 
@@ -263,13 +263,84 @@ export default function ConnectUsPage() {
 
                 </select>
 
-                {/* Message */}
-                <textarea
-                  name="message"
-                  rows={6}
-                  placeholder="Tell us a little about your journey..."
-                  className="w-full rounded-3xl border border-[#eadfd2] bg-[#fcfaf7] p-6 text-[#2f372f] outline-none resize-none"
-                ></textarea>
+                {/* Preferred Call Date */}
+                <input
+                  type="date"
+                  name="preferred_call_date"
+                  required
+                  className="w-full h-[68px] rounded-2xl border border-[#eadfd2] bg-[#fcfaf7] px-6 text-[#2f372f] outline-none"
+                />
+
+                {/* Preferred Call Schedule */}
+                <div className="grid lg:grid-cols-2 gap-6">
+
+                  {/* Preferred Call Time */}
+                  <input
+                    type="time"
+                    name="preferred_call_time"
+                    required
+                    className="w-full h-[68px] rounded-2xl border border-[#eadfd2] bg-[#fcfaf7] px-6 text-[#2f372f] outline-none"
+                  />
+
+                  {/* Preferred Timezone */}
+                  <select
+                    name="timezone"
+                    required
+                    className="w-full h-[68px] rounded-2xl border border-[#eadfd2] bg-[#fcfaf7] px-6 text-[#2f372f] outline-none"
+                  >
+
+                    <option value="">
+                      Preferred Time Zone
+                    </option>
+
+                    <option value="IST">
+                      IST — India Standard Time
+                    </option>
+
+                    <option value="EST">
+                      EST — Eastern Standard Time
+                    </option>
+
+                    <option value="PST">
+                      PST — Pacific Standard Time
+                    </option>
+
+                    <option value="GMT">
+                      GMT — Greenwich Mean Time
+                    </option>
+
+                    <option value="CST">
+                      CST — Central Standard Time
+                    </option>
+
+                    <option value="MST">
+                      MST — Mountain Standard Time
+                    </option>
+
+                    <option value="GST">
+                      GST — Gulf Standard Time
+                    </option>
+
+                    <option value="SGT">
+                      SGT — Singapore Time
+                    </option>
+
+                  </select>
+
+                </div>
+
+                {/* Privacy Note */}
+                <div className="rounded-[28px] bg-[#f8f2eb] border border-[#eadfd2] p-6">
+
+                  <p className="text-[#7a6653] leading-[2] text-[15px]">
+
+                    We respect your time and privacy.
+                    Our Sakhi team only connects during your preferred schedule.
+                    No spam calls. No unnecessary follow-ups.
+
+                  </p>
+
+                </div>
 
                 {/* Submit Button */}
                 <button
@@ -277,7 +348,7 @@ export default function ConnectUsPage() {
                   className="w-full h-[68px] rounded-full bg-[#2f372f] text-white text-sm tracking-[2px] uppercase hover:opacity-90 transition"
                 >
 
-                  Let A Sakhi Connect With You
+                  Schedule A Call With Sakhi
 
                 </button>
 

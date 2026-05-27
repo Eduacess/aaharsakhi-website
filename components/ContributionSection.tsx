@@ -29,24 +29,29 @@ export default function ContributionSection() {
           <div className="w-24 h-[1px] bg-[#e8d8c4] mx-auto mt-14"></div>
 
           {/* Button */}
-          <button
-            className="
-              mt-14
-              px-10
-              py-5
-              rounded-full
-              bg-[#f7efe5]
-              border
-              border-[#ead9c5]
-              text-[#8a6c4f]
-              text-[16px]
-              tracking-[1px]
-              shadow-[0_10px_30px_rgba(0,0,0,0.03)]
-              cursor-default
-            "
-          >
-            Care Contributions Opening Soon
-          </button>
+          <a
+  href="https://rzp.io/rzp/iuz5vW5"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="
+    inline-flex
+    mt-14
+    px-10
+    py-5
+    rounded-full
+    bg-[#2f372f]
+    hover:bg-[#3c463c]
+    transition-all
+    duration-300
+    text-white
+    text-[16px]
+    tracking-[1px]
+    shadow-[0_10px_30px_rgba(0,0,0,0.08)]
+  "
+>
+  Contribute With Care
+</a>
+          
         </div>
       </div>
     </section>
