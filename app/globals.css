@@ -40,3 +40,22 @@ body {
   animation: marquee 70s linear infinite;
   will-change: transform;
 }
+
+@keyframes infiniteScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infiniteScroll 35s linear infinite;
+  width: max-content;
+}
+
+.animate-infinite-scroll:hover {
+  animation-play-state: paused;
+}
