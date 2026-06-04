@@ -30,7 +30,7 @@ export default function Hero() {
 
           <p className="mt-8 text-[18px] leading-[2] text-[#7c6a58] max-w-[700px]">
 
-            Whether you are Navigating Diabetes,
+            Whether you&apos;re Navigating Diabetes,
             Fighting Cancer, or Building a New Life inside you,
             AaharSakhi is here to care for you through compassionate
             nutrition support rooted in your culture, lifestyle,
