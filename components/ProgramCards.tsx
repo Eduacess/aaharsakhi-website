@@ -1,3 +1,4 @@
+
 const programs = [
   {
     key: 'cancer',
@@ -5,7 +6,7 @@ const programs = [
     title: 'Cancer Poshanam',
 
     description:
-      'Compassionate nourishment support thoughtfully designed to bring comfort, healing, emotional wellness, strength, mindful recovery, and everyday vitality through every stage of care.',
+      'Gentle nutrition support thoughtfully designed to bring comfort, strength, emotional wellbeing, and nourishing care through every stage of the healing journey.',
 
     image:
       'https://www.news-medical.net/images/news/ImageForNews_803331_17405246138373449.jpg',
@@ -17,7 +18,7 @@ const programs = [
     title: 'Vatsalya Poshanam',
 
     description:
-      'Gentle nourishment experiences created for pregnancy, motherhood, postpartum wellness, emotional balance, nurturing care, and mindful living.',
+      'Compassionate nourishment guidance created to support pregnancy, motherhood, postpartum recovery, emotional balance, and the beautiful journey of nurturing new life.',
 
     image:
       'https://forwhenhelpline.org.au/wp-content/uploads/2025/06/pregnancy-tummy-scaled.jpg',
@@ -29,7 +30,7 @@ const programs = [
     title: 'Diabetes Poshanam',
 
     description:
-      'Balanced nourishment journeys focused on sustainable wellness, mindful routines, steady energy, emotional wellbeing, and everyday lifestyle harmony.',
+      'Sustainable nutrition support focused on balanced eating habits, steady energy, emotional wellness, and creating healthier routines that feel realistic and comforting.',
 
     image:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDsvCM0uZtDXn52xEtONRSS7nCsbXrsShZ7Pmts2KaClpNlUm-2Smc8RU-&s=10',
@@ -46,19 +47,20 @@ export default function ProgramCards() {
       <div className="max-w-[1700px] mx-auto px-6 lg:px-16 relative z-10">
 
         {/* Heading */}
-        <div className="max-w-[900px] mx-auto text-center">
+        <div className="max-w-[950px] mx-auto text-center">
 
           <h2 className="text-[48px] lg:text-[72px] leading-[1.08] tracking-[-3px] font-semibold text-[#2f372f]">
 
-            What We Care For
+            How We Support You
 
           </h2>
 
-          <p className="mt-8 text-[#7d6a57] text-[19px] leading-[2.1] max-w-[720px] mx-auto">
+          <p className="mt-8 text-[#7d6a57] text-[19px] leading-[2.1] max-w-[760px] mx-auto">
 
-            Gentle nourishment experiences thoughtfully designed for healing,
-            motherhood, emotional wellness, mindful living, and everyday
-            balance.
+            Every health journey feels different.
+            Our nourishment programs are thoughtfully designed to offer
+            emotional support, culturally familiar guidance,
+            and sustainable nutrition care that gently fits into everyday life.
 
           </p>
 
@@ -112,7 +114,7 @@ export default function ProgramCards() {
                   href={`/about?program=${program.key}`}
                   className="text-[#c29a73] text-[16px] tracking-wide hover:tracking-[1.5px] transition duration-300"
                 >
-                  Explore Journey →
+                  Learn More →
                 </a>
 
               </div>

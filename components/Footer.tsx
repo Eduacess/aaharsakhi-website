@@ -11,83 +11,95 @@ export default function Footer() {
   const privacyPolicy = `
 ✦ Information We Collect
 
-AaharSakhi may collect personal information including names, contact details, wellness preferences, nourishment-related information, consultation records, dashboard entries, wellness tracker information, and communication history voluntarily shared through the platform.
+AaharSakhi may collect personal information including names, contact details, nourishment preferences, consultation records, dashboard information, wellness tracker entries, communication history, and other information voluntarily shared through the platform.
 
-✦ Platform Usage
+✦ Purpose Of Information Usage
 
-Personal information may be utilized for wellness guidance, dashboard functionality, communication, service delivery, appointment coordination, technical support, and overall user experience improvement.
+Information shared with AaharSakhi may be utilized for consultation coordination, nourishment guidance, dashboard access, communication, service improvement, appointment management, technical support, and overall user experience enhancement.
 
 ✦ Data Protection
 
-AaharSakhi takes commercially reasonable administrative and technical measures to safeguard wellness-related information shared through the platform. However, no online platform can guarantee absolute security.
+AaharSakhi takes commercially reasonable administrative and technical measures to safeguard information shared through the platform. However, no digital platform can guarantee absolute security.
+
+✦ No Medical Outcome Guarantee
+
+AaharSakhi does not guarantee specific medical, physical, emotional, or health outcomes through its nourishment guidance, consultations, digital services, or support experiences.
+
+✦ Independent Medical Responsibility
+
+Users remain solely responsible for consulting licensed physicians, oncologists, diabetologists, gynecologists, emergency healthcare providers, or other qualified medical professionals for diagnosis, treatment decisions, prescriptions, and medical emergencies.
 
 ✦ International Users
 
 Users accessing the platform internationally acknowledge that information may be processed and stored in accordance with operational and legal standards applicable within India.
 
-✦ Wellness Disclaimer
-
-Users remain responsible for consulting licensed medical professionals for diagnosis, emergency care, prescriptions, and medical treatment decisions.
-
 ✦ Jurisdiction
 
-All disputes relating to privacy matters shall remain subject to the jurisdiction of courts located in Vadodara, Gujarat, India.
+All privacy-related disputes shall remain subject exclusively to the jurisdiction of courts located in Vadodara, Gujarat, India.
 `;
 
   const refundPolicy = `
-✦ Digital Wellness Services
+✦ Digital Consultation & Nourishment Services
 
-AaharSakhi provides wellness consultations, nourishment guidance, dashboard access, digital wellness support, and personalized wellness experiences.
+AaharSakhi provides digital nourishment guidance, consultation services, dashboard access, wellness tracking tools, and supportive nourishment experiences.
 
 ✦ Refund Eligibility
 
-Refunds shall generally not be applicable once any consultation, dashboard access, wellness plan, guidance material, or digital service has been delivered or accessed.
+Refunds are generally not applicable once consultations, dashboard access, nourishment plans, guidance materials, or digital services have been delivered, accessed, scheduled, or utilized.
 
 ✦ Consultation Usage
 
-Users acknowledge that wellness consultations and dashboard access constitute consumed digital services once delivered through the platform.
+Users acknowledge that consultations, nourishment guidance, and dashboard services constitute consumed digital services once provided through the platform.
 
 ✦ Cancellation Requests
 
-Cancellation requests submitted before consultation or service delivery may be reviewed on a case-by-case basis at the sole discretion of AaharSakhi.
+Cancellation requests submitted prior to confirmed consultations or service access may be reviewed on a case-by-case basis at the sole discretion of AaharSakhi.
 
 ✦ Payment Disputes
 
-Unauthorized disputes, chargebacks, or misuse of payment systems may result in restriction or suspension of platform access.
+Unauthorized payment disputes, chargebacks, or misuse of payment systems may result in suspension or restriction of platform access.
+
+✦ No Guaranteed Outcomes
+
+AaharSakhi does not guarantee specific health, nourishment, emotional, or medical outcomes through consultations or support services.
 
 ✦ Jurisdiction
 
-All refund-related disputes shall remain subject to the jurisdiction of courts located in Vadodara, Gujarat, India.
+All refund-related disputes shall remain subject exclusively to the jurisdiction of courts located in Vadodara, Gujarat, India.
 `;
 
   const termsConditions = `
 ✦ Platform Nature
 
-AaharSakhi is a wellness and nourishment guidance platform supporting mindful wellbeing, nourishment awareness, emotional wellness, and supportive wellness journeys.
+AaharSakhi is a nourishment guidance and supportive care platform focused on mindful eating habits, emotional wellbeing, lifestyle support, and compassionate nourishment experiences.
 
 ✦ Medical Disclaimer
 
-The platform does not provide emergency healthcare services, licensed medical diagnosis, hospitalization services, or urgent clinical intervention.
+AaharSakhi does not provide emergency healthcare services, hospitalization services, licensed medical diagnosis, prescription services, or urgent medical intervention.
 
-✦ Independent Medical Advice
+✦ Independent Medical Consultation
 
-Users must independently consult licensed physicians, oncologists, diabetologists, gynecologists, emergency healthcare providers, or qualified medical professionals for diagnosis and treatment decisions.
+Users are strongly encouraged to independently consult licensed physicians, oncologists, diabetologists, gynecologists, emergency healthcare providers, or qualified medical professionals regarding diagnosis, treatment plans, prescriptions, and medical decisions.
 
-✦ User Responsibility
+✦ Informational & Supportive Guidance
 
-Users acknowledge that all nourishment recommendations, consultations, wellness trackers, and supportive guidance are intended for informational and wellness-support purposes only.
+All nourishment recommendations, consultations, wellness trackers, educational content, and supportive guidance available through the platform are intended solely for informational and supportive purposes.
+
+✦ No Guaranteed Outcomes
+
+AaharSakhi does not guarantee specific physical, emotional, nutritional, or medical outcomes through platform usage, consultations, nourishment plans, or support services.
 
 ✦ Intellectual Property
 
-All branding, wellness systems, visual assets, dashboards, written material, and platform experiences remain the intellectual property of AaharSakhi unless otherwise stated.
+All branding, visual assets, dashboards, written material, nourishment systems, designs, and platform experiences remain the intellectual property of AaharSakhi unless otherwise stated.
 
 ✦ Limitation Of Liability
 
-To the maximum extent permitted by applicable law, AaharSakhi disclaims liability for indirect, incidental, emotional, technical, or consequential damages arising from platform usage.
+To the maximum extent permitted under applicable law, AaharSakhi disclaims liability for indirect, incidental, emotional, technical, or consequential damages arising from the use of the platform or its services.
 
 ✦ International Usage
 
-Users accessing the platform internationally remain responsible for compliance with local healthcare laws and regulations applicable within their jurisdiction.
+Users accessing the platform internationally remain responsible for compliance with local laws and healthcare regulations applicable within their respective jurisdictions.
 
 ✦ Jurisdiction
 
@@ -133,8 +145,9 @@ All disputes, claims, and proceedings shall remain subject exclusively to the ju
               {/* Description */}
               <p className="mt-8 text-[#6f5d4b] text-[16px] leading-[2] max-w-[340px]">
 
-                Mindful nourishment journeys supporting healing,
-                motherhood, emotional wellness, and compassionate care.
+                Gentle nourishment support designed around healing,
+                motherhood, emotional wellbeing, culturally familiar meals,
+                and compassionate everyday care.
 
               </p>
 

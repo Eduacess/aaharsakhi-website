@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProgramModal from '@/components/ProgramModal';
-
+import CarePhilosophy from '@/components/CarePhilosophy';
 export default function AboutPage() {
 
   const [selectedProgram, setSelectedProgram] = useState<string | null>(null);
@@ -35,7 +35,7 @@ export default function AboutPage() {
         'https://www.news-medical.net/images/news/ImageForNews_803331_17405246138373449.jpg',
 
       description:
-        'Thoughtfully guided nourishment support designed to accompany individuals through every stage of the cancer journey — from diagnosis, treatment support, emotional wellbeing, recovery nourishment, strength rebuilding, and long-term wellness care.',
+        'Thoughtfully guided nourishment support designed to accompany individuals through every stage of the cancer journey — from diagnosis, treatment support, emotional wellbeing, recovery nourishment, strength rebuilding, and long-term mindful care.',
     },
 
     pregnancy: {
@@ -55,7 +55,7 @@ export default function AboutPage() {
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDsvCM0uZtDXn52xEtONRSS7nCsbXrsShZ7Pmts2KaClpNlUm-2Smc8RU-&s=10',
 
       description:
-        'Balanced nourishment journeys focused on sustainable diabetes wellness, mindful routines, energy balance, emotional wellbeing, lifestyle nourishment, and long-term supportive care.',
+        'Balanced nourishment journeys focused on sustainable diabetes care, mindful routines, steady energy, emotional wellbeing, lifestyle nourishment, and long-term supportive guidance.',
     },
   };
 
@@ -82,7 +82,8 @@ export default function AboutPage() {
 
               <p className="text-[18px] lg:text-[30px] italic font-light tracking-[0.3px] text-[#4d564d] leading-[1.8] font-serif">
 
-                Take care of your body. It’s the only place you have to live.
+                Sometimes the body needs nourishment.
+                Sometimes the heart simply needs care.
 
               </p>
 
@@ -99,7 +100,7 @@ export default function AboutPage() {
       </section>
 
       {/* Who We Are */}
-      <section className="relative pb-28">
+      <section className="relative pb-20">
 
         <div className="max-w-[1500px] mx-auto px-6 lg:px-16">
 
@@ -122,31 +123,34 @@ export default function AboutPage() {
 
               <h2 className="mt-8 text-[42px] lg:text-[72px] leading-[1.02] tracking-[-4px] font-semibold text-[#2f372f]">
 
-                Nourishment,
+                Nourishment Rooted
                 <br />
-                Beyond Nutrition
+                In Care
 
               </h2>
 
               <div className="mt-10 space-y-7 text-[#6f5d4b] text-[17px] leading-[2.1] max-w-[820px]">
 
                 <p>
-                  Watching individuals navigate cancer, pregnancy, diabetes, and
-                  emotionally demanding wellness journeys revealed how deeply
-                  nourishment impacts healing, emotional wellbeing, and everyday
-                  quality of life.
+                  AaharSakhi began with a simple realization —
+                  healing journeys often change a person’s relationship
+                  with food, emotions, comfort, and everyday living in
+                  ways that are deeply personal.
                 </p>
 
                 <p>
-                  Yet meaningful nourishment support that truly understands
-                  Indian lifestyles, emotional wellbeing, and cultural food
-                  habits often remains inaccessible across the world.
+                  Whether someone is navigating cancer, learning to live
+                  with diabetes, preparing for motherhood, or simply trying
+                  to feel healthier again, nourishment starts becoming more
+                  than nutrition. It becomes emotional, cultural, familiar,
+                  and deeply connected to everyday life.
                 </p>
 
                 <p>
-                  AaharSakhi was envisioned to bridge that gap through mindful
-                  nourishment journeys designed with empathy, comfort,
-                  supportive care, and emotional understanding at their core.
+                  AaharSakhi was created to offer nourishment support that
+                  feels softer, more human, and emotionally understanding —
+                  rooted in Indian food culture, mindful care, and the belief
+                  that nobody should feel alone in their healing journey.
                 </p>
 
               </div>
@@ -184,6 +188,11 @@ export default function AboutPage() {
 
                   </p>
 
+                  <p className="mt-4 text-[#8e7b69] text-[15px] leading-[1.9] max-w-[260px] mx-auto">
+                    Building nourishment experiences rooted in emotional care,
+                    cultural familiarity, and human connection.
+                  </p>
+
                 </div>
 
               </div>
@@ -195,6 +204,11 @@ export default function AboutPage() {
         </div>
 
       </section>
+
+
+<CarePhilosophy />
+
+      
 
       {/* Nourishment Journeys */}
       <section className="relative pb-32">
@@ -219,9 +233,9 @@ export default function AboutPage() {
 
             <h2 className="mt-8 text-[42px] lg:text-[72px] leading-[1.02] tracking-[-4px] font-semibold text-[#2f372f]">
 
-              Thoughtfully designed
+              Gentle nourishment journeys,
               <br />
-              for every healing journey.
+              created with care.
 
             </h2>
 

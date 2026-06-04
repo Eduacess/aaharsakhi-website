@@ -4,7 +4,7 @@ const reviews = [
     location: 'Toronto, Canada',
 
     review:
-      'After my cancer treatment, nourishment became emotionally overwhelming for me. AaharSakhi helped me slowly rebuild healthy eating habits with warmth, patience, and guidance that genuinely supported my recovery journey.',
+      'After my cancer treatment, food started feeling emotionally exhausting for me. AaharSakhi helped me slowly rebuild comfort around eating again with patience, kindness, and support that truly felt human.',
   },
 
   {
@@ -12,7 +12,7 @@ const reviews = [
     location: 'Dubai, UAE',
 
     review:
-      'During pregnancy, I struggled with energy, digestion, and emotional stress. The nourishment support felt deeply calming and helped me feel healthier, lighter, and emotionally balanced every single day.',
+      'During pregnancy, I often felt confused about what was actually right for my body. The guidance felt calming, realistic, and deeply supportive throughout the journey.',
   },
 
   {
@@ -20,7 +20,7 @@ const reviews = [
     location: 'London, UK',
 
     review:
-      'Managing diabetes had started affecting my confidence and routine. The guidance I received felt practical, emotionally comforting, and beautifully aligned with my Indian lifestyle and food habits.',
+      'Managing diabetes had started making everyday meals stressful for me. What I appreciated most was how practical and culturally familiar the guidance felt without making life overwhelming.',
   },
 
   {
@@ -28,7 +28,7 @@ const reviews = [
     location: 'Singapore',
 
     review:
-      'What truly stood out was the emotional care behind every interaction. Nothing felt clinical or rushed. The entire experience felt gentle, thoughtful, and incredibly supportive through my wellness journey.',
+      'Nothing ever felt rushed or clinical. Every conversation felt thoughtful, comforting, and emotionally safe during a time when I genuinely needed support.',
   },
 
   {
@@ -36,7 +36,7 @@ const reviews = [
     location: 'Melbourne, Australia',
 
     review:
-      'AaharSakhi helped me understand nourishment in a much more mindful and balanced way. The support felt realistic, comforting, and deeply connected to my personal wellness goals and lifestyle.',
+      'I never felt judged for my eating habits or lifestyle. The support helped me build healthier routines in a way that felt gentle and sustainable.',
   },
 
   {
@@ -44,42 +44,55 @@ const reviews = [
     location: 'New Jersey, USA',
 
     review:
-      'As someone living away from India, finding nourishment guidance that actually understood my food culture felt incredibly comforting. The experience felt warm, personal, and genuinely supportive.',
+      'Living away from India, I missed food that felt emotionally comforting and familiar. AaharSakhi helped me reconnect with healthier eating without losing that feeling of home.',
   },
 ];
 
 export default function TrustRibbon() {
+
   const duplicatedReviews = [...reviews, ...reviews, ...reviews, ...reviews];
 
   return (
     <section className="relative pt-10 pb-32 overflow-hidden bg-[#fcfaf7]">
-      {/* Soft Luxury Glow */}
+
+      {/* Soft Glow */}
       <div className="absolute bottom-[-250px] left-[-150px] w-[500px] h-[500px] bg-[#f3e4d2] rounded-full blur-3xl opacity-40"></div>
 
       <div className="relative z-10">
+
         {/* Heading */}
         <div className="text-center px-6">
+
           <h2 className="text-[46px] lg:text-[64px] leading-[1.1] tracking-[-2px] font-semibold text-[#2f372f]">
+
             Stories Of Healing
             <br />
             And Support
+
           </h2>
 
           <p className="mt-8 text-[#7d6a57] text-[18px] leading-[2] max-w-[760px] mx-auto">
-            Thoughtful nourishment experiences shared by individuals across the
-            world who found comfort, balance, emotional wellness, and mindful
-            support through AaharSakhi.
+
+            Gentle experiences shared by individuals across the world
+            who found comfort, emotional support, and culturally familiar
+            nourishment guidance through AaharSakhi.
+
           </p>
+
         </div>
 
         {/* Infinite Moving Reviews */}
         <div className="mt-16 overflow-hidden w-full">
+
           <div className="marquee-track flex gap-8 w-max">
+
             {duplicatedReviews.map((item, index) => (
+
               <div
                 key={index}
                 className="min-w-[520px] max-w-[520px] bg-white/85 backdrop-blur-xl border border-[#efe3d3] rounded-[36px] p-10 shadow-[0_15px_60px_rgba(0,0,0,0.05)] flex-shrink-0"
               >
+
                 {/* Stars */}
                 <div className="text-[#c29a73] text-[18px] tracking-[3px]">
                   ★★★★★
@@ -87,24 +100,38 @@ export default function TrustRibbon() {
 
                 {/* Review */}
                 <p className="mt-8 text-[#5f5245] text-[17px] leading-[2]">
+
                   {item.review}
+
                 </p>
 
                 {/* User */}
                 <div className="mt-10">
+
                   <h4 className="text-[#2f372f] text-[20px] font-semibold">
+
                     {item.name}
+
                   </h4>
 
                   <p className="mt-2 text-[#9a8b7c] text-sm tracking-wide">
+
                     {item.location}
+
                   </p>
+
                 </div>
+
               </div>
+
             ))}
+
           </div>
+
         </div>
+
       </div>
+
     </section>
   );
 }

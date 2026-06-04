@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 
 export default function Hero() {
@@ -19,40 +20,42 @@ export default function Hero() {
 
           <h1 className="text-[62px] lg:text-[88px] leading-[1.02] font-semibold tracking-[-3px] text-[#2f372f]">
 
-            Wellness
+            Nutrition Care
             <br />
-            Designed Around
+            Rooted In Comfort,
             <br />
-            Your Journey.
+            Culture & Compassion.
 
           </h1>
 
           <p className="mt-8 text-[18px] leading-[2] text-[#7c6a58] max-w-[700px]">
 
-            AaharSakhi supports mindful nourishment journeys through
-            culturally-rooted wellness, emotional care, and personalized
-            guidance designed for every stage of life.
+            Whether you're Navigating Diabetes,
+            Fighting Cancer, or Building a New Life inside you,
+            AaharSakhi is here to care for you through compassionate
+            nutrition support rooted in your culture, lifestyle,
+            emotions, language, and familiar meals.
 
           </p>
 
           {/* Buttons */}
           <div className="flex items-center gap-5 mt-12 flex-wrap">
 
-           {/* Speak To A Sakhi */}
-<a
-  href="https://wa.me/919106094119?text=Hello%20AaharSakhi%2C%20I%20would%20like%20to%20begin%20my%20healing%20journey.%0A%0AName%3A%0APhone%20Number%3A%0AProgram%20Interested%20In%3A%0APreferred%20Language%3A"
-  target="_blank"
-  className="bg-gradient-to-r from-[#d8bea2] to-[#caa27c] hover:opacity-90 transition duration-300 text-white px-10 py-4 rounded-full text-[16px] tracking-wide shadow-xl"
->
-  Speak To A Sakhi
-</a>
+            {/* Speak To A Sakhi */}
+            <a
+              href="https://wa.me/919106094119?text=Hello%20AaharSakhi%2C%20I%20would%20like%20to%20begin%20my%20healing%20journey.%0A%0AName%3A%0APhone%20Number%3A%0AProgram%20Interested%20In%3A%0APreferred%20Language%3A"
+              target="_blank"
+              className="bg-gradient-to-r from-[#d8bea2] to-[#caa27c] hover:opacity-90 transition duration-300 text-white px-10 py-4 rounded-full text-[16px] tracking-wide shadow-xl"
+            >
+              Speak To A Sakhi
+            </a>
 
             {/* Login */}
             <Link
               href="/login"
               className="border border-[#e4d4c3] bg-white/60 backdrop-blur-md px-10 py-4 rounded-full text-[16px] text-[#7d6a57] hover:border-[#caa27c] transition"
             >
-              Login
+            Login
             </Link>
 
           </div>
