@@ -29,13 +29,13 @@ export default function ProgramModal({
 
   return (
     <>
-      {/* Main Program Modal */}
+      {/* Main Modal */}
       <div className="fixed inset-0 z-[999] bg-black/40 backdrop-blur-md overflow-y-auto">
         <div className="min-h-screen flex justify-center px-6 py-12">
 
           {/* Overlay */}
           <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-md"
+            className="absolute inset-0"
             onClick={onClose}
           ></div>
 
@@ -86,18 +86,15 @@ export default function ProgramModal({
                   <div className="mt-10 space-y-5">
 
                     <div className="flex items-start gap-4">
-
                       <span className="text-[#c29a73] text-xl">✦</span>
 
                       <p className="text-[#5c4f42] leading-[1.9]">
                         Thoughtfully guided nourishment support designed around
                         emotional wellbeing, mindful routines, and everyday care.
                       </p>
-
                     </div>
 
                     <div className="flex items-start gap-4">
-
                       <span className="text-[#c29a73] text-xl">✦</span>
 
                       <p className="text-[#5c4f42] leading-[1.9]">
@@ -105,18 +102,15 @@ export default function ProgramModal({
                         tracking, wellness routines, recipes, and supportive
                         nourishment journeys.
                       </p>
-
                     </div>
 
                     <div className="flex items-start gap-4">
-
                       <span className="text-[#c29a73] text-xl">✦</span>
 
                       <p className="text-[#5c4f42] leading-[1.9]">
                         Gentle Sakhi guidance thoughtfully created to bring
                         structure, comfort, and culturally familiar care.
                       </p>
-
                     </div>
 
                   </div>
@@ -126,12 +120,10 @@ export default function ProgramModal({
                 {/* CTA */}
                 <div className="mt-12 flex flex-col sm:flex-row gap-4">
 
-                  {/* Speak */}
                   <button className="px-8 py-4 rounded-full bg-[#2f372f] text-white text-sm tracking-[2px] uppercase hover:opacity-90 transition">
                     Speak To A Sakhi
                   </button>
 
-                  {/* Experience */}
                   <button
                     onClick={() => setShowExperienceModal(true)}
                     className="px-8 py-4 rounded-full border border-[#dbc9b5] text-[#5c4f42] text-sm tracking-[2px] uppercase hover:bg-[#f5eee6] transition"
@@ -148,7 +140,6 @@ export default function ProgramModal({
           </div>
 
         </div>
-
       </div>
 
       {/* Experience Modal */}
@@ -166,16 +157,10 @@ export default function ProgramModal({
               ✕
             </button>
 
-            {/* Heading */}
             <h2 className="text-[34px] lg:text-[48px] leading-[1.1] tracking-[-2px] font-semibold text-[#2f372f]">
-
-              A Gentle Introduction
-              <br />
-              To AaharSakhi
-
+              Experience AaharSakhi
             </h2>
 
-            {/* Description */}
             <p className="mt-6 text-[#6f5d4b] text-[17px] leading-[2]">
 
               A thoughtfully designed one-day introduction to the
@@ -195,43 +180,35 @@ export default function ProgramModal({
               <div className="mt-6 space-y-4">
 
                 <div className="flex items-start gap-3">
-
                   <span className="text-[#c29a73]">✦</span>
 
                   <p className="text-[#5c4f42]">
                     One-day guided dashboard access.
                   </p>
-
                 </div>
 
                 <div className="flex items-start gap-3">
-
                   <span className="text-[#c29a73]">✦</span>
 
                   <p className="text-[#5c4f42]">
                     Hydration and wellness tracking support.
                   </p>
-
                 </div>
 
                 <div className="flex items-start gap-3">
-
                   <span className="text-[#c29a73]">✦</span>
 
                   <p className="text-[#5c4f42]">
                     Mindful nourishment guidance and gentle routines.
                   </p>
-
                 </div>
 
                 <div className="flex items-start gap-3">
-
                   <span className="text-[#c29a73]">✦</span>
 
                   <p className="text-[#5c4f42]">
                     Introductory recipes and supportive Sakhi guidance.
                   </p>
-
                 </div>
 
               </div>
@@ -255,9 +232,7 @@ export default function ProgramModal({
             <div className="mt-10">
 
               <p className="text-[#8a6c4f] tracking-[3px] uppercase text-sm">
-
                 One-Day AaharSakhi Experience
-
               </p>
 
               <h3 className="mt-3 text-[42px] font-semibold text-[#2f372f]">
@@ -305,6 +280,149 @@ export default function ProgramModal({
             <p className="mt-5 text-[#6f5d4b] leading-[2]">
               Share a few details to continue your AaharSakhi experience.
             </p>
+
+            {/* FORM */}
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(e.currentTarget);
+
+                const object = Object.fromEntries(formData);
+
+                const json = JSON.stringify(object);
+
+                const response = await fetch(
+                  'https://api.web3forms.com/submit',
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Accept: 'application/json',
+                    },
+                    body: json,
+                  }
+                );
+
+                const result = await response.json();
+
+                if (result.success) {
+                  window.location.href = 'https://rzp.io/rzp/8QOT79a';
+                }
+              }}
+              className="mt-10 space-y-6"
+            >
+
+              <input
+                type="hidden"
+                name="access_key"
+                value="13568875-ec62-4962-bc82-b62d1ee2b7b2"
+              />
+
+              <input
+                type="hidden"
+                name="subject"
+                value="AaharSakhi Experience Lead"
+              />
+
+              {/* Name */}
+              <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                required
+                className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+              />
+
+              {/* Email */}
+              <input
+                type="email"
+                name="email"
+                placeholder="Email Address"
+                required
+                className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+              />
+
+              {/* Phone */}
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Phone Number"
+                required
+                className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+              />
+
+              {/* Journey */}
+              <select
+                name="journey"
+                required
+                value={journeyType}
+                onChange={(e) => setJourneyType(e.target.value)}
+                className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+              >
+                <option value="">Select Journey</option>
+
+                <option value="Cancer Poshanam">
+                  Cancer Poshanam
+                </option>
+
+                <option value="Vatsalya Poshanam">
+                  Vatsalya Poshanam
+                </option>
+
+                <option value="Diabetes Poshanam">
+                  Diabetes Poshanam
+                </option>
+              </select>
+
+              {/* Pregnancy Logic */}
+              {journeyType === 'Vatsalya Poshanam' && (
+                <>
+                  <select
+                    name="pregnancy_stage"
+                    required
+                    value={pregnancyStage}
+                    onChange={(e) => setPregnancyStage(e.target.value)}
+                    className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+                  >
+                    <option value="">Select Stage</option>
+
+                    <option value="Expecting">
+                      Expecting
+                    </option>
+
+                    <option value="Delivered">
+                      Delivered
+                    </option>
+                  </select>
+
+                  {pregnancyStage === 'Expecting' && (
+                    <input
+                      type="date"
+                      name="due_date"
+                      className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+                    />
+                  )}
+
+                  {pregnancyStage === 'Delivered' && (
+                    <input
+                      type="date"
+                      name="baby_birth_date"
+                      className="w-full px-6 py-5 rounded-[20px] border border-[#ead9c5] bg-white outline-none text-[#2f372f]"
+                    />
+                  )}
+                </>
+              )}
+
+              {/* Submit */}
+              <button
+                type="submit"
+                className="w-full py-5 rounded-full bg-[#2f372f] text-white tracking-[2px] uppercase hover:opacity-90 transition"
+              >
+                Continue To Payment
+              </button>
+
+            </form>
 
           </div>
 
