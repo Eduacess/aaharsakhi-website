@@ -53,7 +53,7 @@ return (
 
   <h2 className="text-2xl font-semibold text-[#3d3027] mb-5">
 
-    Today's Meal Plan 🍽️
+    Today&apos;s Meal Plan 🍽️
 
   </h2>
 

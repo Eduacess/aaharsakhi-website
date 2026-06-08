@@ -254,7 +254,7 @@ return (
 
             <div className="flex justify-between text-[#5f5348]">
 
-              <span>Today's Weight</span>
+              <span>Today&apos;s Weight</span>
 
               <span>72 kg</span>
 

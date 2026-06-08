@@ -19,7 +19,7 @@ return (
 
     <h2 className="text-lg font-semibold text-[#3d3027]">
 
-      Today's Recipe 🍲
+      Today&apos;s Recipe 🍲
 
     </h2>
 

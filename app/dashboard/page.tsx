@@ -86,7 +86,7 @@ return (
               px-1
             ">
 
-              Today's Trackers 📊
+              Today&apos;s Trackers 📊
 
             </h2>
 
@@ -136,7 +136,7 @@ return (
             px-1
           ">
 
-            Today's Trackers 📊
+            Today&apos;s Trackers 📊
 
           </h2>
 
