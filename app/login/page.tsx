@@ -26,7 +26,7 @@ return (
     pt-6
   ">
 
-    <LanguageModal />
+<LanguageModal onSelect={() => {}} />
 
   </div>
 
