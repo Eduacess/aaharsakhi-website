@@ -268,7 +268,6 @@ return (
               type="email"
               name="email"
               required
-              pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
               placeholder="Email Address"
               className="
                 w-full
