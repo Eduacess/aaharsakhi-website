@@ -1,31 +1,35 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ProgramModal from '@/components/ProgramModal';
 import CarePhilosophy from '@/components/CarePhilosophy';
+
 export default function AboutPage() {
 
   const [selectedProgram, setSelectedProgram] = useState<string | null>(null);
 
-  const searchParams = useSearchParams();
-
   useEffect(() => {
 
-    const program = searchParams.get('program');
+    if (typeof window !== 'undefined') {
 
-    if (
-      program === 'cancer' ||
-      program === 'pregnancy' ||
-      program === 'diabetes'
-    ) {
-      setSelectedProgram(program);
+      const params = new URLSearchParams(window.location.search);
+
+      const program = params.get('program');
+
+      if (
+        program === 'cancer' ||
+        program === 'pregnancy' ||
+        program === 'diabetes'
+      ) {
+        setSelectedProgram(program);
+      }
+
     }
 
-  }, [searchParams]);
+  }, []);
 
   const programs = {
     cancer: {
@@ -133,7 +137,7 @@ export default function AboutPage() {
 
                 <p>
                   AaharSakhi began with a simple realization —
-                  healing journeys often change a person’s relationship
+                  healing journeys often change a person&apos;s relationship
                   with food, emotions, comfort, and everyday living in
                   ways that are deeply personal.
                 </p>
@@ -205,10 +209,7 @@ export default function AboutPage() {
 
       </section>
 
-
-<CarePhilosophy />
-
-      
+      <CarePhilosophy />
 
       {/* Nourishment Journeys */}
       <section className="relative pb-32">
@@ -244,83 +245,35 @@ export default function AboutPage() {
           {/* Cards */}
           <div className="grid lg:grid-cols-3 gap-10 mt-20">
 
-            {/* Cancer */}
-            <button
-              onClick={() => setSelectedProgram('cancer')}
-              className="group relative h-[540px] rounded-[42px] overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.06)]"
-            >
+            {Object.entries(programs).map(([key, program]) => (
 
-              <img
-                src={programs.cancer.image}
-                alt={programs.cancer.title}
-                className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition duration-700"
-              />
+              <button
+                key={key}
+                onClick={() => setSelectedProgram(key)}
+                className="group relative h-[540px] rounded-[42px] overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.06)]"
+              >
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                <img
+                  src={program.image}
+                  alt={program.title}
+                  className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition duration-700"
+                />
 
-              <div className="absolute bottom-0 left-0 p-10 text-left">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
-                <h3 className="text-white text-[34px] leading-[1.2] font-semibold">
+                <div className="absolute bottom-0 left-0 p-10 text-left">
 
-                  {programs.cancer.title}
+                  <h3 className="text-white text-[34px] leading-[1.2] font-semibold">
 
-                </h3>
+                    {program.title}
 
-              </div>
+                  </h3>
 
-            </button>
+                </div>
 
-            {/* Pregnancy */}
-            <button
-              onClick={() => setSelectedProgram('pregnancy')}
-              className="group relative h-[540px] rounded-[42px] overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.06)]"
-            >
+              </button>
 
-              <img
-                src={programs.pregnancy.image}
-                alt={programs.pregnancy.title}
-                className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition duration-700"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-
-              <div className="absolute bottom-0 left-0 p-10 text-left">
-
-                <h3 className="text-white text-[34px] leading-[1.2] font-semibold">
-
-                  {programs.pregnancy.title}
-
-                </h3>
-
-              </div>
-
-            </button>
-
-            {/* Diabetes */}
-            <button
-              onClick={() => setSelectedProgram('diabetes')}
-              className="group relative h-[540px] rounded-[42px] overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.06)]"
-            >
-
-              <img
-                src={programs.diabetes.image}
-                alt={programs.diabetes.title}
-                className="absolute inset-0 h-full w-full object-cover group-hover:scale-105 transition duration-700"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
-
-              <div className="absolute bottom-0 left-0 p-10 text-left">
-
-                <h3 className="text-white text-[34px] leading-[1.2] font-semibold">
-
-                  {programs.diabetes.title}
-
-                </h3>
-
-              </div>
-
-            </button>
+            ))}
 
           </div>
 
