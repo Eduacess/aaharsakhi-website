@@ -178,8 +178,54 @@ return (
 
           {/* Form */}
           <form
-            action="https://api.web3forms.com/submit"
-            method="POST"
+            onSubmit={async (e) => {
+
+              e.preventDefault();
+
+              const formData = new FormData(e.currentTarget);
+
+              const object = Object.fromEntries(formData);
+
+              const json = JSON.stringify(object);
+
+              // SEND TO MAKE.COM WEBHOOK
+              fetch(
+                'https://hook.us2.make.com/63sensf8dpucq81wj737jtnjz3gyhwh1',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: json,
+                }
+              );
+
+              // SEND TO WEB3FORMS
+              const response = await fetch(
+                'https://api.web3forms.com/submit',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                  },
+                  body: json,
+                }
+              );
+
+              const result = await response.json();
+
+              if (result.success) {
+
+                alert(
+                  'Your consultation request has been submitted successfully.'
+                );
+
+                window.location.reload();
+
+              }
+
+            }}
             className="mt-14 space-y-6"
           >
 
@@ -194,7 +240,7 @@ return (
             <input
               type="hidden"
               name="subject"
-              value="New AaharSakhi Lead"
+              value="New AaharSakhi Scheduled Call Lead"
             />
 
             {/* Full Name */}
@@ -222,7 +268,7 @@ return (
               type="email"
               name="email"
               required
-              pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+              pattern="^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
               placeholder="Email Address"
               className="
                 w-full
