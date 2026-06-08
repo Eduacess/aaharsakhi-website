@@ -292,7 +292,7 @@ return (
             const json = JSON.stringify(object);
 
             // SEND TO MAKE.COM
-            await fetch(
+            fetch(
               'https://hook.us2.make.com/gqw9ywx4j8uhksw6g3drnnt0jebrxiwr',
               {
                 method: 'POST',
