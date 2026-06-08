@@ -1,75 +1,187 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import DashboardFooter from "@/components/dashboard/DashboardFooter";
 
-import DashboardNavbar from '@/components/dashboard/DashboardNavbar';
-import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import DashboardFooter from '@/components/dashboard/DashboardFooter';
+import MealPlan from "@/components/dashboard/MealPlan";
+import SakhiNushke from "@/components/dashboard/SakhiNushke";
 
-import ConsentModal from '@/components/legal/ConsentModal';
+import TrackerGrid from "@/components/dashboard/TrackerGrid";
+
+import UpcomingAppointment from "@/components/dashboard/UpcomingAppointment";
+import LibraryCard from "@/components/dashboard/LibraryCard";
+
+import UpcomingWebinar from "@/components/dashboard/UpcomingWebinar";
+
+import LittlePositivity from "@/components/dashboard/LittlePositivity";
+
+import TodaysRecipe from "@/components/dashboard/TodaysRecipe";
+import YogaZone from "@/components/dashboard/YogaZone";
 
 export default function DashboardPage() {
 
-  const [acceptedConsent, setAcceptedConsent] = useState(false);
+return (
 
-  useEffect(() => {
+<main className="min-h-screen bg-[#f5f6fa]">
 
-    const consent = localStorage.getItem('aaharsakhi-consent');
+  <DashboardNavbar />
 
-    if (consent === 'true') {
-      setAcceptedConsent(true);
-    }
+  <section className="flex-1 py-5 w-full">
 
-  }, []);
+    <div className="w-full px-3 md:px-5 lg:px-6">
 
-  const handleAcceptConsent = () => {
+      {/* QUOTE */}
 
-    localStorage.setItem('aaharsakhi-consent', 'true');
+      <div className="text-center mb-6 pt-2 hidden md:block">
 
-    setAcceptedConsent(true);
+        <p className="
+          italic
+          text-[#5f5348]
+          text-xl
+          md:text-3xl
+          font-light
+        ">
 
-  };
+          “Consistency creates wellness, not perfection.”
 
-  return (
+        </p>
 
-    <main className="min-h-screen bg-[#f8f2ea] text-[#40342d]">
+      </div>
 
-      {!acceptedConsent && (
+      {/* DESKTOP */}
 
-        <ConsentModal
-          onAccept={handleAcceptConsent}
-        />
+      <div className="hidden md:grid md:grid-cols-[1.6fr_1fr] gap-5 items-start">
 
-      )}
+        {/* LEFT */}
 
-      <DashboardNavbar />
+        <div className="space-y-5">
 
-      <DashboardHeader />
+          <MealPlan />
 
-      <div className="px-6 py-10">
+          <div className="grid md:grid-cols-2 gap-5">
 
-        <div className="rounded-[32px] bg-[#fffaf5] p-10 shadow-sm">
+            <UpcomingAppointment />
 
-          <h2 className="text-[34px] font-semibold">
+            <LibraryCard />
 
-            Patient Dashboard 🌿
+          </div>
 
-          </h2>
+          <UpcomingWebinar />
 
-          <p className="mt-4 text-[#7b6f63] leading-[1.9]">
+        </div>
 
-            Your healing journey dashboard is now ready.
+        {/* RIGHT */}
 
-          </p>
+        <div className="space-y-5">
+
+          <SakhiNushke />
+
+          <div>
+
+            <h2 className="
+              text-lg
+              font-semibold
+              text-[#3d3027]
+              mb-3
+              px-1
+            ">
+
+              Today's Trackers 📊
+
+            </h2>
+
+            <TrackerGrid />
+
+          </div>
+
+          <LittlePositivity />
 
         </div>
 
       </div>
 
-      <DashboardFooter />
+      {/* DESKTOP BOTTOM */}
 
-    </main>
+      <div className="
+        hidden
+        md:grid
+        md:grid-cols-2
+        gap-5
+        mt-5
+      ">
 
-  );
+        <TodaysRecipe />
+
+        <YogaZone />
+
+      </div>
+
+      {/* MOBILE LAYOUT */}
+
+      <div className="flex flex-col gap-5 md:hidden">
+
+        {/* MEAL */}
+
+        <MealPlan />
+
+        {/* TRACKERS */}
+
+        <div>
+
+          <h2 className="
+            text-lg
+            font-semibold
+            text-[#3d3027]
+            mb-3
+            px-1
+          ">
+
+            Today's Trackers 📊
+
+          </h2>
+
+          <TrackerGrid />
+
+        </div>
+
+        {/* NUSHKE */}
+
+        <SakhiNushke />
+
+        {/* APPOINTMENT */}
+
+        <UpcomingAppointment />
+
+        {/* WEBINAR */}
+
+        <UpcomingWebinar />
+
+        {/* LIBRARY */}
+
+        <LibraryCard />
+
+        {/* POSITIVITY */}
+
+        <LittlePositivity />
+
+        {/* RECIPE */}
+
+        <TodaysRecipe />
+
+        {/* YOGA */}
+
+        <YogaZone />
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <DashboardFooter />
+
+</main>
+
+);
 
 }

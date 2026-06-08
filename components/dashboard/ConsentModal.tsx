@@ -1,64 +1,62 @@
-'use client';
+"use client";
 
 interface ConsentModalProps {
-  onAccept: () => void;
+  onAgree: () => void;
 }
 
 export default function ConsentModal({
-  onAccept,
+  onAgree,
 }: ConsentModalProps) {
-
   return (
-
-    <div className="fixed inset-0 z-[999] bg-black/40 backdrop-blur-sm flex items-center justify-center px-6">
-
-      <div className="w-full max-w-3xl rounded-[36px] bg-[#fffaf5] p-10 shadow-2xl">
-
-        <h2 className="text-[34px] font-semibold text-[#40342d]">
-
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-2xl">
+        
+        <h2 className="text-3xl font-bold text-[#7c3aed] mb-4">
           Patient Consent Agreement
         </h2>
 
-        <div className="mt-6 max-h-[380px] overflow-y-auto pr-4">
+        <div className="space-y-4 text-gray-700 text-sm leading-7 max-h-[400px] overflow-y-auto">
+          
+          <p>
+            By continuing to use Aahar Sakhi Wellness Dashboard,
+            you agree that the nutrition guidance provided
+            is supportive wellness guidance and not an emergency
+            medical service.
+          </p>
 
-          <p className="text-[#6f5d4b] leading-[2] text-[15px]">
+          <p>
+            You consent to storing your wellness data,
+            meal preferences, reports, and communication
+            records securely for treatment continuity.
+          </p>
 
-            By accessing AaharSakhi, you acknowledge that nourishment guidance,
-            wellness recommendations, emotional support resources, oncology
-            nutrition support, pregnancy care guidance, diabetes care guidance,
-            and wellness content shared through this platform are supportive in
-            nature and do not replace licensed medical treatment, emergency
-            care, physician consultation, hospitalization, diagnosis, or
-            prescribed treatment plans.
+          <p>
+            You understand that personalized recommendations
+            may vary depending on medical history,
+            compliance, and health conditions.
+          </p>
 
-            <br /><br />
+          <p>
+            You agree not to misuse the platform,
+            share confidential reports publicly,
+            or impersonate another patient.
+          </p>
 
-            You understand that all recommendations should be followed only
-            after consultation with your treating healthcare provider.
-
-            <br /><br />
-
-            By clicking “I Agree”, you acknowledge acceptance of the platform’s:
-            Privacy Policy, Refund Policy, Terms & Conditions, and Patient
-            Agreement.
-
+          <p>
+            You may request deletion of your records
+            according to our Privacy Policy.
           </p>
 
         </div>
 
         <button
-          onClick={onAccept}
-          className="mt-8 w-full h-[58px] rounded-full bg-[#cba789] text-white font-medium text-[16px]"
+          onClick={onAgree}
+          className="mt-8 w-full bg-[#7c3aed] hover:bg-[#6d28d9] text-white py-4 rounded-2xl font-semibold transition"
         >
-
           I Agree & Continue
-
         </button>
 
       </div>
-
     </div>
-
   );
-
 }
