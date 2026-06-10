@@ -1,275 +1,307 @@
 'use client';
 
-import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import LanguageModal from '@/components/dashboard/LanguageModal';
+import { supabase } from '@/lib/supabase';
 
 export default function LoginPage() {
 
-return (
+  const router = useRouter();
 
-<main className="min-h-screen bg-[#f8f6f2]">
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
 
-  {/* Navbar */}
+  const handleAuth = async (e: React.FormEvent) => {
 
-  <Navbar />
+    e.preventDefault();
 
-  {/* Language Switcher */}
+    setLoading(true);
 
-  <div className="
-    flex
-    justify-end
-    px-4
-    sm:px-6
-    lg:px-10
-    pt-6
-  ">
+    try {
 
-<LanguageModal onSelect={() => {}} />
+      if (isSignup) {
 
-  </div>
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
 
-  {/* Login Section */}
+        if (error) {
+          alert(error.message);
+        } else {
+          alert('Account created successfully. Please check your email.');
+        }
 
-  <div className="
-    flex
-    items-center
-    justify-center
-    px-4
-    sm:px-6
-    py-10
-    sm:py-16
-  ">
+      } else {
 
-    <div className="
-      w-full
-      max-w-md
-      bg-[#fffdf9]
-      border
-      border-[#ece7df]
-      rounded-[28px]
-      sm:rounded-[32px]
-      shadow-sm
-      p-6
-      sm:p-8
-      md:p-10
-    ">
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      {/* Top Tag */}
+        if (error) {
+          alert(error.message);
+        } else {
+          router.push('/dashboard');
+        }
+
+      }
+
+    } catch (err) {
+
+      console.error(err);
+      alert('Something went wrong');
+
+    }
+
+    setLoading(false);
+
+  };
+
+  const handleForgotPassword = async () => {
+
+    if (!email) {
+      alert('Please enter your email first');
+      return;
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'http://localhost:3000/reset-password',
+    });
+
+    if (error) {
+      alert(error.message);
+    } else {
+      alert('Password reset email sent');
+    }
+
+  };
+
+  return (
+
+    <main className="min-h-screen bg-[#f8f6f2]">
+
+      <Navbar />
 
       <div className="
         flex
         items-center
-        gap-3
-        mb-6
+        justify-center
+        px-4
+        sm:px-6
+        py-10
+        sm:py-16
       ">
 
         <div className="
-          w-10
-          h-[1px]
-          bg-[#b8aea2]
-        " />
-
-        <p className="
-          text-[11px]
-          tracking-[0.28em]
-          uppercase
-          text-[#8b8175]
+          w-full
+          max-w-md
+          bg-[#fffdf9]
+          border
+          border-[#ece7df]
+          rounded-[28px]
+          sm:rounded-[32px]
+          shadow-sm
+          p-6
+          sm:p-8
+          md:p-10
         ">
 
-          AaharSakhi Login
-
-        </p>
-
-      </div>
-
-      {/* Heading */}
-
-      <h1 className="
-        text-[34px]
-        sm:text-[42px]
-        leading-[1.1]
-        font-light
-        text-[#1e1e1e]
-        mb-4
-      ">
-
-        Welcome
-        <br />
-        Back
-
-      </h1>
-
-      {/* Description */}
-
-      <p className="
-        text-[14px]
-        sm:text-[15px]
-        leading-[1.8]
-        text-[#6f6a63]
-        mb-10
-      ">
-
-        Access your AaharSakhi wellness space using the login credentials
-        shared with you during registration.
-
-      </p>
-
-      {/* Login Form */}
-
-      <form className="space-y-5">
-
-        {/* User ID */}
-
-        <div>
-
-          <label className="
-            block
-            text-[13px]
-            text-[#5c554d]
-            mb-2
+          <div className="
+            flex
+            items-center
+            gap-3
+            mb-6
           ">
 
-            User ID
+            <div className="
+              w-10
+              h-[1px]
+              bg-[#b8aea2]
+            " />
 
-          </label>
+            <p className="
+              text-[11px]
+              tracking-[0.28em]
+              uppercase
+              text-[#8b8175]
+            ">
 
-          <input
-            type="text"
-            placeholder="Enter your user ID"
-            className="
-              w-full
-              h-14
-              rounded-2xl
-              border
-              border-[#ddd6cc]
-              bg-white
-              px-5
-              text-[15px]
-              outline-none
-              focus:border-[#bca58a]
-              transition-all
-            "
-          />
+              AaharSakhi
 
-        </div>
+            </p>
 
-        {/* Password */}
+          </div>
 
-        <div>
-
-          <label className="
-            block
-            text-[13px]
-            text-[#5c554d]
-            mb-2
+          <h1 className="
+            text-[34px]
+            sm:text-[42px]
+            leading-[1.1]
+            font-light
+            text-[#1e1e1e]
+            mb-4
           ">
 
-            Password
+            {isSignup ? 'Create Account' : 'Welcome Back'}
 
-          </label>
+          </h1>
 
-          <input
-            type="password"
-            placeholder="Enter your password"
-            className="
-              w-full
-              h-14
-              rounded-2xl
-              border
-              border-[#ddd6cc]
-              bg-white
-              px-5
-              text-[15px]
-              outline-none
-              focus:border-[#bca58a]
-              transition-all
-            "
-          />
+          <p className="
+            text-[14px]
+            sm:text-[15px]
+            leading-[1.8]
+            text-[#6f6a63]
+            mb-10
+          ">
 
-        </div>
+            Access your wellness dashboard securely.
 
-        {/* Help Link */}
+          </p>
 
-        <div className="flex justify-end">
-
-          <a
-            href="https://wa.me/919106094119"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="
-              text-[13px]
-              text-[#8a7761]
-              hover:text-[#5f5143]
-              transition-all
-            "
+          <form
+            className="space-y-5"
+            onSubmit={handleAuth}
           >
 
-            Need assistance accessing your account?
+            <div>
 
-          </a>
+              <label className="
+                block
+                text-[13px]
+                text-[#5c554d]
+                mb-2
+              ">
+
+                Email
+
+              </label>
+
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="
+                  w-full
+                  h-14
+                  rounded-2xl
+                  border
+                  border-[#ddd6cc]
+                  bg-white
+                  px-5
+                  text-[15px]
+                  outline-none
+                  focus:border-[#bca58a]
+                "
+              />
+
+            </div>
+
+            <div>
+
+              <label className="
+                block
+                text-[13px]
+                text-[#5c554d]
+                mb-2
+              ">
+
+                Password
+
+              </label>
+
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="
+                  w-full
+                  h-14
+                  rounded-2xl
+                  border
+                  border-[#ddd6cc]
+                  bg-white
+                  px-5
+                  text-[15px]
+                  outline-none
+                  focus:border-[#bca58a]
+                "
+              />
+
+            </div>
+
+            <div className="flex justify-between items-center">
+
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="
+                  text-[13px]
+                  text-[#8a7761]
+                "
+              >
+
+                Forgot Password?
+
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setIsSignup(!isSignup)}
+                className="
+                  text-[13px]
+                  text-[#8a7761]
+                "
+              >
+
+                {isSignup ? 'Login' : 'Create Account'}
+
+              </button>
+
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="
+                w-full
+                h-14
+                rounded-full
+                bg-[#1e1e1e]
+                text-white
+                text-[14px]
+                tracking-[0.18em]
+                uppercase
+                hover:opacity-90
+                transition-all
+                mt-3
+              "
+            >
+
+              {loading
+                ? 'Please wait...'
+                : isSignup
+                  ? 'Create Account'
+                  : 'Login'
+              }
+
+            </button>
+
+          </form>
 
         </div>
 
-        {/* Login Button */}
-
-        <button
-          type="submit"
-          className="
-            w-full
-            h-14
-            rounded-full
-            bg-[#1e1e1e]
-            text-white
-            text-[14px]
-            tracking-[0.18em]
-            uppercase
-            hover:opacity-90
-            transition-all
-            mt-3
-          "
-        >
-
-          Login
-
-        </button>
-
-      </form>
-
-      {/* Bottom Text */}
-
-      <div className="
-        mt-10
-        border-t
-        border-[#ece7df]
-        pt-6
-      ">
-
-        <p className="
-          text-[13px]
-          leading-[1.8]
-          text-[#8b8175]
-          text-center
-        ">
-
-          Your login credentials are securely shared with you after
-          registration and onboarding with AaharSakhi.
-
-        </p>
-
       </div>
 
-    </div>
+      <Footer />
 
-  </div>
+    </main>
 
-  {/* Footer */}
-
-  <Footer />
-
-</main>
-
-);
+  );
 
 }

@@ -67,7 +67,7 @@ export default function ProgramCards() {
         </div>
 
         {/* Cards */}
-        <div className="grid lg:grid-cols-3 gap-10 mt-20">
+          <div className="grid lg:grid-cols-3 gap-10 mt-20">
 
           {programs.map((program) => (
 
