@@ -10,8 +10,13 @@ export default function LoginPage() {
 
   const router = useRouter();
 
+  const [fullName, setFullName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [programInterest, setProgramInterest] = useState('');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [loading, setLoading] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
 
@@ -23,7 +28,35 @@ export default function LoginPage() {
 
     try {
 
+      // SIGNUP
+
       if (isSignup) {
+
+        // SAVE LEAD
+
+        const { error: leadError } = await supabase
+          .from('leads')
+          .insert([
+            {
+              full_name: fullName,
+              phone_number: phoneNumber,
+              email,
+              program_interest: programInterest,
+              signup_source: 'website',
+              trial_used: false,
+              plan_type: 'free',
+            },
+          ]);
+
+        if (leadError) {
+
+          alert(leadError.message);
+          setLoading(false);
+          return;
+
+        }
+
+        // CREATE AUTH ACCOUNT
 
         const { error } = await supabase.auth.signUp({
           email,
@@ -31,12 +64,21 @@ export default function LoginPage() {
         });
 
         if (error) {
+
           alert(error.message);
+
         } else {
-          alert('Account created successfully. Please check your email.');
+
+          alert('Account created successfully');
+          router.push('/dashboard');
+
         }
 
-      } else {
+      }
+
+      // LOGIN
+
+      else {
 
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -44,9 +86,13 @@ export default function LoginPage() {
         });
 
         if (error) {
+
           alert(error.message);
+
         } else {
+
           router.push('/dashboard');
+
         }
 
       }
@@ -65,18 +111,24 @@ export default function LoginPage() {
   const handleForgotPassword = async () => {
 
     if (!email) {
+
       alert('Please enter your email first');
       return;
+
     }
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:3000/reset-password',
+      redirectTo: 'https://your-domain.com/reset-password',
     });
 
     if (error) {
+
       alert(error.message);
+
     } else {
+
       alert('Password reset email sent');
+
     }
 
   };
@@ -167,6 +219,145 @@ export default function LoginPage() {
             onSubmit={handleAuth}
           >
 
+            {/* SIGNUP EXTRA FIELDS */}
+
+            {isSignup && (
+
+              <>
+
+                {/* FULL NAME */}
+
+                <div>
+
+                  <label className="
+                    block
+                    text-[13px]
+                    text-[#5c554d]
+                    mb-2
+                  ">
+
+                    Full Name
+
+                  </label>
+
+                  <input
+                    type="text"
+                    placeholder="Enter your full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="
+                      w-full
+                      h-14
+                      rounded-2xl
+                      border
+                      border-[#ddd6cc]
+                      bg-white
+                      px-5
+                      text-[15px]
+                      outline-none
+                      focus:border-[#bca58a]
+                    "
+                  />
+
+                </div>
+
+                {/* PHONE NUMBER */}
+
+                <div>
+
+                  <label className="
+                    block
+                    text-[13px]
+                    text-[#5c554d]
+                    mb-2
+                  ">
+
+                    Phone Number
+
+                  </label>
+
+                  <input
+                    type="text"
+                    placeholder="Enter your phone number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="
+                      w-full
+                      h-14
+                      rounded-2xl
+                      border
+                      border-[#ddd6cc]
+                      bg-white
+                      px-5
+                      text-[15px]
+                      outline-none
+                      focus:border-[#bca58a]
+                    "
+                  />
+
+                </div>
+
+                {/* PROGRAM INTEREST */}
+
+                <div>
+
+                  <label className="
+                    block
+                    text-[13px]
+                    text-[#5c554d]
+                    mb-2
+                  ">
+
+                    Program Interest
+
+                  </label>
+
+                  <select
+                    value={programInterest}
+                    onChange={(e) => setProgramInterest(e.target.value)}
+                    className="
+                      w-full
+                      h-14
+                      rounded-2xl
+                      border
+                      border-[#ddd6cc]
+                      bg-white
+                      px-5
+                      text-[15px]
+                      outline-none
+                      focus:border-[#bca58a]
+                    "
+                  >
+
+<option value="">Select Program</option>
+
+<option value="Vatsalya Poshana - Expecting">
+  Vatsalya Poshana - Expecting
+</option>
+
+<option value="Vatsalya Poshana - Delivered">
+  Vatsalya Poshana - Delivered
+</option>
+
+<option value="Diabetes Poshana">
+  Diabetes Poshana
+</option>
+
+<option value="Cancer Poshana">
+  Cancer Poshana
+</option>
+                  
+
+                  </select>
+
+                </div>
+
+              </>
+
+            )}
+
+            {/* EMAIL */}
+
             <div>
 
               <label className="
@@ -200,6 +391,8 @@ export default function LoginPage() {
               />
 
             </div>
+
+            {/* PASSWORD */}
 
             <div>
 
@@ -235,6 +428,8 @@ export default function LoginPage() {
 
             </div>
 
+            {/* ACTIONS */}
+
             <div className="flex justify-between items-center">
 
               <button
@@ -264,6 +459,8 @@ export default function LoginPage() {
               </button>
 
             </div>
+
+            {/* SUBMIT */}
 
             <button
               type="submit"

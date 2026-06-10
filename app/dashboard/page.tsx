@@ -1,4 +1,7 @@
 "use client";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import DashboardFooter from "@/components/dashboard/DashboardFooter";
@@ -19,7 +22,26 @@ import TodaysRecipe from "@/components/dashboard/TodaysRecipe";
 import YogaZone from "@/components/dashboard/YogaZone";
 
 export default function DashboardPage() {
+  const router = useRouter();
 
+  useEffect(() => {
+  
+    const checkUser = async () => {
+  
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+  
+      if (!session) {
+        router.push('/login');
+      }
+  
+    };
+  
+    checkUser();
+  
+  }, [router]);
+  
 return (
 
 <main className="min-h-screen bg-[#f5f6fa]">
