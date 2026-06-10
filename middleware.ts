@@ -6,7 +6,6 @@ export function middleware(req: NextRequest) {
     req.cookies.get("sb-access-token") ||
     req.cookies.get("supabase-auth-token");
 
-  // Protect dashboard routes
   if (
     req.nextUrl.pathname.startsWith("/dashboard") &&
     !token
