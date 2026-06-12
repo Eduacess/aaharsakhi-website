@@ -1,131 +1,147 @@
 "use client";
 
-export default function LittlePositivity() {
+interface LittlePositivityProps {
 
-return (
+  positivity: {
+    heading: string;
+    text: string;
+    image: string;
+  } | null;
 
-<div className="
-  bg-[#fffaf5]
-  border
-  border-[#eadfd2]
-  rounded-[30px]
-  p-5
-  min-h-[523px]
-  flex
-  flex-col
-">
+}
 
-  {/* HEADER */}
+export default function LittlePositivity({
+  positivity,
+}: LittlePositivityProps) {
 
-  <div className="
-    flex
-    items-center
-    justify-between
-    mb-5
-  ">
-
-    <h2 className="
-      text-[22px]
-      font-semibold
-      text-[#3d3027]
-    ">
-
-      A Little Positivity 💛
-
-    </h2>
+  return (
 
     <div className="
-      w-11
-      h-11
-      rounded-2xl
-      bg-white
+      bg-[#fffaf5]
       border
       border-[#eadfd2]
-      flex
-      items-center
-      justify-center
-      text-xl
-    ">
-
-      ✨
-
-    </div>
-
-  </div>
-
-  {/* CONTENT CARD */}
-
-  <div className="
-    bg-white
-    border
-    border-[#eadfd2]
-    rounded-[28px]
-    overflow-hidden
-    flex-1
-    flex
-    flex-col
-  ">
-
-    {/* IMAGE */}
-
-    <div className="
-      h-[287px]
-      bg-[#f7e7ea]
-      flex
-      items-center
-      justify-center
-    ">
-
-      <img
-        src="/baby.png"
-        alt="Positivity"
-        className="
-          h-full
-          w-full
-          object-cover
-        "
-      />
-
-    </div>
-
-    {/* TEXT */}
-
-    <div className="
+      rounded-[30px]
       p-5
-      flex-1
+      min-h-[420px]
+      flex
+      flex-col
     ">
 
-      <h3 className="
-        text-[#3d3027]
-        text-[28px]
-        font-semibold
-        leading-relaxed
-        mb-3
+      {/* HEADER */}
+
+      <div className="
+        flex
+        items-center
+        justify-between
+        mb-5
       ">
 
-        Your baby may now respond to sounds 🤍
+        <h2 className="
+          text-[22px]
+          font-semibold
+          text-[#3d3027]
+        ">
 
-      </h3>
+          A Little Positivity 💛
 
-      <p className="
-        text-[#6f6257]
-        leading-relaxed
-        text-[15px]
+        </h2>
+
+        <div className="
+          w-11
+          h-11
+          rounded-2xl
+          bg-white
+          border
+          border-[#eadfd2]
+          flex
+          items-center
+          justify-center
+          text-xl
+        ">
+
+          ✨
+
+        </div>
+
+      </div>
+
+      {/* CONTENT CARD */}
+
+      <div className="
+        bg-white
+        border
+        border-[#eadfd2]
+        rounded-[28px]
+        overflow-hidden
+        flex-1
+        flex
+        flex-col
       ">
 
-        Small emotional connections,
-        calm conversations and gentle
-        music can create comforting
-        moments during pregnancy.
+        {/* IMAGE */}
 
-      </p>
+        <div className="
+          h-[250px]
+          bg-[#f7e7ea]
+          flex
+          items-center
+          justify-center
+        ">
+
+          <img
+            src={
+              positivity?.image ||
+              "/baby.png"
+            }
+            alt="Positivity"
+            className="
+              h-full
+              w-full
+              object-cover
+            "
+          />
+
+        </div>
+
+        {/* TEXT */}
+
+        <div className="
+          p-5
+          flex-1
+        ">
+
+          <h3 className="
+            text-[#3d3027]
+            text-[22px]
+            md: text - [26px]
+            font-semibold
+            leading-relaxed
+            mb-3
+          ">
+
+            {positivity?.heading ||
+              "A little positivity 🤍"}
+
+          </h3>
+
+          <p className="
+            text-[#6f6257]
+            leading-relaxed
+            text-[14px]
+            leading-7
+          ">
+
+            {positivity?.text ||
+              "Your positivity message will appear here daily."}
+
+          </p>
+
+        </div>
+
+      </div>
 
     </div>
 
-  </div>
-
-</div>
-
-);
+  );
 
 }

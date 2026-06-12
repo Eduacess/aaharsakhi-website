@@ -1,115 +1,191 @@
 "use client";
 
-export default function UpcomingWebinar() {
+interface UpcomingWebinarProps {
 
-return (
+  webinar: {
+    id: string;
+    title: string;
+    speaker: string;
+    description: string;
+    date: string;
+    time: string;
+    link: string;
+  };
 
-<div className="bg-[#fffaf5] border border-[#eadfd2] rounded-[28px] p-5">
+}
 
-  {/* HEADER */}
+export default function UpcomingWebinar({
+  webinar,
+}: UpcomingWebinarProps) {
 
-  <div className="flex items-center justify-between mb-4">
+  return (
 
-    <h2 className="text-lg font-semibold text-[#3d3027]">
+    <div className="
+      bg-[#fffaf5]
+      border
+      border-[#eadfd2]
+      rounded-[28px]
+      p-5
+    ">
 
-      Upcoming Webinar
+      {/* HEADER */}
 
-    </h2>
-
-    <div
-      className="
-        w-10
-        h-10
-        rounded-full
-        bg-[#f3e6da]
+      <div className="
         flex
         items-center
-        justify-center
-        text-lg
-      "
-    >
+        justify-between
+        mb-4
+      ">
 
-      📅
+        <h2 className="
+          text-lg
+          font-semibold
+          text-[#3d3027]
+        ">
 
-    </div>
+          Upcoming Webinar
 
-  </div>
+        </h2>
 
-  {/* CONTENT */}
+        <div
+          className="
+            w-10
+            h-10
+            rounded-full
+            bg-[#f3e6da]
+            flex
+            items-center
+            justify-center
+            text-lg
+          "
+        >
 
-  <div className="
-    bg-white
-    border
-    border-[#eadfd2]
-    rounded-2xl
-    p-4
-  ">
+          📅
 
-    {/* DOCTOR DETAILS */}
+        </div>
 
-    <h3 className="text-[#3d3027] font-semibold text-[15px] leading-relaxed">
+      </div>
 
-      Dr. Mehta | Pediatric MD | 12+ Years Experience
+      {/* CONTENT */}
 
-    </h3>
+      <div className="
+        bg-white
+        border
+        border-[#eadfd2]
+        rounded-2xl
+        p-4
+      ">
 
-    {/* SMALL INTRO */}
+        {/* TITLE */}
 
-    <p className="text-sm text-[#7b6a58] mt-2 leading-relaxed">
+        <h3 className="
+          text-[#3d3027]
+          font-semibold
+          text-[17px]
+          leading-relaxed
+        ">
 
-      Helping Indian families with maternal and infant wellness,
-      feeding support and child nutrition guidance.
+          {webinar?.title ||
+            "Upcoming Wellness Webinar"}
 
-    </p>
+        </h3>
 
-    {/* DATE */}
+        {/* SPEAKER */}
 
-    <div className="mt-4">
-
-      <p className="text-sm font-medium text-[#3d3027]">
-
-        When:
-
-      </p>
-
-      <p className="text-sm text-[#7b6a58] mt-1">
-
-        15 June • 7:00 PM
-
-      </p>
-
-    </div>
-
-    {/* JOIN */}
-
-    <div className="mt-4">
-
-      <p className="text-sm font-medium text-[#3d3027]">
-
-        Where:
-
-      </p>
-
-      <button
-        className="
+        <p className="
           text-sm
           text-[#b26b5e]
+          mt-2
           font-medium
-          hover:underline
-          mt-1
-        "
-      >
+        ">
 
-        Click to Join Here
+          {webinar?.speaker}
 
-      </button>
+        </p>
 
-    </div>
+        {/* DESCRIPTION */}
 
-  </div>
+        <p className="
+          text-sm
+          text-[#7b6a58]
+          mt-3
+          leading-relaxed
+        ">
+
+          {webinar?.description}
+
+        </p>
+
+        {/* DATE */}
+
+        <div className="mt-4">
+
+          <p className="
+            text-sm
+            font-medium
+            text-[#3d3027]
+          ">
+
+            When:
+
+          </p>
+
+          <p className="
+            text-sm
+            text-[#7b6a58]
+            mt-1
+          ">
+
+            {webinar?.date}
+            {" • "}
+            {webinar?.time}
+
+          </p>
+
+        </div>
+
+        {/* JOIN */}
+
+<div className="mt-4">
+
+<p className="
+  text-sm
+  font-medium
+  text-[#3d3027]
+">
+
+  Join:
+
+</p>
+
+<button
+  onClick={() =>
+    window.open(
+      webinar?.link,
+      "_blank"
+    )
+  }
+  className="
+    text-sm
+    text-[#b26b5e]
+    font-medium
+    hover:underline
+    mt-1
+  "
+>
+
+  Click Here to Join
+
+</button>
 
 </div>
 
-);
+        </div>
+
+    
+
+    </div>
+
+  );
 
 }

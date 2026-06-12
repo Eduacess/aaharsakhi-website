@@ -2,38 +2,76 @@
 
 import Image from "next/image";
 
-export default function SakhiNushke() {
+interface SakhiNushkeProps {
 
-return (
+  nushke: {
+    id: string;
+    text: string;
+  } | null;
 
-<div className="bg-[#fffaf5] border border-[#eadfd2] rounded-[32px] p-5 h-fit w-full">
+}
 
-  <div className="flex items-center gap-3 mb-5">
+export default function SakhiNushke({
+  nushke,
+}: SakhiNushkeProps) {
 
-    <Image
-      src="/nuskha.png"
-      alt="nuskha"
-      width={26}
-      height={26}
-    />
+  return (
 
-    <h2 className="text-xl font-semibold text-[#3d3027]">
+    <div className="
+      bg-[#fffaf5]
+      border
+      border-[#eadfd2]
+      rounded-[32px]
+      p-5
+      h-fit
+      w-full
+    ">
 
-      Sakhi Ke Nushke
+      <div className="
+        flex
+        items-center
+        gap-3
+        mb-5
+      ">
 
-    </h2>
+        <Image
+          src="/nuskha.png"
+          alt="nuskha"
+          width={26}
+          height={26}
+        />
 
-  </div>
+        <h2 className="
+          text-xl
+          font-semibold
+          text-[#3d3027]
+        ">
 
-  <div className="bg-white border border-[#eadfd2] rounded-[20px] p-4 text-[#7b6a58] leading-7 shadow-sm">
+          Sakhi Ke Nushke
 
-    Drink warm jeera water every morning to improve digestion and reduce bloating naturally.
+        </h2>
 
-  </div>
+      </div>
 
-</div>
+      <div className="
+        bg-white
+        border
+        border-[#eadfd2]
+        rounded-[20px]
+        p-4
+        text-[#7b6a58]
+        leading-7
+        shadow-sm
+      ">
 
+        {nushke?.text || (
+          "No nushke available today."
+        )}
 
-);
+      </div>
+
+    </div>
+
+  );
 
 }

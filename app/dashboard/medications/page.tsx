@@ -1,477 +1,492 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
 import DashboardFooter from "@/components/dashboard/DashboardFooter";
 
+import { supabase } from "@/lib/supabase";
+
 export default function MedicationsPage() {
 
-const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-const [medications, setMedications] = useState([
+  const [medications, setMedications] = useState<any[]>([]);
 
-{
-  name: "Metformin",
-  status: "Ongoing",
-  history: ["✅", "✅", "❌", "✅"],
-},
+  const [userId, setUserId] = useState("");
 
-{
-  name: "Iron Tablet",
-  status: "Paused",
-  history: ["✅", "✅", "✅", "✅"],
-},
+  const [loading, setLoading] = useState(true);
 
-]);
+  // FORM STATES
 
-return (
+  const [medicationName, setMedicationName] = useState("");
+  const [dosage, setDosage] = useState("");
+  const [timing, setTiming] = useState("");
+  const [frequency, setFrequency] = useState("Daily");
+  const [status, setStatus] = useState("Ongoing");
 
-<main className="
-  min-h-screen
-  bg-[#f5f6fa]
-">
+  // GET USER + MEDICATIONS
 
-  <DashboardNavbar />
+  useEffect(() => {
 
-  <section className="
-    px-4
-    md:px-6
-    lg:px-8
-    py-6
-  ">
+    const loadData = async () => {
 
-    {/* TOP */}
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
 
-    <div className="
-      flex
-      items-center
-      justify-between
-      flex-wrap
-      gap-4
-      mb-8
-    ">
+      if (!session?.user?.id) return;
 
-      <div>
+      setUserId(session.user.id);
 
-        <h1 className="
-          text-3xl
-          md:text-4xl
-          font-semibold
-          text-[#3d3027]
-        ">
+      const { data } = await supabase
+        .from("medications")
+        .select("*")
+        .eq("user_id", session.user.id)
+        .order("created_at", {
+          ascending: false,
+        });
 
-          My Medications 💊
+      if (data) {
 
-        </h1>
+        setMedications(data);
 
-        <p className="
-          text-[#7c6d60]
-          mt-2
-        ">
+      }
 
-          Your medication history and adherence
+      setLoading(false);
 
-        </p>
+    };
+
+    loadData();
+
+  }, []);
+
+  // SAVE MEDICATION
+
+  const saveMedication = async () => {
+
+    if (!medicationName) return;
+
+    const { data, error } = await supabase
+      .from("medications")
+      .insert([
+        {
+          user_id: userId,
+          medication_name: medicationName,
+          dosage,
+          timing,
+          frequency,
+          status,
+        },
+      ])
+      .select()
+      .single();
+
+    if (!error && data) {
+
+      setMedications((prev) => [
+        data,
+        ...prev,
+      ]);
+
+      setShowModal(false);
+
+      setMedicationName("");
+      setDosage("");
+      setTiming("");
+      setFrequency("Daily");
+      setStatus("Ongoing");
+
+    }
+
+  };
+
+  if (loading) {
+
+    return (
+
+      <div className="
+        min-h-screen
+        flex
+        items-center
+        justify-center
+      ">
+
+        Loading...
 
       </div>
 
-      {/* ADD BUTTON */}
+    );
 
-      <button
-        onClick={() => setShowModal(true)}
-        className="
-          bg-[#8d3f3f]
-          text-white
-          px-6
-          py-3
-          rounded-2xl
-          font-medium
-          hover:bg-[#733232]
-          transition
-        "
-      >
+  }
 
-        + Add Medication
+  return (
 
-      </button>
-
-    </div>
-
-    {/* MONTH */}
-
-    <div className="
-      flex
-      items-center
-      justify-center
-      gap-5
-      mb-8
+    <main className="
+      min-h-screen
+      bg-[#f5f6fa]
     ">
 
-      <button className="
-        w-11
-        h-11
-        rounded-full
-        bg-white
-        border
-        border-[#eadfd2]
+      <DashboardNavbar />
+
+      <section className="
+        px-4
+        md:px-6
+        lg:px-8
+        py-6
       ">
 
-        ←
-
-      </button>
-
-      <h2 className="
-        text-2xl
-        font-semibold
-        text-[#3d3027]
-      ">
-
-        June 2026
-
-      </h2>
-
-      <button className="
-        w-11
-        h-11
-        rounded-full
-        bg-white
-        border
-        border-[#eadfd2]
-      ">
-
-        →
-
-      </button>
-
-    </div>
-
-    {/* DESKTOP TABLE */}
-
-    <div className="
-      hidden
-      md:block
-      overflow-x-auto
-      rounded-[30px]
-      border
-      border-[#eadfd2]
-      bg-white
-    ">
-
-      <table className="w-full">
-
-        <thead className="bg-[#fff7f4]">
-
-          <tr>
-
-            <th className="p-5 text-left">
-
-              Medication
-
-            </th>
-
-            <th className="p-5">12</th>
-            <th className="p-5">13</th>
-            <th className="p-5">14</th>
-            <th className="p-5">15</th>
-
-            <th className="p-5 text-left">
-
-              Status
-
-            </th>
-
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          {medications.map((med, index) => (
-
-            <tr
-              key={index}
-              className="
-                border-t
-                border-[#eadfd2]
-              "
-            >
-
-              <td className="
-                p-5
-                font-medium
-                text-[#3d3027]
-              ">
-
-                {med.name}
-
-              </td>
-
-              {med.history.map((item, i) => (
-
-                <td
-                  key={i}
-                  className="
-                    p-5
-                    text-center
-                    text-xl
-                  "
-                >
-
-                  {item}
-
-                </td>
-
-              ))}
-
-              <td className="p-5">
-
-                <button className={`
-                  px-4
-                  py-2
-                  rounded-full
-                  text-sm
-                  ${
-                    med.status === "Ongoing"
-                      ? "bg-[#e4f6ea] text-[#267a45]"
-                      : "bg-[#fff1dc] text-[#9a6700]"
-                  }
-                `}>
-
-                  {med.status}
-
-                </button>
-
-              </td>
-
-            </tr>
-
-          ))}
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-    {/* MOBILE */}
-
-    <div className="
-      md:hidden
-      space-y-4
-    ">
-
-      {medications.map((med, index) => (
-
-        <div
-          key={index}
-          className="
-            bg-white
-            border
-            border-[#eadfd2]
-            rounded-[28px]
-            p-5
-          "
-        >
-
-          <div className="
-            flex
-            items-center
-            justify-between
-            mb-4
-          ">
-
-            <h3 className="
-              text-xl
-              font-semibold
-              text-[#3d3027]
-            ">
-
-              {med.name}
-
-            </h3>
-
-            <button className={`
-              px-4
-              py-2
-              rounded-full
-              text-sm
-              ${
-                med.status === "Ongoing"
-                  ? "bg-[#e4f6ea] text-[#267a45]"
-                  : "bg-[#fff1dc] text-[#9a6700]"
-              }
-            `}>
-
-              {med.status}
-
-            </button>
-
-          </div>
-
-          <div className="
-            flex
-            gap-3
-            text-2xl
-          ">
-
-            {med.history.map((item, i) => (
-
-              <div
-                key={i}
-                className="
-                  w-12
-                  h-12
-                  rounded-2xl
-                  bg-[#fff7f4]
-                  flex
-                  items-center
-                  justify-center
-                "
-              >
-
-                {item}
-
-              </div>
-
-            ))}
-
-          </div>
-
-        </div>
-
-      ))}
-
-    </div>
-
-  </section>
-
-  {/* ADD MODAL */}
-
-  {showModal && (
-
-    <div className="
-      fixed
-      inset-0
-      bg-black/40
-      z-50
-      flex
-      items-center
-      justify-center
-      p-4
-    ">
-
-      <div className="
-        bg-white
-        rounded-[30px]
-        w-full
-        max-w-lg
-        p-6
-      ">
+        {/* TOP */}
 
         <div className="
           flex
           items-center
           justify-between
-          mb-6
+          flex-wrap
+          gap-4
+          mb-8
         ">
 
-          <h2 className="
-            text-2xl
-            font-semibold
-            text-[#3d3027]
-          ">
+          <div>
 
-            Add Medication
+            <h1 className="
+              text-3xl
+              md:text-4xl
+              font-semibold
+              text-[#3d3027]
+            ">
 
-          </h2>
+              My Medications 💊
+
+            </h1>
+
+            <p className="
+              text-[#7c6d60]
+              mt-2
+            ">
+
+              Your medication history and adherence
+
+            </p>
+
+          </div>
 
           <button
-            onClick={() => setShowModal(false)}
+            onClick={() => setShowModal(true)}
             className="
-              text-3xl
-              text-[#7d6d61]
+              bg-[#8d3f3f]
+              text-white
+              px-6
+              py-3
+              rounded-2xl
+              font-medium
+              hover:bg-[#733232]
+              transition
             "
           >
 
-            ×
+            + Add Medication
 
           </button>
 
         </div>
 
-        {/* INPUTS */}
+        {/* TABLE */}
 
-        <div className="space-y-4">
+        <div className="
+          overflow-x-auto
+          rounded-[30px]
+          border
+          border-[#eadfd2]
+          bg-white
+        ">
 
-          <input
-            placeholder="Medication Name"
-            className="
-              w-full
-              border
-              border-[#eadfd2]
-              rounded-2xl
-              p-4
-              outline-none
-            "
-          />
+          <table className="w-full">
 
-          <input
-            placeholder="Dosage (Optional)"
-            className="
-              w-full
-              border
-              border-[#eadfd2]
-              rounded-2xl
-              p-4
-              outline-none
-            "
-          />
+            <thead className="bg-[#fff7f4]">
 
-          <select
-            className="
-              w-full
-              border
-              border-[#eadfd2]
-              rounded-2xl
-              p-4
-              outline-none
-            "
-          >
+              <tr>
 
-            <option>Ongoing</option>
-            <option>Paused</option>
+                <th className="p-5 text-left">
 
-          </select>
+                  Medication
+
+                </th>
+
+                <th className="p-5 text-left">
+
+                  Dosage
+
+                </th>
+
+                <th className="p-5 text-left">
+
+                  Time
+
+                </th>
+
+                <th className="p-5 text-left">
+
+                  Frequency
+
+                </th>
+
+                <th className="p-5 text-left">
+
+                  Status
+
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {medications.map((med) => (
+
+                <tr
+                  key={med.id}
+                  className="
+                    border-t
+                    border-[#eadfd2]
+                  "
+                >
+
+                  <td className="
+                    p-5
+                    font-medium
+                    text-[#3d3027]
+                  ">
+
+                    {med.medication_name}
+
+                  </td>
+
+                  <td className="p-5">
+
+                    {med.dosage || "-"}
+
+                  </td>
+
+                  <td className="p-5">
+
+                    {med.timing || "-"}
+
+                  </td>
+
+                  <td className="p-5">
+
+                    {med.frequency}
+
+                  </td>
+
+                  <td className="p-5">
+
+                    <button className={`
+                      px-4
+                      py-2
+                      rounded-full
+                      text-sm
+                      ${
+                        med.status === "Ongoing"
+                          ? "bg-[#e4f6ea] text-[#267a45]"
+                          : "bg-[#fff1dc] text-[#9a6700]"
+                      }
+                    `}>
+
+                      {med.status}
+
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
 
         </div>
 
-        {/* SAVE */}
+      </section>
 
-        <button className="
-          w-full
-          bg-[#8d3f3f]
-          text-white
-          py-4
-          rounded-2xl
-          mt-6
-          font-medium
+      {/* MODAL */}
+
+      {showModal && (
+
+        <div className="
+          fixed
+          inset-0
+          bg-black/40
+          z-50
+          flex
+          items-center
+          justify-center
+          p-4
         ">
 
-          Save Medication
+          <div className="
+            bg-white
+            rounded-[30px]
+            w-full
+            max-w-lg
+            p-6
+          ">
 
-        </button>
+            <div className="
+              flex
+              items-center
+              justify-between
+              mb-6
+            ">
 
-      </div>
+              <h2 className="
+                text-2xl
+                font-semibold
+                text-[#3d3027]
+              ">
 
-    </div>
+                Add Medication
 
-  )}
+              </h2>
 
-  <DashboardFooter />
+              <button
+                onClick={() => setShowModal(false)}
+                className="
+                  text-3xl
+                  text-[#7d6d61]
+                "
+              >
 
-</main>
+                ×
 
-);
+              </button>
+
+            </div>
+
+            <div className="space-y-4">
+
+              <input
+                value={medicationName}
+                onChange={(e) =>
+                  setMedicationName(e.target.value)
+                }
+                placeholder="Medication Name"
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  p-4
+                  outline-none
+                "
+              />
+
+              <input
+                value={dosage}
+                onChange={(e) =>
+                  setDosage(e.target.value)
+                }
+                placeholder="Dosage"
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  p-4
+                  outline-none
+                "
+              />
+
+              <input
+                type="time"
+                value={timing}
+                onChange={(e) =>
+                  setTiming(e.target.value)
+                }
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  p-4
+                  outline-none
+                "
+              />
+
+              <select
+                value={frequency}
+                onChange={(e) =>
+                  setFrequency(e.target.value)
+                }
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  p-4
+                  outline-none
+                "
+              >
+
+                <option>Daily</option>
+                <option>Twice Daily</option>
+                <option>Weekly</option>
+
+              </select>
+
+              <select
+                value={status}
+                onChange={(e) =>
+                  setStatus(e.target.value)
+                }
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  p-4
+                  outline-none
+                "
+              >
+
+                <option>Ongoing</option>
+                <option>Paused</option>
+
+              </select>
+
+            </div>
+
+            <button
+              onClick={saveMedication}
+              className="
+                w-full
+                bg-[#8d3f3f]
+                text-white
+                py-4
+                rounded-2xl
+                mt-6
+                font-medium
+              "
+            >
+
+              Save Medication
+
+            </button>
+
+          </div>
+
+        </div>
+
+      )}
+
+      <DashboardFooter />
+
+    </main>
+
+  );
 
 }

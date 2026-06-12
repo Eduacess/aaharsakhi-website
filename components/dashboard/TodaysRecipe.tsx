@@ -1,170 +1,185 @@
 "use client";
 
-export default function TodaysRecipe() {
+interface TodaysRecipeProps {
 
-return (
+  recipe: {
+    title: string;
+    benefits: string;
+    image: string;
+    video: string;
+    channel: string;
+  } | null;
 
-<div className="
-  bg-[#fffaf5]
-  border
-  border-[#eadfd2]
-  rounded-[28px]
-  p-5
-  h-full
-">
+}
 
-  {/* HEADER */}
+export default function TodaysRecipe({
+  recipe,
+}: TodaysRecipeProps) {
 
-  <div className="flex items-center justify-between mb-5">
-
-    <h2 className="text-lg font-semibold text-[#3d3027]">
-
-      Today&apos;s Recipe 🍲
-
-    </h2>
-
-    <div
-      className="
-        w-10
-        h-10
-        rounded-full
-        bg-[#f3e6da]
-        flex
-        items-center
-        justify-center
-        text-lg
-      "
-    >
-
-      🍽️
-
-    </div>
-
-  </div>
-
-  {/* HORIZONTAL CARD */}
-
-  <div className="
-    bg-white
-    border
-    border-[#eadfd2]
-    rounded-2xl
-    overflow-hidden
-    grid
-    md:grid-cols-[1fr_1.2fr]
-  ">
-
-    {/* IMAGE */}
+  return (
 
     <div className="
-      bg-[#f4e8dc]
-      min-h-[220px]
-      flex
-      items-center
-      justify-center
-      text-7xl
+      bg-[#fffaf5]
+      border
+      border-[#eadfd2]
+      rounded-[28px]
+      p-5
+      h-full
     ">
 
-      🍲
+      {/* HEADER */}
 
-    </div>
-
-    {/* CONTENT */}
-
-    <div className="p-5 flex flex-col justify-center">
-
-      <h3 className="
-        text-[#3d3027]
-        font-semibold
-        text-2xl
-        mb-3
-      ">
-
-        Iron Rich Poha
-
-      </h3>
-
-      <p className="
-        text-[#7b6a58]
-        leading-relaxed
+      <div className="
+        flex
+        items-center
+        justify-between
         mb-5
       ">
 
-        Pregnancy-friendly breakfast rich in
-        iron and fiber. Helps support energy,
-        nourishment and healthy wellness.
-
-      </p>
-
-      {/* TAGS */}
-
-      <div className="flex flex-wrap gap-2 mb-5">
-
-        <span className="
-          bg-[#fdf3eb]
-          text-[#b26b5e]
-          text-sm
-          px-4
-          py-2
-          rounded-full
+        <h2 className="
+          text-lg
+          font-semibold
+          text-[#3d3027]
         ">
 
-          Iron Rich
+          Today&apos;s Recipe 🍲
 
-        </span>
+        </h2>
 
-        <span className="
-          bg-[#fdf3eb]
-          text-[#b26b5e]
-          text-sm
-          px-4
-          py-2
-          rounded-full
-        ">
+        <div
+          className="
+            w-10
+            h-10
+            rounded-full
+            bg-[#f3e6da]
+            flex
+            items-center
+            justify-center
+            text-lg
+          "
+        >
 
-          Pregnancy Friendly
+          🍽️
 
-        </span>
+        </div>
 
       </div>
 
-      {/* BUTTON */}
+      {/* CARD */}
 
-      <button className="
-        w-fit
-        px-5
-        py-2
-        rounded-full
-        bg-[#b26b5e]
-        text-white
-        text-sm
-        font-medium
-        hover:opacity-90
-        transition
+      <div className="
+        bg-white
+        border
+        border-[#eadfd2]
+        rounded-2xl
+        overflow-hidden
+        grid
+        md:grid-cols-[1.2fr_1fr]
       ">
 
-        Watch Recipe
+        {/* IMAGE */}
 
-      </button>
+        <div className="
+          min-h-[320px]
+          bg-[#f4e8dc]
+          overflow-hidden
+        ">
 
-      {/* CREDIT */}
+          <img
+            src={recipe?.image}
+            alt="Recipe"
+            className="
+              w-full
+              h-full
+              object-cover
+            "
+          />
 
-      <p className="
-        text-sm
-        text-[#9b8a78]
-        mt-5
-      ">
+        </div>
 
-        Recipe by: HealthyMomKitchen
+        {/* CONTENT */}
 
-      </p>
+        <div className="
+          p-6
+          flex
+          flex-col
+          justify-center
+        ">
+
+          {/* TITLE */}
+
+          <h3 className="
+            text-[#3d3027]
+            font-semibold
+            text-[30px]
+            leading-relaxed
+            mb-4
+          ">
+
+            {recipe?.title}
+
+          </h3>
+
+          {/* BENEFITS */}
+
+          <p className="
+            text-[#7b6a58]
+            leading-8
+            text-[15px]
+            mb-6
+          ">
+
+            {recipe?.benefits}
+
+          </p>
+
+          {/* BUTTON */}
+
+          <button
+            onClick={() =>
+              window.open(
+                recipe?.video,
+                "_blank"
+              )
+            }
+            className="
+              w-fit
+              px-5
+              py-2
+              rounded-full
+              bg-[#b26b5e]
+              text-white
+              text-sm
+              font-medium
+              hover:opacity-90
+              transition
+            "
+          >
+
+            Watch Recipe
+
+          </button>
+
+          {/* CREDIT */}
+
+          <p className="
+            text-sm
+            text-[#9b8a78]
+            mt-5
+          ">
+
+            Recipe by:
+            {" "}
+            {recipe?.channel}
+
+          </p>
+
+        </div>
+
+      </div>
 
     </div>
 
-  </div>
-
-</div>
-
-);
+  );
 
 }
