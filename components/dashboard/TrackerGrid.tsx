@@ -1119,7 +1119,7 @@ export default function TrackerGrid() {
                     p-4
                   ">
 
-                    Today's Weight:
+                    Today&aposs Weight:
                     {" "}
                     {
                       todayWeight
