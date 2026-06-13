@@ -19,13 +19,29 @@ export default function MedicationsPage() {
 
   // FORM STATES
 
-  const [medicationName, setMedicationName] = useState("");
-  const [dosage, setDosage] = useState("");
-  const [timing, setTiming] = useState("");
-  const [frequency, setFrequency] = useState("Daily");
-  const [status, setStatus] = useState("Ongoing");
+  const [medicationName,
+  setMedicationName] =
+    useState("");
 
+  const [dosage,
+  setDosage] =
+    useState("");
+
+  const [timesPerDay,
+  setTimesPerDay] =
+    useState(1);
+
+  const [reminderTimes,
+  setReminderTimes] =
+    useState<string[]>([""]);
+
+  const [medicationType,
+  setMedicationType] =
+    useState("ongoing");
+
+  // =========================
   // GET USER + MEDICATIONS
+  // =========================
 
   useEffect(() => {
 
@@ -61,26 +77,38 @@ export default function MedicationsPage() {
 
   }, []);
 
+  // =========================
   // SAVE MEDICATION
+  // =========================
 
   const saveMedication = async () => {
 
     if (!medicationName) return;
 
-    const { data, error } = await supabase
-      .from("medications")
-      .insert([
-        {
-          user_id: userId,
-          medication_name: medicationName,
-          dosage,
-          timing,
-          frequency,
-          status,
-        },
-      ])
-      .select()
-      .single();
+    const { data, error } =
+      await supabase
+        .from("medications")
+        .insert([
+          {
+            user_id: userId,
+
+            medication_name:
+              medicationName,
+
+            dosage,
+
+            times_per_day:
+              timesPerDay,
+
+            reminder_times:
+              reminderTimes,
+
+            medication_type:
+              medicationType,
+          },
+        ])
+        .select()
+        .single();
 
     if (!error && data) {
 
@@ -91,15 +119,25 @@ export default function MedicationsPage() {
 
       setShowModal(false);
 
+      // RESET
+
       setMedicationName("");
+
       setDosage("");
-      setTiming("");
-      setFrequency("Daily");
-      setStatus("Ongoing");
+
+      setTimesPerDay(1);
+
+      setReminderTimes([""]);
+
+      setMedicationType("ongoing");
 
     }
 
   };
+
+  // =========================
+  // LOADING
+  // =========================
 
   if (loading) {
 
@@ -172,7 +210,9 @@ export default function MedicationsPage() {
           </div>
 
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() =>
+              setShowModal(true)
+            }
             className="
               bg-[#8d3f3f]
               text-white
@@ -203,37 +243,45 @@ export default function MedicationsPage() {
 
           <table className="w-full">
 
-            <thead className="bg-[#fff7f4]">
+            <thead className="
+              bg-[#fff7f4]
+            ">
 
               <tr>
 
-                <th className="p-5 text-left">
+                <th className="
+                  p-5
+                  text-left
+                ">
 
                   Medication
 
                 </th>
 
-                <th className="p-5 text-left">
+                <th className="
+                  p-5
+                  text-left
+                ">
 
                   Dosage
 
                 </th>
 
-                <th className="p-5 text-left">
+                <th className="
+                  p-5
+                  text-left
+                ">
 
-                  Time
-
-                </th>
-
-                <th className="p-5 text-left">
-
-                  Frequency
+                  Times / Day
 
                 </th>
 
-                <th className="p-5 text-left">
+                <th className="
+                  p-5
+                  text-left
+                ">
 
-                  Status
+                  Type
 
                 </th>
 
@@ -263,39 +311,58 @@ export default function MedicationsPage() {
 
                   </td>
 
-                  <td className="p-5">
+                  <td className="
+                    p-5
+                  ">
 
                     {med.dosage || "-"}
 
                   </td>
 
-                  <td className="p-5">
+                  <td className="
+                    p-5
+                  ">
 
-                    {med.timing || "-"}
-
-                  </td>
-
-                  <td className="p-5">
-
-                    {med.frequency}
+                    {med.times_per_day}
 
                   </td>
 
-                  <td className="p-5">
+                  <td className="
+                    p-5
+                  ">
 
                     <button className={`
                       px-4
                       py-2
                       rounded-full
                       text-sm
+
                       ${
-                        med.status === "Ongoing"
-                          ? "bg-[#e4f6ea] text-[#267a45]"
-                          : "bg-[#fff1dc] text-[#9a6700]"
+                        med.medication_type ===
+                        "ongoing"
+
+                        ? "bg-[#e4f6ea] text-[#267a45]"
+
+                        : med.medication_type ===
+                          "paused"
+
+                        ? "bg-[#fff1dc] text-[#9a6700]"
+
+                        : "bg-[#eef2ff] text-[#4f46e5]"
                       }
                     `}>
 
-                      {med.status}
+                      {med.medication_type ===
+                      "as_needed"
+
+                        ? "As Needed"
+
+                        : med.medication_type ===
+                          "paused"
+
+                        ? "Paused"
+
+                        : "Ongoing"}
 
                     </button>
 
@@ -336,6 +403,8 @@ export default function MedicationsPage() {
             p-6
           ">
 
+            {/* HEADER */}
+
             <div className="
               flex
               items-center
@@ -354,7 +423,9 @@ export default function MedicationsPage() {
               </h2>
 
               <button
-                onClick={() => setShowModal(false)}
+                onClick={() =>
+                  setShowModal(false)
+                }
                 className="
                   text-3xl
                   text-[#7d6d61]
@@ -367,14 +438,24 @@ export default function MedicationsPage() {
 
             </div>
 
-            <div className="space-y-4">
+            {/* FORM */}
+
+            <div className="
+              space-y-4
+            ">
+
+              {/* NAME */}
 
               <input
                 value={medicationName}
                 onChange={(e) =>
-                  setMedicationName(e.target.value)
+                  setMedicationName(
+                    e.target.value
+                  )
                 }
-                placeholder="Medication Name"
+                placeholder="
+                  Medication Name
+                "
                 className="
                   w-full
                   border
@@ -384,13 +465,19 @@ export default function MedicationsPage() {
                   outline-none
                 "
               />
+
+              {/* DOSAGE */}
 
               <input
                 value={dosage}
                 onChange={(e) =>
-                  setDosage(e.target.value)
+                  setDosage(
+                    e.target.value
+                  )
                 }
-                placeholder="Dosage"
+                placeholder="
+                  Dosage
+                "
                 className="
                   w-full
                   border
@@ -401,27 +488,24 @@ export default function MedicationsPage() {
                 "
               />
 
-              <input
-                type="time"
-                value={timing}
-                onChange={(e) =>
-                  setTiming(e.target.value)
-                }
-                className="
-                  w-full
-                  border
-                  border-[#eadfd2]
-                  rounded-2xl
-                  p-4
-                  outline-none
-                "
-              />
+              {/* TIMES PER DAY */}
 
               <select
-                value={frequency}
-                onChange={(e) =>
-                  setFrequency(e.target.value)
-                }
+                value={timesPerDay}
+                onChange={(e) => {
+
+                  const count =
+                    Number(
+                      e.target.value
+                    );
+
+                  setTimesPerDay(count);
+
+                  setReminderTimes(
+                    Array(count).fill("")
+                  );
+
+                }}
                 className="
                   w-full
                   border
@@ -432,16 +516,73 @@ export default function MedicationsPage() {
                 "
               >
 
-                <option>Daily</option>
-                <option>Twice Daily</option>
-                <option>Weekly</option>
+                <option value={1}>
+                  Once Daily
+                </option>
+
+                <option value={2}>
+                  Twice Daily
+                </option>
+
+                <option value={3}>
+                  Three Times Daily
+                </option>
+
+                <option value={4}>
+                  Four Times Daily
+                </option>
 
               </select>
 
+              {/* REMINDER TIMES */}
+
+              <div className="
+                space-y-3
+              ">
+
+                {reminderTimes.map(
+                  (time, index) => (
+
+                    <input
+                      key={index}
+                      type="time"
+                      value={time}
+                      onChange={(e) => {
+
+                        const updated =
+                          [...reminderTimes];
+
+                        updated[index] =
+                          e.target.value;
+
+                        setReminderTimes(
+                          updated
+                        );
+
+                      }}
+                      className="
+                        w-full
+                        border
+                        border-[#eadfd2]
+                        rounded-2xl
+                        p-4
+                        outline-none
+                      "
+                    />
+
+                  )
+                )}
+
+              </div>
+
+              {/* TYPE */}
+
               <select
-                value={status}
+                value={medicationType}
                 onChange={(e) =>
-                  setStatus(e.target.value)
+                  setMedicationType(
+                    e.target.value
+                  )
                 }
                 className="
                   w-full
@@ -453,12 +594,23 @@ export default function MedicationsPage() {
                 "
               >
 
-                <option>Ongoing</option>
-                <option>Paused</option>
+                <option value="ongoing">
+                  Ongoing
+                </option>
+
+                <option value="paused">
+                  Paused
+                </option>
+
+                <option value="as_needed">
+                  As Needed
+                </option>
 
               </select>
 
             </div>
+
+            {/* SAVE */}
 
             <button
               onClick={saveMedication}
