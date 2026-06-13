@@ -37,7 +37,11 @@ export default function DashboardPage() {
 
   const [nushke, setNushke] = useState<any>(null);
 
-  const [positivity, setPositivity] = useState('');
+  const [positivity, setPositivity] = useState<{
+    heading: string;
+    text: string;
+    image: string;
+  } | null>(null);
 
   const [recipe, setRecipe] = useState<any>(null);
 

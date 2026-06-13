@@ -113,7 +113,7 @@ export default function LittlePositivity({
           <h3 className="
             text-[#3d3027]
             text-[22px]
-            md: text - [26px]
+            md:text-[26px]
             font-semibold
             leading-relaxed
             mb-3
