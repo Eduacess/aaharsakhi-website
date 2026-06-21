@@ -81,7 +81,7 @@ export default function FloatingWhatsApp() {
                 leading-[1.9]
               "
             >
-              Share a few details and we'll connect you directly through
+              Share a few details and we&apos;ll connect you directly through
               WhatsApp.
             </p>
 

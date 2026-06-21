@@ -54,8 +54,8 @@ export default function FounderStory() {
 
                 <p className="text-[#2f372f] text-[22px] leading-[1.8] italic font-medium">
 
-                  "My hope is simple — that every individual who comes to
-                  AaharSakhi experiences the comfort of being understood."
+                  &quot;My hope is simple — that every individual who comes to
+                  AaharSakhi experiences the comfort of being understood.&quot;
 
                 </p>
 

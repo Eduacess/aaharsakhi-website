@@ -173,9 +173,9 @@ return (
                   {story.story}
                 </p>
 
-                <p className="mt-5 italic text-[#b08b66] text-sm">
-                  "{story.quote}"
-                </p>
+                <p className="mt-6 italic text-[#b08b66]">
+  &quot;{story.quote}&quot;
+</p>
 
               </div>
 
