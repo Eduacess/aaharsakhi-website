@@ -462,12 +462,12 @@ export default function LoginPage() {
                       Select Program
                     </option>
 
-                    <option value="Vatsalya Poshana - Expecting">
-                      Vatsalya Poshana - Expecting
+                    <option value="Matrutva Poshana - Expecting">
+                      Matrutva Poshana - Expecting
                     </option>
 
-                    <option value="Vatsalya Poshana - Delivered">
-                      Vatsalya Poshana - Delivered
+                    <option value="Matrutva Poshana - Delivered">
+                      Matrutva Poshana - Delivered
                     </option>
 
                     <option value="Diabetes Poshana">
