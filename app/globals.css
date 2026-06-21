@@ -10,7 +10,14 @@ body {
   margin: 0;
   padding: 0;
 
-  background: linear-gradient(180deg, #fffdf9 0%, #f8f2ea 45%, #fffaf5 100%);
+  background: linear-gradient(
+    180deg,
+    #fffdfb 0%,
+    #fdf8f2 25%,
+    #f8f1e8 50%,
+    #f5ece1 75%,
+    #fffdfb 100%
+  );
 
   color: #2d352d;
 
@@ -37,7 +44,7 @@ body {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee 70s linear infinite;
+  animation: marquee 140s linear infinite;
   will-change: transform;
 }
 
@@ -92,3 +99,95 @@ body {
   .rotate-y-180 {
   transform: rotateY(180deg);
   }
+  @keyframes expertsScroll {
+    from {
+      transform: translateX(0);
+    }
+  
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  
+  .experts-scroll {
+    display: flex;
+    width: max-content;
+    animation: expertsScroll 35s linear infinite;
+  }
+  
+  .experts-scroll:hover {
+    animation-play-state: paused;
+  }
+  @keyframes expertsScroll {
+    from {
+      transform: translateX(0);
+    }
+  
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  
+  .experts-scroll {
+    display: flex;
+    width: max-content;
+    animation: expertsScroll 40s linear infinite;
+  }
+  
+  .experts-scroll:hover {
+    animation-play-state: paused;
+  }
+  @keyframes affirmationScroll {
+
+    0% {
+    transform: translateX(0);
+    }
+    
+    100% {
+    transform: translateX(-50%);
+    }
+    
+    }
+    
+    .affirmation-track {
+    animation: affirmationScroll 80s linear infinite;
+    }
+    
+    .affirmation-track:hover {
+    animation-play-state: paused;
+    }
+    @keyframes sakhi-scroll {
+      from {
+      transform: translateX(0);
+      }
+      
+      to {
+      transform: translateX(-50%);
+      }
+      }
+      
+      .sakhi-scroll {
+      animation: sakhi-scroll 70s linear infinite;
+      }
+      
+      .sakhi-scroll:hover {
+      animation-play-state: paused;
+      }
+
+      @keyframes stories-scroll {
+        0% {
+        transform: translateX(0);
+        }
+        
+        100% {
+        transform: translateX(-50%);
+        }
+        }
+        
+        .stories-scroll {
+        animation: stories-scroll 40s linear infinite;
+        }
+        
+        .stories-scroll:hover {
+        animation-play-state: paused;
+        }

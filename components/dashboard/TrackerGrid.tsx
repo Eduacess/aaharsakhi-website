@@ -328,113 +328,104 @@ export default function TrackerGrid() {
   // SAVE SUGAR
   // =====================================
 
-  const saveSugar =
-    async () => {
+  const saveSugar = async () => {
 
+    const updatedData = {
+      user_id: userId,
+      log_date: today,
+  
+      fasting:
+        todaySugar?.fasting ||
+        fastingSugar,
+  
+      post_meal:
+        todaySugar?.post_meal ||
+        postMealSugar,
+    };
+  
     await supabase
       .from("sugar_logs")
       .upsert(
-        {
-          user_id: userId,
-
-          fasting:
-            fastingSugar,
-
-          post_meal:
-            postMealSugar,
-
-          log_date: today,
-        },
+        updatedData,
         {
           onConflict:
             "user_id,log_date",
         }
       );
-
-    setTodaySugar({
-      fasting:
-        fastingSugar,
-
-      post_meal:
-        postMealSugar,
-    });
-
+  
+    setTodaySugar(updatedData);
+  
     setFastingSugar("");
     setPostMealSugar("");
-
+  
   };
+
 
   // =====================================
   // SAVE BP
   // =====================================
 
-  const saveBP =
-    async () => {
+  const saveBP = async () => {
 
+    const updatedData = {
+      user_id: userId,
+      log_date: today,
+  
+      morning_bp:
+        todayBP?.morning_bp ||
+        morningBP,
+  
+      evening_bp:
+        todayBP?.evening_bp ||
+        eveningBP,
+    };
+  
     await supabase
       .from("bp_logs")
       .upsert(
-        {
-          user_id: userId,
-
-          morning_bp:
-            morningBP,
-
-          evening_bp:
-            eveningBP,
-
-          log_date: today,
-        },
+        updatedData,
         {
           onConflict:
             "user_id,log_date",
         }
       );
-
-    setTodayBP({
-      morning_bp:
-        morningBP,
-
-      evening_bp:
-        eveningBP,
-    });
-
+  
+    setTodayBP(updatedData);
+  
     setMorningBP("");
     setEveningBP("");
-
+  
   };
 
   // =====================================
   // SAVE WEIGHT
   // =====================================
 
-  const saveWeight =
-    async () => {
+  const saveWeight = async () => {
 
+    if (todayWeight?.weight)
+      return;
+  
+    const updatedData = {
+      user_id: userId,
+      log_date: today,
+      weight,
+    };
+  
     await supabase
-      .from(
-        "weight_logs"
-      )
+      .from("weight_logs")
       .upsert(
-        {
-          user_id: userId,
-
-          weight,
-
-          log_date: today,
-        },
+        updatedData,
         {
           onConflict:
             "user_id,log_date",
         }
       );
-
-    setTodayWeight({
-      weight,
-    });
-
+  
+    setTodayWeight(updatedData);
+  
     setWeight("");
-
+  
   };
 
   // =====================================

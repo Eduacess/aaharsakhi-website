@@ -21,6 +21,7 @@ import LibraryCard from "@/components/dashboard/LibraryCard";
 import UpcomingWebinar from "@/components/dashboard/UpcomingWebinar";
 
 import LittlePositivity from "@/components/dashboard/LittlePositivity";
+import MoodCheck from "@/components/dashboard/MoodCheck";
 
 import TodaysRecipe from "@/components/dashboard/TodaysRecipe";
 import YogaZone from "@/components/dashboard/YogaZone";
@@ -29,25 +30,45 @@ export default function DashboardPage() {
 
   const router = useRouter();
 
-  const [loading, setLoading] = useState(true);
+  const [dashboardReady,
+  setDashboardReady] =
+    useState(false);
 
-  const [showAgreement, setShowAgreement] = useState(false);
+  const [showAgreement,
+  setShowAgreement] =
+    useState(false);
 
-  const [quote, setQuote] = useState('');
+  const [quote,
+  setQuote] =
+    useState('');
 
-  const [nushke, setNushke] = useState<any>(null);
+  const [userName,
+  setUserName] =
+    useState('');
 
-  const [positivity, setPositivity] = useState<{
-    heading: string;
-    text: string;
-    image: string;
-  } | null>(null);
+  const [greeting,
+  setGreeting] =
+    useState('');
 
-  const [recipe, setRecipe] = useState<any>(null);
+  const [nushke,
+  setNushke] =
+    useState<any>(null);
 
-  const [yoga, setYoga] = useState<any>(null);
+  const [positivity,
+  setPositivity] =
+    useState<any>(null);
 
-  const [webinars, setWebinars] = useState<any[]>([]);
+  const [recipe,
+  setRecipe] =
+    useState<any>(null);
+
+  const [yoga,
+  setYoga] =
+    useState<any>(null);
+
+  const [webinars,
+  setWebinars] =
+    useState<any[]>([]);
 
   const agreement = `
 ✦ User Consent Agreement
@@ -98,7 +119,32 @@ Continued usage of the platform constitutes voluntary acceptance of all applicab
     'https://docs.google.com/spreadsheets/d/e/2PACX-1vQTVbp5L5znejX0M9QDuGhs922i7yxzuC4cFktTj01hteUJu-rxU8IjfmwGG3PIEbyN6o7VYYfKtRD0/pub?output=csv';
 
   // =========================
-  // GET DAY INDEX (IST)
+  // GREETING
+  // =========================
+
+  const getGreeting = () => {
+
+    const hour =
+      new Date().getHours();
+
+    if (hour < 12) {
+
+      return 'Good Morning';
+
+    }
+
+    if (hour < 18) {
+
+      return 'Good Afternoon';
+
+    }
+
+    return 'Good Evening';
+
+  };
+
+  // =========================
+  // DAY INDEX
   // =========================
 
   const getDayIndex = () => {
@@ -106,9 +152,13 @@ Continued usage of the platform constitutes voluntary acceptance of all applicab
     const now = new Date();
 
     const ist = new Date(
-      now.toLocaleString('en-US', {
-        timeZone: 'Asia/Kolkata',
-      })
+      now.toLocaleString(
+        'en-US',
+        {
+          timeZone:
+            'Asia/Kolkata',
+        }
+      )
     );
 
     const start = new Date(
@@ -116,13 +166,18 @@ Continued usage of the platform constitutes voluntary acceptance of all applicab
     );
 
     const diff =
-      ist.getTime() - start.getTime();
+      ist.getTime() -
+      start.getTime();
 
-    const days = Math.floor(
-      diff / (1000 * 60 * 60 * 24)
+    return Math.floor(
+      diff /
+      (
+        1000 *
+        60 *
+        60 *
+        24
+      )
     );
-
-    return days;
 
   };
 
@@ -130,302 +185,447 @@ Continued usage of the platform constitutes voluntary acceptance of all applicab
   // PARSE CSV
   // =========================
 
-  const parseCSV = (text: string) => {
+  const parseCSV = (
+    text: string
+  ) => {
 
-    const lines = text.trim().split('\n');
-  
-    return lines.map((line) => {
-  
-      const result = [];
-      let current = '';
-      let insideQuotes = false;
-  
-      for (let i = 0; i < line.length; i++) {
-  
-        const char = line[i];
-  
-        if (char === '"') {
-  
-          insideQuotes = !insideQuotes;
-  
-        } else if (
-          char === ',' &&
-          !insideQuotes
+    const lines =
+      text.trim().split('\n');
+
+    return lines.map(
+      (line) => {
+
+        const result = [];
+
+        let current = '';
+
+        let insideQuotes =
+          false;
+
+        for (
+          let i = 0;
+          i < line.length;
+          i++
         ) {
-  
-          result.push(current);
-          current = '';
-  
-        } else {
-  
-          current += char;
-  
+
+          const char =
+            line[i];
+
+          if (
+            char === '"'
+          ) {
+
+            insideQuotes =
+              !insideQuotes;
+
+          }
+
+          else if (
+            char === ',' &&
+            !insideQuotes
+          ) {
+
+            result.push(
+              current
+            );
+
+            current = '';
+
+          }
+
+          else {
+
+            current += char;
+
+          }
+
         }
-  
+
+        result.push(current);
+
+        return result;
+
       }
-  
-      result.push(current);
-  
-      return result;
-  
-    });
-  
+    );
+
   };
 
   // =========================
-  // LOAD DASHBOARD DATA
+  // LOAD DASHBOARD
   // =========================
 
   useEffect(() => {
 
-    const loadDashboard = async () => {
+    const loadDashboard =
+      async () => {
 
       try {
 
         const {
           data: { session },
-        } = await supabase.auth.getSession();
+        } =
+          await supabase
+            .auth
+            .getSession();
 
         if (!session) {
 
-          router.push('/login');
+          router.push(
+            '/login'
+          );
+
           return;
 
         }
 
-        // PROFILE
-
-        const { data: profile } =
+        const {
+          data: profile,
+        } =
           await supabase
             .from('profiles')
             .select('*')
-            .eq('id', session.user.id)
+            .eq(
+              'id',
+              session.user.id
+            )
             .single();
 
+        if (!profile)
+          return;
+
+        setGreeting(
+          getGreeting()
+        );
+
+        setUserName(
+          profile?.full_name ||
+          'Sakhi'
+        );
+
         if (
-          !profile?.agreement_accepted
+          !profile
+            ?.agreement_accepted
         ) {
 
-          setShowAgreement(true);
+          setShowAgreement(
+            true
+          );
 
         }
 
         const dayIndex =
           getDayIndex();
 
-        // =====================
-        // QUOTES
-        // =====================
+        // =========================
+        // LOAD EVERYTHING TOGETHER
+        // =========================
 
-        const quoteRes = await fetch(
-          quotesCSV
-        );
+        const [
 
-        const quoteText =
-          await quoteRes.text();
+          quoteRes,
+
+          nushkeRes,
+
+          positivityRes,
+
+          recipeRes,
+
+          yogaRes,
+
+          webinarRes,
+
+        ] = await Promise.all([
+
+          fetch(quotesCSV),
+
+          fetch(nushkeCSV),
+
+          fetch(
+            positivityCSV
+          ),
+
+          fetch(recipeCSV),
+
+          fetch(yogaCSV),
+
+          fetch(webinarCSV),
+
+        ]);
+
+        const [
+
+          quoteText,
+
+          nushkeText,
+
+          positivityText,
+
+          recipeText,
+
+          yogaText,
+
+          webinarText,
+
+        ] = await Promise.all([
+
+          quoteRes.text(),
+
+          nushkeRes.text(),
+
+          positivityRes.text(),
+
+          recipeRes.text(),
+
+          yogaRes.text(),
+
+          webinarRes.text(),
+
+        ]);
+
+        // =========================
+        // QUOTE
+        // =========================
 
         const quoteRows =
-          parseCSV(quoteText).slice(1);
+          parseCSV(
+            quoteText
+          ).slice(1);
 
         const todayQuote =
           quoteRows[
-            dayIndex % quoteRows.length
+            dayIndex %
+            quoteRows.length
           ];
 
         if (todayQuote) {
 
-          setQuote(todayQuote[1]);
+          setQuote(
+            todayQuote[1]
+          );
 
         }
 
-        // =====================
+        // =========================
         // NUSHKE
-        // =====================
-
-        const nushkeRes = await fetch(
-          nushkeCSV
-        );
-
-        const nushkeText =
-          await nushkeRes.text();
+        // =========================
 
         const nushkeRows =
-          parseCSV(nushkeText).slice(1);
+          parseCSV(
+            nushkeText
+          ).slice(1);
 
         const filteredNushke =
           nushkeRows.filter(
             (row) =>
-              row[1]?.trim() ===
-              profile?.program_interest
+              row[1]
+                ?.trim()
+                ?.toLowerCase() ===
+              profile
+                ?.program_interest
+                ?.trim()
+                ?.toLowerCase()
           );
 
         const todayNushke =
           filteredNushke[
             dayIndex %
-              filteredNushke.length
+            filteredNushke.length
           ];
 
         if (todayNushke) {
 
           setNushke({
-            id: todayNushke[0],
-            text: todayNushke[2],
+
+            id:
+              todayNushke[0],
+
+            text:
+              todayNushke[2],
+
           });
 
         }
 
-        // =====================
-// POSITIVITY
-// =====================
+        // =========================
+        // POSITIVITY
+        // =========================
 
-const positivityRes =
-await fetch(positivityCSV);
+        const positivityRows =
+          parseCSV(
+            positivityText
+          ).slice(1);
 
-const positivityText =
-await positivityRes.text();
+        const todayPositivity =
+          positivityRows[
+            dayIndex %
+            positivityRows.length
+          ];
 
-const positivityRows =
-parseCSV(
-  positivityText
-).slice(1);
+        if (
+          todayPositivity
+        ) {
 
-const todayPositivity =
-positivityRows[
-  dayIndex %
-    positivityRows.length
-];
+          setPositivity({
 
-if (todayPositivity) {
+            heading:
+              todayPositivity[2],
 
-setPositivity({
-  heading: todayPositivity[2],
-  text: todayPositivity[3],
-  image: todayPositivity[4],
-});
+            text:
+              todayPositivity[3],
 
-}
+            image:
+              todayPositivity[4],
 
+          });
 
-        // ======================
-// RECIPES
-// ======================
+        }
 
-const recipeRes =
-await fetch(recipeCSV);
+        // =========================
+        // RECIPE
+        // =========================
 
-const recipeText =
-await recipeRes.text();
+        const recipeRows =
+          parseCSV(
+            recipeText
+          ).slice(1);
 
-const recipeRows =
-parseCSV(recipeText).slice(1);
+        const filteredRecipes =
+          recipeRows.filter(
+            (row) =>
+              row[1]
+                ?.trim()
+                ?.toLowerCase() ===
+              profile
+                ?.program_interest
+                ?.trim()
+                ?.toLowerCase()
+          );
 
-const filteredRecipes =
-recipeRows.filter(
-  (row) =>
-    row[1]
-      ?.trim()
-      ?.toLowerCase() ===
-    profile?.program_interest
-      ?.trim()
-      ?.toLowerCase()
-);
+        const todayRecipe =
+          filteredRecipes[
+            dayIndex %
+            filteredRecipes.length
+          ];
 
-const todayRecipe =
-filteredRecipes[
-  dayIndex %
-    filteredRecipes.length
-];
+        if (todayRecipe) {
 
-if (todayRecipe) {
+          setRecipe({
 
-setRecipe({
-  title: todayRecipe[2],
-  benefits: todayRecipe[3],
-  image: todayRecipe[4],
-  video: todayRecipe[5],
-  channel: todayRecipe[6],
-});
+            title:
+              todayRecipe[2],
 
-}
-   // ======================
-// YOGA
-// ======================
+            benefits:
+              todayRecipe[3],
 
-const yogaRes =
-await fetch(yogaCSV);
+            image:
+              todayRecipe[4],
 
-const yogaText =
-await yogaRes.text();
+            video:
+              todayRecipe[5],
 
-const yogaRows =
-parseCSV(yogaText).slice(1);
+            channel:
+              todayRecipe[6],
 
-const filteredYoga =
-yogaRows.filter(
-  (row) =>
-    row[1]
-      ?.trim()
-      ?.toLowerCase() ===
-    profile?.program_interest
-      ?.trim()
-      ?.toLowerCase()
-);
+          });
 
-const todayYoga =
-filteredYoga[
-  dayIndex %
-    filteredYoga.length
-];
+        }
 
-if (todayYoga) {
+        // =========================
+        // YOGA
+        // =========================
 
-setYoga({
-  title: todayYoga[2],
-  description: todayYoga[3],
-  image: todayYoga[4],
-  video: todayYoga[5],
-  channel: todayYoga[6],
-});
+        const yogaRows =
+          parseCSV(
+            yogaText
+          ).slice(1);
 
-}
+        const filteredYoga =
+          yogaRows.filter(
+            (row) =>
+              row[1]
+                ?.trim()
+                ?.toLowerCase() ===
+              profile
+                ?.program_interest
+                ?.trim()
+                ?.toLowerCase()
+          );
 
-        // =====================
+        const todayYoga =
+          filteredYoga[
+            dayIndex %
+            filteredYoga.length
+          ];
+
+        if (todayYoga) {
+
+          setYoga({
+
+            title:
+              todayYoga[2],
+
+            description:
+              todayYoga[3],
+
+            image:
+              todayYoga[4],
+
+            video:
+              todayYoga[5],
+
+            channel:
+              todayYoga[6],
+
+          });
+
+        }
+
+        // =========================
         // WEBINARS
-        // =====================
-
-        const webinarRes =
-          await fetch(webinarCSV);
-
-        const webinarText =
-          await webinarRes.text();
+        // =========================
 
         const webinarRows =
-          parseCSV(webinarText)
+          parseCSV(
+            webinarText
+          )
             .slice(1)
             .slice(0, 1);
 
         const formattedWebinars =
-          webinarRows.map((row) => ({
-            id: row[0],
-            title: row[1],
-            speaker: row[2],
-            description: row[3],
-            date: row[4],
-            time: row[5],
-            link: row[6],
-          }));
+          webinarRows.map(
+            (row) => ({
+
+              id: row[0],
+
+              title: row[0],
+
+              speaker: row[1],
+
+              description:
+                row[2],
+
+              date: row[3],
+
+              time: row[4],
+
+              link: row[5],
+
+            })
+          );
 
         setWebinars(
           formattedWebinars
         );
 
-        setLoading(false);
+        setDashboardReady(
+          true
+        );
 
-      } catch (err) {
+      }
+
+      catch (err) {
 
         console.log(err);
-
-        setLoading(false);
 
       }
 
@@ -439,26 +639,63 @@ setYoga({
   // LOADING
   // =========================
 
-  if (loading) {
+  if (!dashboardReady) {
 
     return (
 
       <div className="
         min-h-screen
+        bg-[#f7f3ee]
         flex
         items-center
         justify-center
-        bg-[#f5f6fa]
+        px-6
       ">
 
-        <p className="
-          text-[#5f5348]
-          text-[16px]
+        <div className="
+          text-center
+          max-w-xl
         ">
 
-          Please wait...
+          <div className="
+            w-20
+            h-20
+            rounded-full
+            border
+            border-[#e7d8cb]
+            mx-auto
+            mb-8
+            animate-pulse
+            bg-[#fdfaf7]
+          " />
 
-        </p>
+          <h1 className="
+            text-4xl
+            md:text-5xl
+            font-light
+            text-[#2f241d]
+            leading-tight
+            tracking-[-0.04em]
+          ">
+
+            Preparing your
+            wellness sanctuary
+          </h1>
+
+          <p className="
+            mt-6
+            text-[#7d6c5f]
+            text-lg
+            leading-relaxed
+          ">
+
+            Bringing together your nourishment,
+            emotional wellbeing and healing
+            support with care.
+
+          </p>
+
+        </div>
 
       </div>
 
@@ -470,7 +707,7 @@ setYoga({
 
     <main className="
       min-h-screen
-      bg-[#f5f6fa]
+      bg-[#f7f3ee]
     ">
 
       {/* AGREEMENT */}
@@ -488,196 +725,207 @@ setYoga({
 
       <DashboardNavbar />
 
+      {/* MAIN */}
+
       <section className="
-        flex-1
-        py-5
-        w-full
+        px-4
+        md:px-8
+        lg:px-12
+        py-8
       ">
 
+        {/* HERO */}
+
         <div className="
-          w-full
-          px-3
-          md:px-5
-          lg:px-6
+          mb-12
         ">
 
-          {/* QUOTE */}
-
-          <div className="
-            text-center
-            mb-6
-            pt-2
-            hidden
-            md:block
+          <p className="
+            text-sm
+            uppercase
+            tracking-[0.18em]
+            text-[#9c8472]
+            mb-4
           ">
 
-            <p className="
-              italic
-              text-[#5f5348]
-              text-xl
-              md:text-3xl
-              font-light
+            AaharSakhi
+          </p>
+
+          <h1 className="
+            text-5xl
+            md:text-7xl
+            font-light
+            tracking-[-0.06em]
+            text-[#2f241d]
+            leading-[1]
+            max-w-4xl
+          ">
+
+            {greeting},
+            {" "}
+            {userName}
+          </h1>
+
+          <p className="
+            mt-7
+            text-[#6f6055]
+            text-lg
+            md:text-xl
+            leading-relaxed
+            max-w-2xl
+          ">
+
+            Your healing journey deserves
+            calmness, nourishment and
+            emotional support —
+            one gentle day at a time.
+
+          </p>
+
+        </div>
+
+        {/* QUOTE */}
+
+        <div className="
+          mb-14
+          max-w-5xl
+        ">
+
+          <p className="
+            text-2xl
+            md:text-3xl
+            italic
+            leading-relaxed
+            text-[#4f4339]
+            font-light
+          ">
+
+            “{quote}”
+
+          </p>
+
+        </div>
+
+        {/* GRID */}
+
+        <div className="
+          grid
+          lg:grid-cols-[1.6fr_1fr]
+          gap-10
+          items-start
+        ">
+
+          {/* LEFT */}
+
+          <div className="
+            space-y-10
+          ">
+
+            <MealPlan />
+
+            <div className="
+              grid
+              md:grid-cols-2
+              gap-8
             ">
 
-              “{quote}”
+              <UpcomingAppointment />
 
-            </p>
-
-          </div>
-
-          {/* DESKTOP */}
-
-          <div className="
-            hidden
-            md:grid
-            md:grid-cols-[1.6fr_1fr]
-            gap-5
-            items-start
-          ">
-
-            {/* LEFT */}
-
-            <div className="space-y-5">
-
-              <MealPlan />
-
-              <div className="
-                grid
-                md:grid-cols-2
-                gap-5
-              ">
-
-                <UpcomingAppointment />
-
-                <LibraryCard />
-
-              </div>
-
-              <div className="space-y-5">
-
-                {webinars.map(
-                  (webinar, index) => (
-
-                    <UpcomingWebinar
-                      key={index}
-                      webinar={webinar}
-                    />
-
-                  )
-                )}
-
-              </div>
+              <LibraryCard />
 
             </div>
 
-            {/* RIGHT */}
+            {
+              webinars.map(
+                (
+                  webinar,
+                  index
+                ) => (
 
-            <div className="space-y-5">
+                  <UpcomingWebinar
+                    key={index}
+                    webinar={
+                      webinar
+                    }
+                  />
 
-              <SakhiNushke
-                nushke={nushke}
-              />
-
-              <div>
-
-                <h2 className="
-                  text-lg
-                  font-semibold
-                  text-[#3d3027]
-                  mb-3
-                  px-1
-                ">
-
-                  Today&apos;s Trackers 📊
-
-                </h2>
-
-                <TrackerGrid />
-
-              </div>
-
-              <LittlePositivity
-                positivity={
-                  positivity
-                }
-              />
-
-            </div>
-
-          </div>
-
-          {/* DESKTOP BOTTOM */}
-
-          <div className="
-            hidden
-            md:grid
-            md:grid-cols-[1.6fr_1fr]
-            gap-5
-            mt-5
-          ">
+                )
+              )
+            }
 
             <TodaysRecipe
               recipe={recipe}
             />
 
-            <YogaZone yoga={yoga} />
-
           </div>
 
-          {/* MOBILE */}
+          {/* RIGHT */}
 
           <div className="
-            flex
-            flex-col
-            gap-5
-            md:hidden
+            space-y-10
           ">
-
-            <MealPlan />
-
-            <div>
-
-              <h2 className="
-                text-lg
-                font-semibold
-                text-[#3d3027]
-                mb-3
-                px-1
-              ">
-
-                Today&apos;s Trackers 📊
-
-              </h2>
-
-              <TrackerGrid />
-
-            </div>
 
             <SakhiNushke
               nushke={nushke}
             />
 
-            <UpcomingAppointment />
+            <div className="
+              bg-[#fcfaf7]
+              border
+              border-[#eee4da]
+              rounded-[34px]
+              p-7
+            ">
 
-            {
-  webinars[0] && (
-    <UpcomingWebinar
-      webinar={webinars[0]}
-    />
-  )
-}
+              <div className="
+                flex
+                items-center
+                justify-between
+                mb-7
+              ">
 
-            <LibraryCard />
+                <div>
+
+                  <p className="
+                    text-xs
+                    uppercase
+                    tracking-[0.18em]
+                    text-[#a18b7a]
+                    mb-2
+                  ">
+
+                    Wellness
+                  </p>
+
+                  <h2 className="
+                    text-3xl
+                    font-light
+                    tracking-[-0.04em]
+                    text-[#2f241d]
+                  ">
+
+                    Today’s Trackers
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <TrackerGrid />
+
+            </div>
 
             <LittlePositivity
-              positivity={positivity}
+              positivity={
+                positivity
+              }
             />
 
-            <TodaysRecipe
-              recipe={recipe}
-            />
+            <MoodCheck />
 
-            <YogaZone yoga={yoga} />
+            <YogaZone
+              yoga={yoga}
+            />
 
           </div>
 

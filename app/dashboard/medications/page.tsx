@@ -9,15 +9,17 @@ import { supabase } from "@/lib/supabase";
 
 export default function MedicationsPage() {
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] =
+    useState(false);
 
-  const [medications, setMedications] = useState<any[]>([]);
+  const [medications, setMedications] =
+    useState<any[]>([]);
 
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] =
+    useState("");
 
-  const [loading, setLoading] = useState(true);
-
-  // FORM STATES
+  const [loading, setLoading] =
+    useState(true);
 
   const [medicationName,
   setMedicationName] =
@@ -39,9 +41,7 @@ export default function MedicationsPage() {
   setMedicationType] =
     useState("ongoing");
 
-  // =========================
-  // GET USER + MEDICATIONS
-  // =========================
+  // LOAD
 
   useEffect(() => {
 
@@ -49,19 +49,24 @@ export default function MedicationsPage() {
 
       const {
         data: { session },
-      } = await supabase.auth.getSession();
+      } =
+        await supabase.auth.getSession();
 
       if (!session?.user?.id) return;
 
       setUserId(session.user.id);
 
-      const { data } = await supabase
-        .from("medications")
-        .select("*")
-        .eq("user_id", session.user.id)
-        .order("created_at", {
-          ascending: false,
-        });
+      const { data } =
+        await supabase
+          .from("medications")
+          .select("*")
+          .eq(
+            "user_id",
+            session.user.id
+          )
+          .order("created_at", {
+            ascending: false,
+          });
 
       if (data) {
 
@@ -77,16 +82,25 @@ export default function MedicationsPage() {
 
   }, []);
 
-  // =========================
-  // SAVE MEDICATION
-  // =========================
+  // SAVE
 
-  const saveMedication = async () => {
+  const saveMedication =
+    async () => {
 
-    if (!medicationName) return;
+      if (!medicationName) {
 
-    const { data, error } =
-      await supabase
+        alert(
+          "Please enter medication name"
+        );
+
+        return;
+
+      }
+
+      const {
+        data,
+        error,
+      } = await supabase
         .from("medications")
         .insert([
           {
@@ -110,50 +124,51 @@ export default function MedicationsPage() {
         .select()
         .single();
 
-    if (!error && data) {
+      if (error) {
 
-      setMedications((prev) => [
-        data,
-        ...prev,
-      ]);
+        console.log(error);
 
-      setShowModal(false);
+        alert(error.message);
 
-      // RESET
+        return;
 
-      setMedicationName("");
+      }
 
-      setDosage("");
+      if (data) {
 
-      setTimesPerDay(1);
+        setMedications(
+          [data, ...medications]
+        );
 
-      setReminderTimes([""]);
+        setShowModal(false);
 
-      setMedicationType("ongoing");
+        setMedicationName("");
 
-    }
+        setDosage("");
 
-  };
+        setTimesPerDay(1);
 
-  // =========================
-  // LOADING
-  // =========================
+        setReminderTimes([""]);
+
+        setMedicationType(
+          "ongoing"
+        );
+
+      }
+
+    };
 
   if (loading) {
 
     return (
-
       <div className="
         min-h-screen
         flex
         items-center
         justify-center
       ">
-
         Loading...
-
       </div>
-
     );
 
   }
@@ -168,28 +183,20 @@ export default function MedicationsPage() {
       <DashboardNavbar />
 
       <section className="
-        px-4
-        md:px-6
-        lg:px-8
-        py-6
+        p-5
       ">
-
-        {/* TOP */}
 
         <div className="
           flex
-          items-center
           justify-between
-          flex-wrap
-          gap-4
-          mb-8
+          items-center
+          mb-6
         ">
 
           <div>
 
             <h1 className="
               text-3xl
-              md:text-4xl
               font-semibold
               text-[#3d3027]
             ">
@@ -197,15 +204,6 @@ export default function MedicationsPage() {
               My Medications 💊
 
             </h1>
-
-            <p className="
-              text-[#7c6d60]
-              mt-2
-            ">
-
-              Your medication history and adherence
-
-            </p>
 
           </div>
 
@@ -216,12 +214,9 @@ export default function MedicationsPage() {
             className="
               bg-[#8d3f3f]
               text-white
-              px-6
+              px-5
               py-3
               rounded-2xl
-              font-medium
-              hover:bg-[#733232]
-              transition
             "
           >
 
@@ -231,17 +226,17 @@ export default function MedicationsPage() {
 
         </div>
 
-        {/* TABLE */}
-
         <div className="
-          overflow-x-auto
+          bg-white
           rounded-[30px]
           border
           border-[#eadfd2]
-          bg-white
+          overflow-hidden
         ">
 
-          <table className="w-full">
+          <table className="
+            w-full
+          ">
 
             <thead className="
               bg-[#fff7f4]
@@ -249,40 +244,20 @@ export default function MedicationsPage() {
 
               <tr>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-4 text-left">
                   Medication
-
                 </th>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-4 text-left">
                   Dosage
-
                 </th>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
-                  Times / Day
-
+                <th className="p-4 text-left">
+                  Frequency
                 </th>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-4 text-left">
                   Type
-
                 </th>
 
               </tr>
@@ -291,86 +266,40 @@ export default function MedicationsPage() {
 
             <tbody>
 
-              {medications.map((med) => (
+              {medications.map(
+                (med) => (
 
-                <tr
-                  key={med.id}
-                  className="
-                    border-t
-                    border-[#eadfd2]
-                  "
-                >
+                  <tr
+                    key={med.id}
+                    className="
+                      border-t
+                    "
+                  >
 
-                  <td className="
-                    p-5
-                    font-medium
-                    text-[#3d3027]
-                  ">
+                    <td className="p-4">
+                      {med.medication_name}
+                    </td>
 
-                    {med.medication_name}
+                    <td className="p-4">
+                      {med.dosage}
+                    </td>
 
-                  </td>
+                    <td className="p-4">
+                      {
+                        med.times_per_day
+                      }x daily
+                    </td>
 
-                  <td className="
-                    p-5
-                  ">
-
-                    {med.dosage || "-"}
-
-                  </td>
-
-                  <td className="
-                    p-5
-                  ">
-
-                    {med.times_per_day}
-
-                  </td>
-
-                  <td className="
-                    p-5
-                  ">
-
-                    <button className={`
-                      px-4
-                      py-2
-                      rounded-full
-                      text-sm
-
-                      ${
-                        med.medication_type ===
-                        "ongoing"
-
-                        ? "bg-[#e4f6ea] text-[#267a45]"
-
-                        : med.medication_type ===
-                          "paused"
-
-                        ? "bg-[#fff1dc] text-[#9a6700]"
-
-                        : "bg-[#eef2ff] text-[#4f46e5]"
+                    <td className="p-4">
+                      {
+                        med.medication_type
                       }
-                    `}>
+                    </td>
 
-                      {med.medication_type ===
-                      "as_needed"
+                  </tr>
 
-                        ? "As Needed"
-
-                        : med.medication_type ===
-                          "paused"
-
-                        ? "Paused"
-
-                        : "Ongoing"}
-
-                    </button>
-
-                  </td>
-
-                </tr>
-
-              ))}
+                )
+              )}
 
             </tbody>
 
@@ -403,48 +332,19 @@ export default function MedicationsPage() {
             p-6
           ">
 
-            {/* HEADER */}
-
-            <div className="
-              flex
-              items-center
-              justify-between
-              mb-6
+            <h2 className="
+              text-2xl
+              font-semibold
+              mb-5
             ">
 
-              <h2 className="
-                text-2xl
-                font-semibold
-                text-[#3d3027]
-              ">
+              Add Medication
 
-                Add Medication
-
-              </h2>
-
-              <button
-                onClick={() =>
-                  setShowModal(false)
-                }
-                className="
-                  text-3xl
-                  text-[#7d6d61]
-                "
-              >
-
-                ×
-
-              </button>
-
-            </div>
-
-            {/* FORM */}
+            </h2>
 
             <div className="
               space-y-4
             ">
-
-              {/* NAME */}
 
               <input
                 value={medicationName}
@@ -453,20 +353,14 @@ export default function MedicationsPage() {
                     e.target.value
                   )
                 }
-                placeholder="
-                  Medication Name
-                "
+                placeholder="Medication Name"
                 className="
                   w-full
                   border
-                  border-[#eadfd2]
                   rounded-2xl
                   p-4
-                  outline-none
                 "
               />
-
-              {/* DOSAGE */}
 
               <input
                 value={dosage}
@@ -475,44 +369,29 @@ export default function MedicationsPage() {
                     e.target.value
                   )
                 }
-                placeholder="
-                  Dosage
-                "
+                placeholder="Dosage"
                 className="
                   w-full
                   border
-                  border-[#eadfd2]
                   rounded-2xl
                   p-4
-                  outline-none
                 "
               />
 
-              {/* TIMES PER DAY */}
-
               <select
                 value={timesPerDay}
-                onChange={(e) => {
-
-                  const count =
+                onChange={(e) =>
+                  setTimesPerDay(
                     Number(
                       e.target.value
-                    );
-
-                  setTimesPerDay(count);
-
-                  setReminderTimes(
-                    Array(count).fill("")
-                  );
-
-                }}
+                    )
+                  )
+                }
                 className="
                   w-full
                   border
-                  border-[#eadfd2]
                   rounded-2xl
                   p-4
-                  outline-none
                 "
               >
 
@@ -528,54 +407,7 @@ export default function MedicationsPage() {
                   Three Times Daily
                 </option>
 
-                <option value={4}>
-                  Four Times Daily
-                </option>
-
               </select>
-
-              {/* REMINDER TIMES */}
-
-              <div className="
-                space-y-3
-              ">
-
-                {reminderTimes.map(
-                  (time, index) => (
-
-                    <input
-                      key={index}
-                      type="time"
-                      value={time}
-                      onChange={(e) => {
-
-                        const updated =
-                          [...reminderTimes];
-
-                        updated[index] =
-                          e.target.value;
-
-                        setReminderTimes(
-                          updated
-                        );
-
-                      }}
-                      className="
-                        w-full
-                        border
-                        border-[#eadfd2]
-                        rounded-2xl
-                        p-4
-                        outline-none
-                      "
-                    />
-
-                  )
-                )}
-
-              </div>
-
-              {/* TYPE */}
 
               <select
                 value={medicationType}
@@ -587,10 +419,8 @@ export default function MedicationsPage() {
                 className="
                   w-full
                   border
-                  border-[#eadfd2]
                   rounded-2xl
                   p-4
-                  outline-none
                 "
               >
 
@@ -608,26 +438,23 @@ export default function MedicationsPage() {
 
               </select>
 
+              <button
+                onClick={saveMedication}
+                className="
+                  w-full
+                  bg-[#8d3f3f]
+                  text-white
+                  py-4
+                  rounded-2xl
+                  mt-2
+                "
+              >
+
+                Save Medication
+
+              </button>
+
             </div>
-
-            {/* SAVE */}
-
-            <button
-              onClick={saveMedication}
-              className="
-                w-full
-                bg-[#8d3f3f]
-                text-white
-                py-4
-                rounded-2xl
-                mt-6
-                font-medium
-              "
-            >
-
-              Save Medication
-
-            </button>
 
           </div>
 

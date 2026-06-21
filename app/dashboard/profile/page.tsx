@@ -12,10 +12,17 @@ export default function ProfilePage() {
 
   const router = useRouter();
 
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] =
+    useState(true);
 
-  const [profile, setProfile] = useState<any>(null);
+  const [saving, setSaving] =
+    useState(false);
+
+  const [editMode, setEditMode] =
+    useState(false);
+
+  const [profile, setProfile] =
+    useState<any>(null);
 
   // =========================
   // LOAD PROFILE
@@ -38,17 +45,20 @@ export default function ProfilePage() {
 
         }
 
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single();
+        const { data, error } =
+          await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", session.user.id)
+            .single();
 
         if (error) {
 
           console.log(error);
 
-          alert("Unable to load profile");
+          alert(
+            "Unable to load profile"
+          );
 
           setLoading(false);
 
@@ -64,7 +74,9 @@ export default function ProfilePage() {
 
         console.log(err);
 
-        alert("Something went wrong");
+        alert(
+          "Something went wrong"
+        );
 
         setLoading(false);
 
@@ -92,36 +104,58 @@ export default function ProfilePage() {
 
       if (!session) return;
 
-      const { error } = await supabase
-        .from("profiles")
-        .update({
+      const { error } =
+        await supabase
+          .from("profiles")
+          .update({
 
-          full_name:
-            profile.full_name,
+            full_name:
+              profile.full_name,
 
-          phone:
-            profile.phone,
+            phone:
+              profile.phone,
 
-          preferred_language:
-            profile.preferred_language,
+            preferred_language:
+              profile.preferred_language,
 
-          auto_translation:
-            profile.auto_translation,
+            auto_translation:
+              profile.auto_translation,
 
-          allergies:
-            profile.allergies,
+            allergies:
+              profile.allergies,
 
-          medication_info:
-            profile.medication_info,
+            medication_info:
+              profile.medication_info,
 
-          blood_group:
-            profile.blood_group,
+            blood_group:
+              profile.blood_group,
 
-          current_treatment_plan:
-            profile.current_treatment_plan,
+            current_treatment_plan:
+              profile.current_treatment_plan,
 
-        })
-        .eq("id", session.user.id);
+            notifications_enabled:
+              profile.notifications_enabled,
+
+            fasting_sugar_reminder:
+              profile.fasting_sugar_reminder,
+
+            postmeal_sugar_reminder:
+              profile.postmeal_sugar_reminder,
+
+            bp_reminder:
+              profile.bp_reminder,
+
+            hydration_reminder:
+              profile.hydration_reminder,
+
+            hydration_frequency:
+              profile.hydration_frequency,
+
+          })
+          .eq(
+            "id",
+            session.user.id
+          );
 
       setSaving(false);
 
@@ -134,6 +168,8 @@ export default function ProfilePage() {
         alert(
           "Profile updated successfully"
         );
+
+        setEditMode(false);
 
       }
 
@@ -174,7 +210,7 @@ export default function ProfilePage() {
         flex
         items-center
         justify-center
-        bg-[#f5f6fa]
+        bg-[#f7f3ee]
       ">
 
         <p className="
@@ -200,7 +236,7 @@ export default function ProfilePage() {
 
     <main className="
       min-h-screen
-      bg-[#f5f6fa]
+      bg-[#f7f3ee]
     ">
 
       <DashboardNavbar />
@@ -209,14 +245,16 @@ export default function ProfilePage() {
         px-4
         md:px-6
         lg:px-8
-        py-6
+        py-8
+        max-w-7xl
+        mx-auto
       ">
 
         {/* HEADER */}
 
         <div className="
           flex
-          items-center
+          items-start
           justify-between
           flex-wrap
           gap-5
@@ -225,11 +263,24 @@ export default function ProfilePage() {
 
           <div>
 
+            <p className="
+              text-sm
+              uppercase
+              tracking-[0.18em]
+              text-[#9b8574]
+              mb-3
+            ">
+
+              Wellness Profile
+
+            </p>
+
             <h1 className="
-              text-3xl
-              md:text-4xl
-              font-semibold
-              text-[#3d3027]
+              text-4xl
+              md:text-5xl
+              font-light
+              tracking-[-0.04em]
+              text-[#2f241d]
             ">
 
               {profile?.full_name ||
@@ -239,19 +290,19 @@ export default function ProfilePage() {
 
             <p className="
               text-[#7c6d60]
-              mt-2
+              mt-3
               text-lg
             ">
 
               {profile?.program_interest ||
-                "Wellness Journey"} 🤍
+                "Wellness Journey"}
 
             </p>
 
             <p className="
               text-sm
               text-[#9a8c7f]
-              mt-3
+              mt-4
             ">
 
               Current Access:
@@ -267,6 +318,31 @@ export default function ProfilePage() {
 
           </div>
 
+          <button
+            onClick={() =>
+              setEditMode(
+                !editMode
+              )
+            }
+            className="
+              px-6
+              py-3
+              rounded-full
+              border
+              border-[#dacabd]
+              bg-white
+              text-[#3d3027]
+              hover:bg-[#faf6f2]
+              transition
+            "
+          >
+
+            {editMode
+              ? "Cancel"
+              : "Edit Profile"}
+
+          </button>
+
         </div>
 
         {/* GRID */}
@@ -277,28 +353,30 @@ export default function ProfilePage() {
           gap-6
         ">
 
-          {/* PERSONAL DETAILS */}
+          {/* PERSONAL */}
 
           <div className="
             bg-white
             border
             border-[#eadfd2]
-            rounded-[30px]
-            p-6
+            rounded-[32px]
+            p-7
           ">
 
             <h2 className="
               text-2xl
               font-semibold
               text-[#3d3027]
-              mb-6
+              mb-8
             ">
 
-              Personal Details
+              Personal Wellness
 
             </h2>
 
-            <div className="space-y-5">
+            <div className="
+              space-y-7
+            ">
 
               {/* NAME */}
 
@@ -307,35 +385,51 @@ export default function ProfilePage() {
                 <p className="
                   text-sm
                   text-[#8a7d72]
-                  mb-1
+                  mb-2
                 ">
 
                   Full Name
 
                 </p>
 
-                <input
-                  type="text"
-                  value={
-                    profile?.full_name || ""
-                  }
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      full_name:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    border
-                    border-[#eadfd2]
-                    rounded-2xl
-                    px-4
-                    py-3
-                    outline-none
-                  "
-                />
+                {editMode ? (
+
+                  <input
+                    type="text"
+                    value={
+                      profile?.full_name || ""
+                    }
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        full_name:
+                          e.target.value,
+                      })
+                    }
+                    className="
+                      w-full
+                      border
+                      border-[#eadfd2]
+                      rounded-2xl
+                      px-4
+                      py-3
+                      outline-none
+                    "
+                  />
+
+                ) : (
+
+                  <p className="
+                    text-[#2f241d]
+                    text-lg
+                  ">
+
+                    {profile?.full_name ||
+                      "Not added"}
+
+                  </p>
+
+                )}
 
               </div>
 
@@ -346,74 +440,106 @@ export default function ProfilePage() {
                 <p className="
                   text-sm
                   text-[#8a7d72]
-                  mb-1
+                  mb-2
                 ">
 
                   Phone Number
 
                 </p>
 
-                <input
-                  type="text"
-                  value={
-                    profile?.phone || ""
-                  }
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      phone:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    border
-                    border-[#eadfd2]
-                    rounded-2xl
-                    px-4
-                    py-3
-                    outline-none
-                  "
-                />
+                {editMode ? (
+
+                  <input
+                    type="text"
+                    value={
+                      profile?.phone || ""
+                    }
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        phone:
+                          e.target.value,
+                      })
+                    }
+                    className="
+                      w-full
+                      border
+                      border-[#eadfd2]
+                      rounded-2xl
+                      px-4
+                      py-3
+                      outline-none
+                    "
+                  />
+
+                ) : (
+
+                  <p className="
+                    text-[#2f241d]
+                    text-lg
+                  ">
+
+                    {profile?.phone ||
+                      "Not added"}
+
+                  </p>
+
+                )}
 
               </div>
 
-              {/* BLOOD GROUP */}
+              {/* BLOOD */}
 
               <div>
 
                 <p className="
                   text-sm
                   text-[#8a7d72]
-                  mb-1
+                  mb-2
                 ">
 
                   Blood Group
 
                 </p>
 
-                <input
-                  type="text"
-                  value={
-                    profile?.blood_group || ""
-                  }
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      blood_group:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    border
-                    border-[#eadfd2]
-                    rounded-2xl
-                    px-4
-                    py-3
-                    outline-none
-                  "
-                />
+                {editMode ? (
+
+                  <input
+                    type="text"
+                    value={
+                      profile?.blood_group || ""
+                    }
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        blood_group:
+                          e.target.value,
+                      })
+                    }
+                    className="
+                      w-full
+                      border
+                      border-[#eadfd2]
+                      rounded-2xl
+                      px-4
+                      py-3
+                      outline-none
+                    "
+                  />
+
+                ) : (
+
+                  <p className="
+                    text-[#2f241d]
+                    text-lg
+                  ">
+
+                    {profile?.blood_group ||
+                      "Not added"}
+
+                  </p>
+
+                )}
 
               </div>
 
@@ -424,139 +550,72 @@ export default function ProfilePage() {
                 <p className="
                   text-sm
                   text-[#8a7d72]
-                  mb-1
+                  mb-2
                 ">
 
                   Preferred Language
 
                 </p>
 
-                <select
-                  value={
-                    profile?.preferred_language || ""
-                  }
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      preferred_language:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    border
-                    border-[#eadfd2]
-                    rounded-2xl
-                    px-4
-                    py-3
-                    outline-none
-                  "
-                >
+                {editMode ? (
 
-                  <option value="">
-                    Select Language
-                  </option>
-
-                  <option value="English">
-                    English
-                  </option>
-
-                  <option value="Hindi">
-                    Hindi
-                  </option>
-
-                  <option value="Gujarati">
-                    Gujarati
-                  </option>
-
-                  <option value="Marathi">
-                    Marathi
-                  </option>
-
-                  <option value="Punjabi">
-                    Punjabi
-                  </option>
-
-                  <option value="Tamil">
-                    Tamil
-                  </option>
-
-                  <option value="Telugu">
-                    Telugu
-                  </option>
-
-                  <option value="Kannada">
-                    Kannada
-                  </option>
-
-                  <option value="Malayalam">
-                    Malayalam
-                  </option>
-
-                </select>
-
-              </div>
-
-              {/* AUTO TRANSLATION */}
-
-              <div>
-
-                <div className="
-                  flex
-                  items-center
-                  justify-between
-                  border
-                  border-[#eadfd2]
-                  rounded-2xl
-                  px-4
-                  py-4
-                ">
-
-                  <div>
-
-                    <p className="
-                      text-[#3d3027]
-                      font-medium
-                    ">
-
-                      Enable Auto Translation
-
-                    </p>
-
-                    <p className="
-                      text-sm
-                      text-[#8a7d72]
-                      mt-1
-                    ">
-
-                      Translate dashboard
-                      automatically into your
-                      preferred language
-
-                    </p>
-
-                  </div>
-
-                  <input
-                    type="checkbox"
-                    checked={
-                      profile?.auto_translation ||
-                      false
+                  <select
+                    value={
+                      profile?.preferred_language || ""
                     }
                     onChange={(e) =>
                       setProfile({
                         ...profile,
-                        auto_translation:
-                          e.target.checked,
+                        preferred_language:
+                          e.target.value,
                       })
                     }
                     className="
-                      w-5
-                      h-5
+                      w-full
+                      border
+                      border-[#eadfd2]
+                      rounded-2xl
+                      px-4
+                      py-3
+                      outline-none
                     "
-                  />
+                  >
 
-                </div>
+                    <option value="">
+                      Select Language
+                    </option>
+
+                    <option value="English">
+                      English
+                    </option>
+
+                    <option value="Hindi">
+                      Hindi
+                    </option>
+
+                    <option value="Gujarati">
+                      Gujarati
+                    </option>
+
+                    <option value="Marathi">
+                      Marathi
+                    </option>
+
+                  </select>
+
+                ) : (
+
+                  <p className="
+                    text-[#2f241d]
+                    text-lg
+                  ">
+
+                    {profile?.preferred_language ||
+                      "English"}
+
+                  </p>
+
+                )}
 
               </div>
 
@@ -564,28 +623,30 @@ export default function ProfilePage() {
 
           </div>
 
-          {/* MEDICAL DETAILS */}
+          {/* MEDICAL */}
 
           <div className="
             bg-white
             border
             border-[#eadfd2]
-            rounded-[30px]
-            p-6
+            rounded-[32px]
+            p-7
           ">
 
             <h2 className="
               text-2xl
               font-semibold
               text-[#3d3027]
-              mb-6
+              mb-8
             ">
 
-              Medical Details
+              Medical & Wellness
 
             </h2>
 
-            <div className="space-y-5">
+            <div className="
+              space-y-7
+            ">
 
               {/* ALLERGIES */}
 
@@ -594,35 +655,51 @@ export default function ProfilePage() {
                 <p className="
                   text-sm
                   text-[#8a7d72]
-                  mb-1
+                  mb-2
                 ">
 
-                  Allergies & Sensitivities
+                  Allergies
 
                 </p>
 
-                <textarea
-                  value={
-                    profile?.allergies || ""
-                  }
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      allergies:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    border
-                    border-[#eadfd2]
-                    rounded-2xl
-                    px-4
-                    py-3
-                    min-h-[120px]
-                    outline-none
-                  "
-                />
+                {editMode ? (
+
+                  <textarea
+                    value={
+                      profile?.allergies || ""
+                    }
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        allergies:
+                          e.target.value,
+                      })
+                    }
+                    className="
+                      w-full
+                      border
+                      border-[#eadfd2]
+                      rounded-2xl
+                      px-4
+                      py-3
+                      min-h-[120px]
+                      outline-none
+                    "
+                  />
+
+                ) : (
+
+                  <p className="
+                    text-[#2f241d]
+                    leading-relaxed
+                  ">
+
+                    {profile?.allergies ||
+                      "No allergies added"}
+
+                  </p>
+
+                )}
 
               </div>
 
@@ -633,74 +710,51 @@ export default function ProfilePage() {
                 <p className="
                   text-sm
                   text-[#8a7d72]
-                  mb-1
+                  mb-2
                 ">
 
                   Medication Info
 
                 </p>
 
-                <textarea
-                  value={
-                    profile?.medication_info || ""
-                  }
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      medication_info:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    border
-                    border-[#eadfd2]
-                    rounded-2xl
-                    px-4
-                    py-3
-                    min-h-[120px]
-                    outline-none
-                  "
-                />
+                {editMode ? (
 
-              </div>
+                  <textarea
+                    value={
+                      profile?.medication_info || ""
+                    }
+                    onChange={(e) =>
+                      setProfile({
+                        ...profile,
+                        medication_info:
+                          e.target.value,
+                      })
+                    }
+                    className="
+                      w-full
+                      border
+                      border-[#eadfd2]
+                      rounded-2xl
+                      px-4
+                      py-3
+                      min-h-[120px]
+                      outline-none
+                    "
+                  />
 
-              {/* TREATMENT */}
+                ) : (
 
-              <div>
+                  <p className="
+                    text-[#2f241d]
+                    leading-relaxed
+                  ">
 
-                <p className="
-                  text-sm
-                  text-[#8a7d72]
-                  mb-1
-                ">
+                    {profile?.medication_info ||
+                      "No medication information added"}
 
-                  Current Treatment Plan
+                  </p>
 
-                </p>
-
-                <textarea
-                  value={
-                    profile?.current_treatment_plan || ""
-                  }
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      current_treatment_plan:
-                        e.target.value,
-                    })
-                  }
-                  className="
-                    w-full
-                    border
-                    border-[#eadfd2]
-                    rounded-2xl
-                    px-4
-                    py-3
-                    min-h-[120px]
-                    outline-none
-                  "
-                />
+                )}
 
               </div>
 
@@ -710,29 +764,382 @@ export default function ProfilePage() {
 
         </div>
 
-        {/* SAVE BUTTON */}
+        {/* WELLNESS REMINDERS */}
 
-        <div className="mt-8">
+        <div className="
+          mt-6
+          bg-white
+          border
+          border-[#eadfd2]
+          rounded-[32px]
+          p-7
+        ">
 
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="
-              px-8
-              py-4
-              rounded-full
-              bg-[#3d3027]
-              text-white
-            "
-          >
+          <h2 className="
+            text-2xl
+            font-semibold
+            text-[#3d3027]
+            mb-2
+          ">
 
-            {saving
-              ? "Saving..."
-              : "Save Changes"}
+            Wellness Reminders
 
-          </button>
+          </h2>
+
+          <p className="
+            text-[#8a7d72]
+            mb-8
+          ">
+
+            Personalize your wellness reminders
+            and hydration support.
+
+          </p>
+
+          <div className="
+            space-y-5
+          ">
+
+            {/* NOTIFICATIONS */}
+
+            <div className="
+              flex
+              items-center
+              justify-between
+            ">
+
+              <div>
+
+                <p className="
+                  text-[#2f241d]
+                  font-medium
+                ">
+
+                  Enable Notifications
+
+                </p>
+
+                <p className="
+                  text-sm
+                  text-[#8a7d72]
+                  mt-1
+                ">
+
+                  Allow wellness reminders
+                  from AaharSakhi
+
+                </p>
+
+              </div>
+
+              <input
+                type="checkbox"
+                checked={
+                  profile?.notifications_enabled ||
+                  false
+                }
+                onChange={(e) =>
+                  setProfile({
+                    ...profile,
+                    notifications_enabled:
+                      e.target.checked,
+                  })
+                }
+                className="
+                  w-5
+                  h-5
+                "
+              />
+
+            </div>
+
+            {/* FASTING */}
+
+            <div className="
+              flex
+              items-center
+              justify-between
+            ">
+
+              <div>
+
+                <p className="
+                  text-[#2f241d]
+                  font-medium
+                ">
+
+                  Fasting Sugar Reminder
+
+                </p>
+
+                <p className="
+                  text-sm
+                  text-[#8a7d72]
+                  mt-1
+                ">
+
+                  Daily at 7:30 AM
+
+                </p>
+
+              </div>
+
+              <input
+                type="checkbox"
+                checked={
+                  profile?.fasting_sugar_reminder ||
+                  false
+                }
+                onChange={(e) =>
+                  setProfile({
+                    ...profile,
+                    fasting_sugar_reminder:
+                      e.target.checked,
+                  })
+                }
+                className="
+                  w-5
+                  h-5
+                "
+              />
+
+            </div>
+
+            {/* POSTMEAL */}
+
+            <div className="
+              flex
+              items-center
+              justify-between
+            ">
+
+              <div>
+
+                <p className="
+                  text-[#2f241d]
+                  font-medium
+                ">
+
+                  Post Meal Sugar Reminder
+
+                </p>
+
+                <p className="
+                  text-sm
+                  text-[#8a7d72]
+                  mt-1
+                ">
+
+                  Daily at 2:00 PM
+
+                </p>
+
+              </div>
+
+              <input
+                type="checkbox"
+                checked={
+                  profile?.postmeal_sugar_reminder ||
+                  false
+                }
+                onChange={(e) =>
+                  setProfile({
+                    ...profile,
+                    postmeal_sugar_reminder:
+                      e.target.checked,
+                  })
+                }
+                className="
+                  w-5
+                  h-5
+                "
+              />
+
+            </div>
+
+            {/* BP */}
+
+            <div className="
+              flex
+              items-center
+              justify-between
+            ">
+
+              <div>
+
+                <p className="
+                  text-[#2f241d]
+                  font-medium
+                ">
+
+                  Blood Pressure Reminder
+
+                </p>
+
+                <p className="
+                  text-sm
+                  text-[#8a7d72]
+                  mt-1
+                ">
+
+                  Morning & evening reminders
+
+                </p>
+
+              </div>
+
+              <input
+                type="checkbox"
+                checked={
+                  profile?.bp_reminder ||
+                  false
+                }
+                onChange={(e) =>
+                  setProfile({
+                    ...profile,
+                    bp_reminder:
+                      e.target.checked,
+                  })
+                }
+                className="
+                  w-5
+                  h-5
+                "
+              />
+
+            </div>
+
+            {/* HYDRATION */}
+
+            <div>
+
+              <div className="
+                flex
+                items-center
+                justify-between
+              ">
+
+                <div>
+
+                  <p className="
+                    text-[#2f241d]
+                    font-medium
+                  ">
+
+                    Hydration Reminder
+
+                  </p>
+
+                  <p className="
+                    text-sm
+                    text-[#8a7d72]
+                    mt-1
+                  ">
+
+                    Gentle reminders to stay hydrated
+
+                  </p>
+
+                </div>
+
+                <input
+                  type="checkbox"
+                  checked={
+                    profile?.hydration_reminder ||
+                    false
+                  }
+                  onChange={(e) =>
+                    setProfile({
+                      ...profile,
+                      hydration_reminder:
+                        e.target.checked,
+                    })
+                  }
+                  className="
+                    w-5
+                    h-5
+                  "
+                />
+
+              </div>
+
+              {profile?.hydration_reminder && (
+
+                <select
+                  value={
+                    profile?.hydration_frequency ||
+                    "1.5_hours"
+                  }
+                  onChange={(e) =>
+                    setProfile({
+                      ...profile,
+                      hydration_frequency:
+                        e.target.value,
+                    })
+                  }
+                  className="
+                    mt-4
+                    w-full
+                    border
+                    border-[#eadfd2]
+                    rounded-2xl
+                    px-4
+                    py-3
+                    outline-none
+                  "
+                >
+
+                  <option value="1_hour">
+                    Every 1 hour
+                  </option>
+
+                  <option value="1.5_hours">
+                    Every 1.5 hours
+                  </option>
+
+                  <option value="2_hours">
+                    Every 2 hours
+                  </option>
+
+                </select>
+
+              )}
+
+            </div>
+
+          </div>
 
         </div>
+
+        {/* SAVE */}
+
+        {editMode && (
+
+          <div className="
+            mt-8
+          ">
+
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="
+                px-8
+                py-4
+                rounded-full
+                bg-[#3d3027]
+                text-white
+              "
+            >
+
+              {saving
+                ? "Saving..."
+                : "Save Changes"}
+
+            </button>
+
+          </div>
+
+        )}
 
         {/* ACCOUNT */}
 
@@ -741,8 +1148,8 @@ export default function ProfilePage() {
           bg-white
           border
           border-[#eadfd2]
-          rounded-[30px]
-          p-6
+          rounded-[32px]
+          p-7
         ">
 
           <h2 className="
@@ -756,14 +1163,14 @@ export default function ProfilePage() {
 
           </h2>
 
-          <div className="space-y-4">
-
-            {/* PLAN */}
+          <div className="
+            space-y-4
+          ">
 
             <button
               className="
                 w-full
-                bg-[#fff7f4]
+                bg-[#faf6f2]
                 border
                 border-[#eadfd2]
                 rounded-2xl
@@ -785,8 +1192,6 @@ export default function ProfilePage() {
 
             </button>
 
-            {/* SUPPORT */}
-
             <button
               onClick={() =>
                 window.open(
@@ -796,7 +1201,7 @@ export default function ProfilePage() {
               }
               className="
                 w-full
-                bg-[#fff7f4]
+                bg-[#faf6f2]
                 border
                 border-[#eadfd2]
                 rounded-2xl
@@ -810,8 +1215,6 @@ export default function ProfilePage() {
               Support & Help
 
             </button>
-
-            {/* LOGOUT */}
 
             <button
               onClick={handleLogout}

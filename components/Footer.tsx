@@ -108,10 +108,9 @@ All disputes, claims, and proceedings shall remain subject exclusively to the ju
 
   return (
     <>
-      <footer className="relative bg-[#f5eee6] pt-24 pb-10 overflow-hidden">
+      <footer className="relative bg-transparent pt-14 pb-8 overflow-hidden border-t border-[#e7ded3]">
 
         {/* Glow */}
-        <div className="absolute top-[-220px] right-[-180px] w-[520px] h-[520px] bg-[#ead8c2] rounded-full blur-3xl opacity-40"></div>
 
         <div className="max-w-[1700px] mx-auto px-6 lg:px-16 relative z-10">
 

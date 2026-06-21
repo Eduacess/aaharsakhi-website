@@ -28,7 +28,9 @@ export default function TrackerPage() {
   // FORMAT DATE
   // =========================
 
-  const formatDate = (date: Date) => {
+  const formatDate = (
+    date: Date
+  ) => {
 
     const year =
       date.getFullYear();
@@ -91,15 +93,20 @@ export default function TrackerPage() {
 
   useEffect(() => {
 
-    const loadTracker = async () => {
+    const loadTracker =
+      async () => {
 
       setLoading(true);
 
       const {
         data: { session },
-      } = await supabase.auth.getSession();
+      } =
+      await supabase.auth
+      .getSession();
 
-      if (!session?.user?.id) {
+      if (
+        !session?.user?.id
+      ) {
 
         setLoading(false);
         return;
@@ -254,11 +261,6 @@ export default function TrackerPage() {
         const formatted =
           formatDate(date);
 
-        // =====================
-        // HIDE DATES
-        // BEFORE JOIN DATE
-        // =====================
-
         if (
           joinedDate &&
           formatted < joinedDate
@@ -273,8 +275,11 @@ export default function TrackerPage() {
           date: formatted,
 
           sugar: "-",
+
           bp: "-",
+
           weight: "-",
+
           hydration: "-",
 
           medications: [],
@@ -291,16 +296,25 @@ export default function TrackerPage() {
         (item: any) => {
 
           if (
-            dateMap[
-              item.log_date
-            ]
+            dateMap[item.log_date]
           ) {
+
+            const fasting =
+              item.fasting
+                ? `F: ${item.fasting}`
+                : "";
+
+            const postMeal =
+              item.post_meal
+                ? `PP: ${item.post_meal}`
+                : "";
 
             dateMap[
               item.log_date
             ].sugar =
-              item.fasting ||
-              "-";
+              [fasting, postMeal]
+                .filter(Boolean)
+                .join(" | ") || "-";
 
           }
 
@@ -315,16 +329,25 @@ export default function TrackerPage() {
         (item: any) => {
 
           if (
-            dateMap[
-              item.log_date
-            ]
+            dateMap[item.log_date]
           ) {
+
+            const morning =
+              item.morning_bp
+                ? `M: ${item.morning_bp}`
+                : "";
+
+            const evening =
+              item.evening_bp
+                ? `E: ${item.evening_bp}`
+                : "";
 
             dateMap[
               item.log_date
             ].bp =
-              item.morning_bp ||
-              "-";
+              [morning, evening]
+                .filter(Boolean)
+                .join(" | ") || "-";
 
           }
 
@@ -339,9 +362,7 @@ export default function TrackerPage() {
         (item: any) => {
 
           if (
-            dateMap[
-              item.log_date
-            ]
+            dateMap[item.log_date]
           ) {
 
             dateMap[
@@ -362,9 +383,7 @@ export default function TrackerPage() {
         (item: any) => {
 
           if (
-            dateMap[
-              item.log_date
-            ]
+            dateMap[item.log_date]
           ) {
 
             dateMap[
@@ -392,9 +411,7 @@ export default function TrackerPage() {
             );
 
           if (
-            dateMap[
-              log.log_date
-            ]
+            dateMap[log.log_date]
           ) {
 
             dateMap[
@@ -402,7 +419,9 @@ export default function TrackerPage() {
             ].medications.push({
 
               name:
-                medication?.medication_name,
+                medication
+                  ?.medication_name ||
+                "Medication",
 
               dose:
                 log.dose_name,
@@ -620,58 +639,28 @@ export default function TrackerPage() {
 
               <tr>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-5 text-left">
                   Date
-
                 </th>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-5 text-left">
                   Sugar
-
                 </th>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-5 text-left">
                   BP
-
                 </th>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-5 text-left">
                   Weight
-
                 </th>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-5 text-left">
                   Hydration
-
                 </th>
 
-                <th className="
-                  p-5
-                  text-left
-                ">
-
+                <th className="p-5 text-left">
                   Medication
-
                 </th>
 
               </tr>

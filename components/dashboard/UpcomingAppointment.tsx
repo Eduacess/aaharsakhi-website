@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { supabase } from "@/lib/supabase";
 
 export default function UpcomingAppointment() {
 
@@ -8,24 +10,192 @@ export default function UpcomingAppointment() {
     useState(false);
 
   const [appointment, setAppointment] =
-    useState({
-      title: "Nutrition Consultation",
-      date: "12 June 2026",
-      time: "4:30 PM",
-    });
+    useState<any>(null);
+
+  const [loading, setLoading] =
+    useState(true);
 
   const [formData, setFormData] =
     useState({
-      title: "",
+      doctor_name: "",
+      appointment_reason: "",
       date: "",
       time: "",
     });
 
-  function handleSave() {
+  // =====================================
+  // LOAD APPOINTMENT
+  // =====================================
 
-    setAppointment(formData);
+  useEffect(() => {
 
-    setShowModal(false);
+    const loadAppointment =
+      async () => {
+
+      const {
+        data: { session },
+      } =
+      await supabase.auth
+      .getSession();
+
+      if (
+        !session?.user?.id
+      ) {
+
+        setLoading(false);
+        return;
+
+      }
+
+      const today =
+        new Date()
+          .toLocaleDateString(
+            "en-CA"
+          );
+
+      const { data, error } =
+        await supabase
+          .from("appointments")
+          .select("*")
+          .eq(
+            "user_id",
+            session.user.id
+          )
+          .gte(
+            "appointment_date",
+            today
+          )
+          .order(
+            "appointment_date",
+            {
+              ascending: true,
+            }
+          )
+          .limit(1)
+          .maybeSingle();
+
+      if (!error && data) {
+
+        setAppointment(data);
+
+      }
+
+      setLoading(false);
+
+    };
+
+    loadAppointment();
+
+  }, []);
+
+  // =====================================
+  // SAVE APPOINTMENT
+  // =====================================
+
+  const handleSave =
+    async () => {
+
+      try {
+
+        const {
+          data: { session },
+        } =
+        await supabase.auth
+        .getSession();
+
+        if (
+          !session?.user?.id
+        ) {
+
+          alert(
+            "User not logged in"
+          );
+
+          return;
+
+        }
+
+        const { data, error } =
+          await supabase
+            .from("appointments")
+            .insert([
+              {
+                user_id:
+                  session.user.id,
+
+                doctor_name:
+                  formData
+                  .doctor_name,
+
+                appointment_reason:
+                  formData
+                  .appointment_reason,
+
+                appointment_date:
+                  formData.date,
+
+                appointment_time:
+                  formData.time,
+              },
+            ])
+            .select()
+            .single();
+
+        console.log(data);
+        console.log(error);
+
+        if (error) {
+
+          alert(error.message);
+
+          return;
+
+        }
+
+        setAppointment(data);
+
+        setShowModal(false);
+
+        setFormData({
+          doctor_name: "",
+          appointment_reason: "",
+          date: "",
+          time: "",
+        });
+
+      } catch (err) {
+
+        console.log(err);
+
+        alert(
+          "Something went wrong"
+        );
+
+      }
+
+    };
+
+  // =====================================
+  // LOADING
+  // =====================================
+
+  if (loading) {
+
+    return (
+
+      <div className="
+        bg-[#fffaf5]
+        border
+        border-[#eadfd2]
+        rounded-[28px]
+        p-5
+      ">
+
+        Loading...
+
+      </div>
+
+    );
 
   }
 
@@ -33,20 +203,40 @@ export default function UpcomingAppointment() {
 
     <>
 
-      <div className="bg-[#fffaf5] border border-[#eadfd2] rounded-[28px] p-5 h-full">
+      {/* CARD */}
+
+      <div className="
+        bg-[#fffaf5]
+        border
+        border-[#eadfd2]
+        rounded-[28px]
+        p-5
+        h-full
+      ">
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between mb-4">
+        <div className="
+          flex
+          items-center
+          justify-between
+          mb-4
+        ">
 
-          <h2 className="text-lg font-semibold text-[#3d3027]">
+          <h2 className="
+            text-lg
+            font-semibold
+            text-[#3d3027]
+          ">
 
             Upcoming Appointment
 
           </h2>
 
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() =>
+              setShowModal(true)
+            }
             className="
               w-10
               h-10
@@ -68,27 +258,102 @@ export default function UpcomingAppointment() {
 
         {/* APPOINTMENT */}
 
-        <div className="bg-white border border-[#eadfd2] rounded-2xl p-4">
+        {appointment ? (
 
-          <p className="text-[#3d3027] font-semibold mb-2">
+          <div className="
+            bg-white
+            border
+            border-[#eadfd2]
+            rounded-2xl
+            p-4
+          ">
 
-            {appointment.title}
+            <p className="
+              text-[#3d3027]
+              font-semibold
+              text-lg
+              mb-1
+            ">
 
-          </p>
+              👨‍⚕️
+              {" "}
+              {
+                appointment
+                .doctor_name
+              }
 
-          <p className="text-[#7b6a58] text-sm">
+            </p>
 
-            {appointment.date}
+            <p className="
+              text-[#7b6a58]
+              text-sm
+              mb-3
+            ">
 
-          </p>
+              📌
+              {" "}
+              {
+                appointment
+                .appointment_reason
+              }
 
-          <p className="text-[#7b6a58] text-sm">
+            </p>
 
-            {appointment.time}
+            <p className="
+              text-[#7b6a58]
+              text-sm
+            ">
 
-          </p>
+              📅
+              {" "}
+              {new Date(
+                appointment
+                .appointment_date
+              ).toLocaleDateString(
+                "en-IN",
+                {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                }
+              )}
 
-        </div>
+            </p>
+
+            <p className="
+              text-[#7b6a58]
+              text-sm
+              mt-1
+            ">
+
+              🕓
+              {" "}
+              {
+                appointment
+                .appointment_time
+              }
+
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="
+            bg-white
+            border
+            border-[#eadfd2]
+            rounded-2xl
+            p-4
+            text-center
+            text-[#7b6a58]
+          ">
+
+            No upcoming appointments
+
+          </div>
+
+        )}
 
       </div>
 
@@ -96,68 +361,171 @@ export default function UpcomingAppointment() {
 
       {showModal && (
 
-        <div className="fixed inset-0 z-50 bg-black/30 flex items-center justify-center px-4">
+        <div className="
+          fixed
+          inset-0
+          z-50
+          bg-black/30
+          flex
+          items-center
+          justify-center
+          px-4
+        ">
 
-          <div className="bg-white rounded-[32px] p-6 w-full max-w-md relative">
+          <div className="
+            bg-white
+            rounded-[32px]
+            p-6
+            w-full
+            max-w-md
+            relative
+          ">
+
+            {/* CLOSE */}
 
             <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 text-xl"
+              onClick={() =>
+                setShowModal(false)
+              }
+              className="
+                absolute
+                top-4
+                right-4
+                text-xl
+              "
             >
 
               ×
 
             </button>
 
-            <h2 className="text-2xl font-semibold text-[#3d3027] mb-5">
+            {/* TITLE */}
+
+            <h2 className="
+              text-2xl
+              font-semibold
+              text-[#3d3027]
+              mb-5
+            ">
 
               Add Appointment
 
             </h2>
 
-            <div className="space-y-4">
+            <div className="
+              space-y-4
+            ">
+
+              {/* DOCTOR */}
 
               <input
                 type="text"
-                placeholder="Appointment Title"
-                value={formData.title}
+                placeholder="
+                  Doctor Name
+                "
+                value={
+                  formData
+                  .doctor_name
+                }
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    title: e.target.value,
+                    doctor_name:
+                      e.target.value,
                   })
                 }
-                className="w-full border rounded-2xl px-4 py-3"
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  px-4
+                  py-3
+                "
               />
+
+              {/* PURPOSE */}
 
               <input
                 type="text"
-                placeholder="Date"
-                value={formData.date}
+                placeholder="
+                  Appointment Purpose
+                "
+                value={
+                  formData
+                  .appointment_reason
+                }
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    date: e.target.value,
+                    appointment_reason:
+                      e.target.value,
                   })
                 }
-                className="w-full border rounded-2xl px-4 py-3"
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  px-4
+                  py-3
+                "
               />
 
+              {/* DATE */}
+
               <input
-                type="text"
-                placeholder="Time"
-                value={formData.time}
+                type="date"
+                value={
+                  formData.date
+                }
                 onChange={(e) =>
                   setFormData({
                     ...formData,
-                    time: e.target.value,
+                    date:
+                      e.target.value,
                   })
                 }
-                className="w-full border rounded-2xl px-4 py-3"
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  px-4
+                  py-3
+                "
               />
+
+              {/* TIME */}
+
+              <input
+                type="time"
+                value={
+                  formData.time
+                }
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    time:
+                      e.target.value,
+                  })
+                }
+                className="
+                  w-full
+                  border
+                  border-[#eadfd2]
+                  rounded-2xl
+                  px-4
+                  py-3
+                "
+              />
+
+              {/* SAVE */}
 
               <button
-                onClick={handleSave}
+                onClick={
+                  handleSave
+                }
                 className="
                   w-full
                   bg-[#c58d63]

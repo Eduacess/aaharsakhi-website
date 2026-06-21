@@ -77,5 +77,77 @@ export const affirmations = [
       quote: "I deserve spaces that support my healing.",
       category: "Healing",
     },
+
+    {
+      quote:
+        "I am healing one day at a time, and every small step matters.",
+      title: "Healing",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "I choose nourishment that supports my body, mind, and wellbeing.",
+      title: "Nourishment",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "I trust myself to make choices that honour my health and my journey.",
+      title: "Self Trust",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "My body deserves patience, kindness, and gentle care.",
+      title: "Self Compassion",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "I am stronger than I sometimes feel and more resilient than I realize.",
+      title: "Strength",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "I release the pressure to be perfect and embrace progress instead.",
+      title: "Progress",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "I give myself permission to rest, recover, and receive support.",
+      title: "Recovery",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "I am creating healthy habits that will support me for years to come.",
+      title: "Wellness",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "I choose hope, even on the days that feel uncertain.",
+      title: "Hope",
+      category: "Affirmation",
+    },
+    
+    {
+      quote:
+        "I am worthy of nourishment, healing, and happiness.",
+      title: "Worthiness",
+      category: "Affirmation",
+    },
+
+    
   
   ]

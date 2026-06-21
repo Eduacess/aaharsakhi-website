@@ -25,7 +25,7 @@ export default function UpcomingWebinar({
       border
       border-[#eadfd2]
       rounded-[28px]
-      p-5
+      p-4
     ">
 
       {/* HEADER */}
@@ -34,11 +34,11 @@ export default function UpcomingWebinar({
         flex
         items-center
         justify-between
-        mb-4
+        mb-3
       ">
 
         <h2 className="
-          text-lg
+          text-[17px]
           font-semibold
           text-[#3d3027]
         ">
@@ -49,14 +49,14 @@ export default function UpcomingWebinar({
 
         <div
           className="
-            w-10
-            h-10
+            w-9
+            h-9
             rounded-full
             bg-[#f3e6da]
             flex
             items-center
             justify-center
-            text-lg
+            text-sm
           "
         >
 
@@ -81,8 +81,8 @@ export default function UpcomingWebinar({
         <h3 className="
           text-[#3d3027]
           font-semibold
-          text-[17px]
-          leading-relaxed
+          text-[16px]
+          leading-snug
         ">
 
           {webinar?.title ||
@@ -95,11 +95,11 @@ export default function UpcomingWebinar({
         <p className="
           text-sm
           text-[#b26b5e]
-          mt-2
+          mt-1.5
           font-medium
         ">
 
-          {webinar?.speaker}
+          By {webinar?.speaker}
 
         </p>
 
@@ -116,73 +116,107 @@ export default function UpcomingWebinar({
 
         </p>
 
-        {/* DATE */}
+        {/* DATE + TIME */}
 
-        <div className="mt-4">
+        <div className="
+          flex
+          flex-wrap
+          gap-3
+          mt-4
+        ">
 
-          <p className="
+          <div className="
+            bg-[#fff7f4]
+            border
+            border-[#f0dfd2]
+            rounded-xl
+            px-3
+            py-2
+          ">
+
+            <p className="
+              text-xs
+              text-[#a08d7d]
+              mb-1
+            ">
+
+              Date
+
+            </p>
+
+            <p className="
+              text-sm
+              font-medium
+              text-[#3d3027]
+            ">
+
+              {webinar?.date}
+
+            </p>
+
+          </div>
+
+          <div className="
+            bg-[#fff7f4]
+            border
+            border-[#f0dfd2]
+            rounded-xl
+            px-3
+            py-2
+          ">
+
+            <p className="
+              text-xs
+              text-[#a08d7d]
+              mb-1
+            ">
+
+              Time
+
+            </p>
+
+            <p className="
+              text-sm
+              font-medium
+              text-[#3d3027]
+            ">
+
+              {webinar?.time}
+
+            </p>
+
+          </div>
+
+        </div>
+
+        {/* JOIN BUTTON */}
+
+        <button
+          onClick={() =>
+            window.open(
+              webinar?.link,
+              "_blank"
+            )
+          }
+          className="
+            mt-4
+            w-full
+            bg-[#c58d63]
+            hover:bg-[#b27a52]
+            transition
+            text-white
+            rounded-2xl
+            py-3
             text-sm
             font-medium
-            text-[#3d3027]
-          ">
+          "
+        >
 
-            When:
+          Join Webinar
 
-          </p>
+        </button>
 
-          <p className="
-            text-sm
-            text-[#7b6a58]
-            mt-1
-          ">
-
-            {webinar?.date}
-            {" • "}
-            {webinar?.time}
-
-          </p>
-
-        </div>
-
-        {/* JOIN */}
-
-<div className="mt-4">
-
-<p className="
-  text-sm
-  font-medium
-  text-[#3d3027]
-">
-
-  Join:
-
-</p>
-
-<button
-  onClick={() =>
-    window.open(
-      webinar?.link,
-      "_blank"
-    )
-  }
-  className="
-    text-sm
-    text-[#b26b5e]
-    font-medium
-    hover:underline
-    mt-1
-  "
->
-
-  Click Here to Join
-
-</button>
-
-</div>
-
-        </div>
-
-    
+      </div>
 
     </div>
 

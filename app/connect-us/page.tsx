@@ -7,7 +7,16 @@ export default function ConnectUsPage() {
 
 return (
 
-<main className="overflow-hidden bg-[#fcfaf7]">
+<main
+  className="
+    relative
+    overflow-hidden
+    bg-gradient-to-b
+    from-[#fcfaf7]
+    via-[#faf6f1]
+    to-[#f7efe5]
+  "
+>
 
   {/* Navbar */}
   <Navbar />
@@ -16,27 +25,49 @@ return (
   <section className="relative pt-6 pb-24 overflow-hidden">
 
     {/* Background Glow */}
-    <div className="
-      absolute
-      top-[-260px]
-      left-[-180px]
-      w-[650px]
-      h-[650px]
-      bg-[#f3e4d2]
-      rounded-full
-      blur-3xl
-      opacity-40
-    "></div>
+    <div className="absolute inset-0 pointer-events-none">
 
-    <div className="
-      max-w-[1400px]
-      mx-auto
-      px-4
-      sm:px-6
-      lg:px-16
-      relative
-      z-10
-    ">
+<div
+  className="
+    absolute
+    top-[-300px]
+    left-[-200px]
+    w-[900px]
+    h-[900px]
+    bg-[#f1dfca]
+    rounded-full
+    blur-[180px]
+    opacity-50
+  "
+></div>
+
+<div
+  className="
+    absolute
+    bottom-[-300px]
+    right-[-200px]
+    w-[900px]
+    h-[900px]
+    bg-[#f7ebe0]
+    rounded-full
+    blur-[180px]
+    opacity-50
+  "
+></div>
+
+</div>
+
+<div
+  className="
+    max-w-[1400px]
+    mx-auto
+    px-4
+    sm:px-6
+    lg:px-16
+    relative
+    z-20
+  "
+>
 
       {/* Quote */}
       <div className="text-center">
