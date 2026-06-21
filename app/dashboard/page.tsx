@@ -915,11 +915,8 @@ Continued usage of the platform constitutes voluntary acceptance of all applicab
 
             </div>
 
-            <LittlePositivity
-              positivity={
-                positivity
-              }
-            />
+            <LittlePositivity />
+            
 
             <MoodCheck />
 
